@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ShuDistributions\Schemas;
 
+use App\Models\AccountingPeriod;
 use App\Models\ShuAllocation;
 use App\Services\FinancialService;
 use Filament\Actions\Action;
@@ -11,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
@@ -25,19 +27,61 @@ class ShuDistributionForm
                 Section::make('Parameter Utama')
                     ->schema([
                         Select::make('accounting_period_id')
-                            ->relationship('period', 'name')
+                            ->relationship(
+                                    'period',
+                                    'name',
+                                    fn ($query) => $query->where('is_closed', false)
+                                )
                             ->label('Tahun Buku')
-                            ->required(),
-
-                        TextInput::make('total_shu')
-                            ->label('Total SHU Bersih (Laba Berjalan)')
-                            ->numeric()
-                            ->prefix('Rp')
-                            ->default(fn () => app(FinancialService::class)->getNetIncome())
                             ->required()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(fn ($state, Set $set, Get $get) => self::updateAllAmounts($set, $get)),
+                            ->live() 
+                            ->afterStateUpdated(function ($state, Set $set) {
+                                if (!$state) return;
 
+                                $period = AccountingPeriod::find($state);
+                                
+                                if ($period) {
+                                    $service = app(FinancialService::class);
+                                    $grossShu = $service->getNetIncome($period);
+                                    
+                                    $set('total_shu', $grossShu);
+                                }
+                            }),
+
+                        // TextInput::make('total_shu')
+                        //     ->label('Total SHU Berjalan (Laba Berjalan)')
+                        //     ->numeric()
+                        //     ->prefix('Rp')
+                        //     ->default(fn () => app(FinancialService::class)->getNetIncome())
+                        //     ->required()
+                        //     ->live(onBlur: true)
+                        //     ->afterStateUpdated(fn ($state, Set $set, Get $get) => self::updateAllAmounts($set, $get)),
+                        Grid::make(3)
+                            ->schema([
+                                TextInput::make('total_shu')
+                                    ->label('Total SHU (Gross)')
+                                    ->numeric()
+                                    ->prefix('Rp')
+                                    ->readOnly()
+                                    ->dehydrated(),
+
+                                TextInput::make('tax_amount')
+                                    ->label('Pajak (PPh)')
+                                    ->numeric()
+                                    ->prefix('Rp')
+                                    ->default(0)
+                                    ->live()
+                                    ->afterStateUpdated(fn ($get, $set) => self::calculateNetShu($get, $set)),
+
+                                TextInput::make('net_shu_to_distribute')
+                                    ->label('SHU Bersih yang Dibagikan')
+                                    ->numeric()
+                                    ->prefix('Rp')
+                                    ->readOnly()
+                                    ->helperText('Rumus: Gross SHU - Pajak')
+                                    ->id('net_shu')
+                                    ->dehydrated(),
+                            ]),
                         Hidden::make('created_by')
                             ->default(fn () => auth()->id()),
                     ])->columnSpanFull(),
@@ -49,16 +93,15 @@ class ShuDistributionForm
                                 ->label('Hitung Nominal Otomatis')
                                 ->icon('heroicon-m-calculator')
                                 ->color('success')
-                                ->visible(fn ($record) => $record->status !== 'completed')
+                                ->hidden(fn (string $operation): bool => in_array($operation, ['edit', 'view']))
                                 ->action(function (Set $set, Get $get) {
-                                    $totalShu = (float) $get('total_shu');
+                                    $totalShu = (float) $get('net_shu_to_distribute');
                                     $items = $get('allocation_results') ?? [];
                                     
                                     foreach ($items as $key => $item) {
                                         $percentage = (float) ($item['percentage'] ?? 0);
                                         $nominal = $totalShu * ($percentage / 100);
                                         
-                                        // Update kolom amount di dalam repeater secara dinamis
                                         $set("allocation_results.{$key}.amount", $nominal);
                                     }
 
@@ -139,8 +182,16 @@ class ShuDistributionForm
             $percentage = (float) ($item['percentage'] ?? 0);
             $amount = $totalShu * ($percentage / 100);
             
-            // Set nominal ke baris repeater yang spesifik
             $set("allocation_items.{$key}.amount", $amount);
         }
+    }
+    public static function calculateNetShu($get, $set)
+    {
+        $gross = (float) $get('total_shu');
+        $tax = (float) $get('tax_amount');
+        
+        $net = $gross - $tax;
+        
+        $set('net_shu_to_distribute', $net);
     }
 }

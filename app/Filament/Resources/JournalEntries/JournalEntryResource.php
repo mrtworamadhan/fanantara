@@ -53,7 +53,6 @@ class JournalEntryResource extends Resource
             'index' => ListJournalEntries::route('/'),
             'create' => CreateJournalEntry::route('/create'),
             'edit' => EditJournalEntry::route('/{record}/edit'),
-            'report' => FinancialReport::route('/finacial-report')
         ];
     }
 }

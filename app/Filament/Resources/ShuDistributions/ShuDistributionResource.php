@@ -28,7 +28,7 @@ class ShuDistributionResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    protected static ?string $navigationLabel = 'Pembagian SHU';
+    protected static ?string $navigationLabel = 'Draft SHU';
 
     protected static ?string $recordTitleAttribute = 'name';
 

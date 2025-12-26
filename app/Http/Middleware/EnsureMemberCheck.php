@@ -19,7 +19,6 @@ class EnsureMemberCheck
         }
 
         $allowedRoutes = [
-            'member.setup', 
             'member.store-profile',
             'member.activation',
             'member.store-payment',
@@ -29,11 +28,6 @@ class EnsureMemberCheck
 
         if (in_array($request->route()->getName(), $allowedRoutes)) {
             return $next($request);
-        }
-
-
-        if (! $user->member) {
-            return redirect()->route('member.setup');
         }
 
         if ($user->member->status !== 'active') {

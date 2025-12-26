@@ -18,17 +18,14 @@ class Dashboard extends Component
 
     public $member_photo;
 
-    // --- 2. Data Finansial ---
     public $total_asset = 0;
     public $saldo_sukarela = 0;
     public $accounts_list = [];
 
-    // --- 3. Portofolio & Statistik ---
-    public $total_contribution = 0; // Total Belanja
-    public $poin_rewards = 0;       // Poin (Simulasi)
-    public $asset_growth = 0;       // Pertumbuhan Aset (Vs Bulan Lalu)
+    public $total_contribution = 0;
+    public $poin_rewards = 0;
+    public $asset_growth = 0;
 
-    // --- 4. Data SHU (Estimasi Real-time) ---
     public $shu_data = [];
 
     public $profile_completion = 0;
@@ -58,31 +55,7 @@ class Dashboard extends Component
 
         $this->allocations = $shuService->getActiveAllocations();
 
-        $accounts = $member->savingAccounts()->with('savingType')->get();
-        
-        $my_total_modal = 0; 
-
-        foreach ($accounts as $acc) {
-            $code = $acc->savingType->code ?? '-';
-            $name = $acc->savingType->name ?? 'Unknown';
-            $balance = (float) $acc->balance;
-
-            $this->accounts_list[] = [
-                'name' => $name,
-                'code' => $code,
-                'balance' => $balance,
-            ];
-
-            $this->total_asset += $balance;
-
-            if ($code === 'SS') {
-                $this->saldo_sukarela += $balance;
-            }
-
-            if (in_array($code, ['SP', 'SW'])) {
-                $my_total_modal += $balance;
-            }
-        }
+        $this->shu_data = $shuService->getEstimatedShu($member->id);        
 
         $this->total_contribution = $member->orders()
             ->where('payment_status', 'paid')
@@ -97,9 +70,6 @@ class Dashboard extends Component
             })->count();
             
         $this->asset_growth = ($depositBulanIni > 0) ? "+5.2%" : "0%"; 
-        
-        $this->shu_data = app(ShuService::class)->getEstimatedShu($member->id);
-
         
         $filledFields = 0;
         $totalFields = 0;

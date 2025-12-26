@@ -99,7 +99,17 @@ class ShuAllocationResource extends Resource
                     ->label('Kode')
                     ->badge()
                     ->color('gray'),
-
+                
+                TextColumn::make('account.code')
+                    ->label('Akun Tujuan')
+                    ->badge()
+                    ->color('info')
+                    ->formatStateUsing(fn ($state, $record) =>
+                        $record->account
+                            ? "{$record->account->code} - {$record->account->name}"
+                            : '-'
+                    ),
+                
                 TextColumn::make('percentage')
                     ->label('Persentase')
                     ->numeric(decimalPlaces: 2)

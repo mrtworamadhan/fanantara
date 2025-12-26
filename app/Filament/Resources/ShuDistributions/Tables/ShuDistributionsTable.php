@@ -17,9 +17,21 @@ class ShuDistributionsTable
             ->columns([
                 TextColumn::make('total_shu')
                     ->label('Total SHU')
+                    ->color('info')
+                    ->money('IDR'),
+                TextColumn::make('tax_amount')
+                    ->label('Pajak')
+                    ->color('danger')
+                    ->money('IDR'),
+                TextColumn::make('other_expenses')
+                    ->label('Pengeluaran Lain')
+                    ->color('warning')
+                    ->money('IDR'),
+                TextColumn::make('net_shu_to_distribute')
+                    ->label('NET SHU')
                     ->color('success')
                     ->money('IDR'),
-
+                
                 TextColumn::make('allocation_results')
                     ->label('Rincian Alokasi')
                     ->listWithLineBreaks()

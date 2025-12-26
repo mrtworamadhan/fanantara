@@ -7,13 +7,17 @@ use App\Models\JournalEntry;
 use App\Models\JournalItem;
 use App\Models\Account;
 use App\Models\AccountingPeriod;
+use App\Services\ShuService;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class SavingTransactionObserver
 {
     public function created(SavingTransaction $trx): void
     {
         $account = $trx->account;
+        
+        // 1. Update Saldo Akun Simpanan
         if ($trx->type === 'deposit') {
             $account->increment('balance', $trx->amount);
         } else {
@@ -21,49 +25,44 @@ class SavingTransactionObserver
         }
 
         $this->createJournal($trx);
-        $savingType = $trx->account->savingType;
+
+        $savingType = $account->savingType;
         if ($savingType && $savingType->category === 'equity' && $trx->type === 'deposit') {
-            $shuService = app(\App\Services\ShuService::class);
+            $shuService = app(ShuService::class);
+            
             $period = AccountingPeriod::where('is_closed', false)->latest()->first();
 
             if ($period) {
-                $newWeight = $shuService->calculateWeight($trx->amount, $trx->transaction_date->format('Y-m-d'), $period);
+                $newWeight = $shuService->calculateModalWeight(
+                    (float) $trx->amount, 
+                    $trx->transaction_date,
+                    $period
+                );
                 
-                // Tambahkan bobot ke tabel snapshot
-                \DB::table('member_shu_snapshots')
-                    ->where('member_id', $trx->account->member_id)
-                    ->where('accounting_period_id', $period->id)
-                    ->increment('accumulated_modal_weight', $newWeight);
+                $shuService->updateSnapshot($account->member_id, $period->id, [
+                    'accumulated_modal_weight' => DB::raw("accumulated_modal_weight + $newWeight")
+                ]);
             }
         }
     }
 
     protected function createJournal(SavingTransaction $trx)
     {
-        $savingType = $trx->savingType;
+        $savingType = $trx->account->savingType;
+        if (!$savingType) return;
 
-        if (! $savingType) {
-            return; 
-        }
-        
-        $accKas = Account::where('code', '1101')->first()->id;
-
-        $codeMap = [
-            'SP' => '3101',
-            'SW' => '3102',
-            'SS' => '2102',
-        ];
-
+        $accKas = Account::where('code', '1101')->first()?->id;
+        $codeMap = ['SP' => '3101', 'SW' => '3102', 'SS' => '2102'];
         $targetCode = $codeMap[$savingType->code] ?? '2102';
-        
-        $accSimpanan = Account::where('code', $targetCode)->first()->id;
+        $accSimpanan = Account::where('code', $targetCode)->first()?->id;
 
         $period = AccountingPeriod::where('is_closed', false)->latest()->first();
 
+        if (!$accKas || !$accSimpanan || !$period) return;
+
         DB::transaction(function () use ($trx, $accKas, $accSimpanan, $period, $savingType) {
-            
             $journal = JournalEntry::create([
-                'accounting_period_id' => $period->id ?? 1,
+                'accounting_period_id' => $period->id, // Menggunakan ID dari Periode Aktif
                 'transaction_date'     => $trx->transaction_date,
                 'reference_number'     => $trx->reference_number,
                 'description'          => ucfirst($trx->type) . ' ' . $savingType->name . ' - ' . $trx->account->member->name,
@@ -74,15 +73,15 @@ class SavingTransactionObserver
             ]);
 
             if ($trx->type === 'deposit') {
-                JournalItem::create(['journal_entry_id' => $journal->id, 'account_id' => $accKas, 'debit' => $trx->amount, 'credit' => 0]);
-                JournalItem::create(['journal_entry_id' => $journal->id, 'account_id' => $accSimpanan, 'debit' => 0, 'credit' => $trx->amount]);
+                $journal->items()->create(['account_id' => $accKas, 'debit' => $trx->amount, 'credit' => 0]);
+                $journal->items()->create(['account_id' => $accSimpanan, 'debit' => 0, 'credit' => $trx->amount]);
             } else {
-                JournalItem::create(['journal_entry_id' => $journal->id, 'account_id' => $accSimpanan, 'debit' => $trx->amount, 'credit' => 0]);
-                JournalItem::create(['journal_entry_id' => $journal->id, 'account_id' => $accKas, 'debit' => 0, 'credit' => $trx->amount]);
+                $journal->items()->create(['account_id' => $accSimpanan, 'debit' => $trx->amount, 'credit' => 0]);
+                $journal->items()->create(['account_id' => $accKas, 'debit' => 0, 'credit' => $trx->amount]);
             }
         });
     }
-    
+
     public function deleted(SavingTransaction $trx): void
     {
         $account = $trx->account;
@@ -92,6 +91,8 @@ class SavingTransactionObserver
             $account->increment('balance', $trx->amount);
         }
         
-        JournalEntry::where('sourceable_id', $trx->id)->where('sourceable_type', SavingTransaction::class)->delete();
+        JournalEntry::where('sourceable_id', $trx->id)
+            ->where('sourceable_type', SavingTransaction::class)
+            ->delete();
     }
 }

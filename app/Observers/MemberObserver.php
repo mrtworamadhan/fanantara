@@ -5,6 +5,8 @@ namespace App\Observers;
 use App\Models\Member;
 use App\Models\SavingAccount;
 use App\Models\SavingType;
+use App\Models\AccountingPeriod;
+use App\Models\MemberShuSnapshot;
 
 class MemberObserver
 {
@@ -18,6 +20,18 @@ class MemberObserver
                 'saving_type_id' => $type->id,
                 'account_number' => $type->code . '-' . str_pad($member->id, 4, '0', STR_PAD_LEFT) . '-' . date('y'),
                 'balance' => 0,
+            ]);
+        }
+
+        $activePeriod = AccountingPeriod::where('is_closed', false)->latest()->first();
+
+        if ($activePeriod) {
+            MemberShuSnapshot::create([
+                'member_id' => $member->id,
+                'accounting_period_id' => $activePeriod->id,
+                'accumulated_modal_weight' => 0,
+                'total_transaction_volume' => 0,
+                'last_updated_at' => now(),
             ]);
         }
     }

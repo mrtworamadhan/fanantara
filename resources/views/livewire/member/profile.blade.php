@@ -1,3 +1,5 @@
+@use('SimpleSoftwareIO\QrCode\Facades\QrCode')
+
 <div class="h-screen bg-gray-50 flex flex-col relative overflow-hidden font-sans">
     
     <div class="bg-emerald-800 px-5 pt-10 pb-6 shadow-lg shadow-emerald-900/20 z-40 flex-none relative">
@@ -25,7 +27,7 @@
                 KTA Digital
             </button>
         </div>
-    </div>
+    </div>  
 
     <div class="flex-1 overflow-y-auto bg-gradient-to-b from-emerald-800 via-gray-50 to-white relative w-full no-scrollbar">
         

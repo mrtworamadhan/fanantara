@@ -12,10 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class FinancialService
 {
-    /**
-     * Menghitung SHU/Laba Berjalan secara Real-time
-     * Rumus: Total Pendapatan - Total Beban
-     */
+
     public function getBalanceByRange($startCode, $endCode, AccountingPeriod $period): float
     {
         $accounts = Account::whereBetween('code', [$startCode, $endCode])->get();
@@ -40,7 +37,7 @@ class FinancialService
         $res = DB::table('journal_items')
             ->join('journal_entries', 'journal_items.journal_entry_id', '=', 'journal_entries.id')
             ->where('journal_items.account_id', $account->id)
-            ->where('journal_entries.accounting_period_id', $period->id) // Filter by ID
+            ->where('journal_entries.accounting_period_id', $period->id) 
             ->selectRaw('SUM(debit) as total_debit, SUM(credit) as total_credit')
             ->first();
 
@@ -63,7 +60,7 @@ class FinancialService
             $balance = DB::table('journal_items')
                 ->join('journal_entries', 'journal_items.journal_entry_id', '=', 'journal_entries.id')
                 ->where('journal_items.account_id', $account->id)
-                ->where('journal_entries.accounting_period_id', $period->id) // Filter by ID
+                ->where('journal_entries.accounting_period_id', $period->id) 
                 ->selectRaw('SUM(credit) - SUM(debit) as balance')
                 ->first()->balance ?? 0;
 
@@ -81,7 +78,6 @@ class FinancialService
         $accounts = Account::where('type', 'equity')->orderBy('code')->get();
         
         return $accounts->map(function ($account) use ($period) {
-            // Saldo Awal: Semua transaksi SEBELUM start_date periode ini
             $initial = DB::table('journal_items')
                 ->join('journal_entries', 'journal_items.journal_entry_id', '=', 'journal_entries.id')
                 ->where('journal_items.account_id', $account->id)
@@ -89,7 +85,6 @@ class FinancialService
                 ->selectRaw('SUM(credit) - SUM(debit) as balance')
                 ->first()->balance ?? 0;
 
-            // Mutasi: Filter berdasarkan accounting_period_id
             $currentData = DB::table('journal_items')
                 ->join('journal_entries', 'journal_items.journal_entry_id', '=', 'journal_entries.id')
                 ->where('journal_items.account_id', $account->id)
@@ -117,7 +112,6 @@ class FinancialService
     }
     public function getCashFlowData(AccountingPeriod $period): array
     {
-        // Kas Awal: Total saldo s/d H-1 periode mulai
         $initialCash = DB::table('journal_items')
             ->join('journal_entries', 'journal_items.journal_entry_id', '=', 'journal_entries.id')
             ->join('accounts', 'journal_items.account_id', '=', 'accounts.id')
@@ -128,7 +122,6 @@ class FinancialService
 
         $netIncome = $this->getNetIncome($period);
         
-        // Delta dihitung berdasarkan mutasi di dalam ID Periode ini
         $deltaAssetLancar = $this->calculateDelta('1103', '1107', $period) * -1;
         $deltaLiabilitas = $this->calculateDelta('2101', '2104', $period);
 
@@ -153,11 +146,9 @@ class FinancialService
 
     public function getPhuData(AccountingPeriod $period): array
     {
-        // 1. Rincian Pendapatan (4000 - 4999)
         $revenues = $this->getAccountDetailsByRange('4000', '4999', $period);
         $totalRevenue = collect($revenues)->sum('balance');
 
-        // 2. Rincian Beban (5000 - 5999)
         $expenses = $this->getAccountDetailsByRange('5000', '5999', $period);
         $totalExpense = collect($expenses)->sum('balance');
 
@@ -188,7 +179,6 @@ class FinancialService
         }])
         ->get()
         ->map(function ($account) use ($period) {
-            // Saldo Awal Akun (Kumulatif sebelum periode ini)
             $openingBalance = DB::table('journal_items')
                 ->join('journal_entries', 'journal_items.journal_entry_id', '=', 'journal_entries.id')
                 ->where('journal_items.account_id', $account->id)
@@ -208,10 +198,6 @@ class FinancialService
         })->filter(fn($acc) => count($acc['items']) > 0 || $acc['initial_balance'] != 0);
     }
 
-    /**
-     * BUKU SHU ANGGOTA
-     * Rincian pembagian SHU per individu untuk transparansi RAT.
-     */
     public function getMemberShuReport(AccountingPeriod $period)
     {
         return ShuDistribution::with(['details.member'])
@@ -224,19 +210,16 @@ class FinancialService
     {
         return \App\Models\Member::with(['savingAccounts.savingType'])->get()->map(function ($member) use ($period) {
             $accountsData = $member->savingAccounts->map(function ($account) use ($period) {
-                // 1. Saldo Awal (sebelum periode mulai)
                 $initialBalance = \App\Models\SavingTransaction::where('saving_account_id', $account->id)
                     ->where('transaction_date', '<', $period->start_date)
                     ->selectRaw("SUM(CASE WHEN type = 'deposit' THEN amount ELSE -amount END) as balance")
                     ->first()->balance ?? 0;
 
-                // 2. Mutasi dalam periode
                 $mutations = \App\Models\SavingTransaction::where('saving_account_id', $account->id)
                     ->whereBetween('transaction_date', [$period->start_date, $period->end_date])
                     ->orderBy('transaction_date')
                     ->get();
 
-                // 3. Saldo Akhir
                 $totalMutation = $mutations->sum(fn($m) => $m->type === 'deposit' ? $m->amount : -$m->amount);
 
                 return [
@@ -254,10 +237,6 @@ class FinancialService
         });
     }
 
-    /**
-     * STEP 4.5: MENGAMBIL NAMA PEJABAT (Tanda Tangan)
-     * Mapping dinamis berdasarkan Jabatan (Ketua, Bendahara, Pengawas).
-     */
     public function getOrganizationOfficials()
     {
         $positions = [

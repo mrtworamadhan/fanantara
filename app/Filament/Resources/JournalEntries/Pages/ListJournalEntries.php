@@ -14,11 +14,7 @@ class ListJournalEntries extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Action::make('financial_report')
-            //     ->label('Laporan Keuangan (SAK EP)')
-            //     ->icon('heroicon-o-presentation-chart-line')
-            //     ->url(FinancialReport::getUrl()) // Arahkan ke URL page custom tadi
-            //     ->color('success'),
+
             CreateAction::make(),
         ];
     }
