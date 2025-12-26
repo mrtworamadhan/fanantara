@@ -17,6 +17,17 @@ use App\Livewire\Auth\ActivationPayment;
 use App\Livewire\Member\Dashboard;
 use App\Livewire\Member\Profile;
 
+// --- Livewire Public Pages ---
+use App\Livewire\PublicPages\HomePage;
+use App\Livewire\PublicPages\ProductPage;
+use App\Livewire\PublicPages\ArticlePage;
+use App\Livewire\PublicPages\ArticleDetailPage;
+use App\Livewire\PublicPages\AboutPage;
+use App\Livewire\PublicPages\AdArtPage;
+use App\Livewire\PublicPages\PrivacyPolicyPage;
+use App\Livewire\PublicPages\TermsOfServicePage;
+use App\Livewire\PublicPages\ContactPage;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,9 +35,15 @@ use App\Livewire\Member\Profile;
 */
 
 // 1. PUBLIC ROUTES
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', HomePage::class)->name('home');
+Route::get('/products', ProductPage::class)->name('products');
+Route::get('/articles', ArticlePage::class)->name('articles');
+Route::get('/articles/{slug}', ArticleDetailPage::class)->name('articles.show');
+Route::get('/about', AboutPage::class)->name('about');
+Route::get('/adart', AdArtPage::class)->name('adart');
+Route::get('/contact', ContactPage::class)->name('contact');
+Route::get('/privacy-policy', PrivacyPolicyPage::class)->name('privacy');
+Route::get('/terms-of-service', TermsOfServicePage::class)->name('terms');
 
 Route::get('/news', function () {
     return view('welcome');
@@ -71,7 +88,7 @@ Route::middleware('auth')->group(function () {
 
     // --- Printing / PDF Generation ---
     Route::prefix('print')->name('print.')->group(function () {
-        
+
         // Via PdfController
         Route::controller(PdfController::class)->group(function () {
             Route::get('/invoice/{order}', 'printInvoice')->name('invoice');
@@ -85,9 +102,7 @@ Route::middleware('auth')->group(function () {
 
     //Financial Report
     Route::prefix('reports')->name('reports.')->group(function () {
-        
+
         Route::get('/finance-bundle/{period}', [ReportController::class, 'downloadBundle'])->name('finance-bundle');
-
     });
-
 });

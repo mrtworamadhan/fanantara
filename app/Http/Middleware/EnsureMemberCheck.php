@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureMemberCheck
 {
-  
+
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
@@ -19,7 +19,7 @@ class EnsureMemberCheck
         }
 
         $allowedRoutes = [
-            'member.setup', 
+            // 'member.setup',
             'member.store-profile',
             'member.activation',
             'member.store-payment',
@@ -32,9 +32,9 @@ class EnsureMemberCheck
         }
 
 
-        if (! $user->member) {
-            return redirect()->route('member.setup');
-        }
+        // if (! $user->member) {
+        //     return redirect()->route('member.setup');
+        // }
 
         if ($user->member->status !== 'active') {
             return redirect()->route('member.activation');
