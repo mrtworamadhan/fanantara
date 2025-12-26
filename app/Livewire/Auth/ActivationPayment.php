@@ -47,21 +47,7 @@ class ActivationPayment extends Component
             $this->loadPaymentDetails($member);
         }
 
-        // $savingType = SavingType::where('code', 'SP')->first();
         
-        // $defaultAmount = 100000;
-        // if ($savingType) {
-        //     $defaultAmount = ($member->type === 'institution') 
-        //         ? ($savingType->amount_institution ?? $savingType->amount_individual) 
-        //         : $savingType->amount_individual;
-        // }
-
-        // $this->base_amount = $defaultAmount;
-        
-        // $this->unique_code = Auth::id() % 1000;
-        // if($this->unique_code == 0) $this->unique_code = rand(100, 999);
-
-        // $this->total_amount = $this->base_amount + $this->unique_code;
     }
 
     private function loadPaymentDetails($member)

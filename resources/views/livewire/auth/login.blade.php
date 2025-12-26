@@ -12,10 +12,8 @@
             bg-cover bg-center"
         style="background-image: url('{{ asset('images/banner2.png') }}')"
     >
-        {{-- Overlay biar teks kebaca --}}
         <div class="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
 
-        {{-- CONTENT --}}
         <div class="relative z-10 flex flex-col items-center">
 
             <div class="relative flex items-center justify-center">
@@ -47,9 +45,7 @@
     </div>
 
 
-    {{-- 2. DYNAMIC BACKGROUND BANNER --}}
     <div class="absolute inset-0 z-0">
-        {{-- Dark overlay banner --}}
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10"></div>
 
         <img src="{{ asset('images/banner1.png') }}"
@@ -57,7 +53,6 @@
             alt="Background Banner">
     </div>
 
-    {{-- TEXT CONTENT --}}
     <div class="absolute top-12 left-0 right-0 z-20 px-6">
         <div class="flex justify-center mb-3">
                 <div
@@ -91,7 +86,6 @@
     </div>
 
 
-    {{-- 3. LOGIN CARD (BOTTOM SHEET) --}}
     <div class="absolute bottom-0 left-0 right-0 z-30">
         <div class="bg-white rounded-t-[2.5rem] p-8 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.3)]">
 

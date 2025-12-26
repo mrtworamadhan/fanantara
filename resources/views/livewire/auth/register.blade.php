@@ -1,6 +1,5 @@
 <div class="relative min-h-screen w-full overflow-hidden bg-gray-900" x-data="{ showPassword: false }">
 
-    {{-- 1. BACKGROUND BANNER --}}
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10"></div>
         <img src="{{ asset('images/banner2.png') }}"
@@ -8,17 +7,13 @@
             class="w-full h-full object-cover object-center">
     </div>
 
-    {{-- HEADER TEXT --}}
     <div class="absolute top-8 left-0 right-0 z-20 px-6">
         <h2 class="text-3xl font-bold text-white">Daftar Anggota</h2>
         <p class="text-white/80 text-sm">Bergabung dengan ekosistem kami.</p>
     </div>
 
-    {{-- 2. BOTTOM SHEET CONTAINER --}}
-    {{-- Container utama ini PENTING untuk scrolling. Jangan diubah height-nya. --}}
     <div class="absolute bottom-0 left-0 right-0 z-30 h-[85vh] flex flex-col">
 
-        {{-- Card Putih --}}
         <div
             class="bg-white rounded-t-[2.5rem] shadow-2xl flex-1 flex flex-col w-full max-w-md mx-auto relative overflow-hidden">
 
@@ -26,7 +21,6 @@
 
             <div class="flex-1 overflow-y-auto px-6 pb-32 custom-scrollbar">
 
-                {{-- STEP INDICATOR (Sticky biar tetep kelihatan pas scroll) --}}
                 <div
                     class="flex items-center justify-between mb-6 mt-2 sticky top-0 bg-white z-10 py-4 border-b border-gray-100">
                     <div class="flex gap-2">
@@ -38,7 +32,6 @@
                     <span class="text-xs font-bold text-gray-500">Langkah {{ $currentStep }}/2</span>
                 </div>
 
-                {{-- ================= STEP 1: PILIH TIPE ================= --}}
                 @if($currentStep == 1)
                     <div class="space-y-6 animate-fade-in-up">
                         <div class="text-center mb-6">
@@ -101,11 +94,9 @@
                     </div>
                 @endif
 
-                {{-- ================= STEP 2: DATA DETAIL ================= --}}
                 @if($currentStep == 2)
                     <div class="space-y-8 animate-fade-in-up">
 
-                        {{-- 1. DATA IDENTITAS --}}
                         <div class="space-y-5">
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
@@ -131,7 +122,6 @@
                                 @enderror
                             </div>
 
-                            {{-- Form Khusus Individu --}}
                             @if($account_type == 'individual')
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -183,7 +173,6 @@
                                 </div>
                             @endif
 
-                            {{-- Form Khusus Institusi --}}
                             @if($account_type == 'institution')
                                 <div>
                                     <label class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">NPWP
@@ -213,7 +202,6 @@
                             @endif
                         </div>
 
-                        {{-- 2. DOKUMEN --}}
                         <div class="space-y-5">
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
@@ -250,7 +238,6 @@
                                     @error('file_ktp') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                {{-- NPWP IND --}}
                                 <label for="file_npwp_ind"
                                     class="flex items-center justify-between px-4 py-3 border border-gray-300 rounded-xl cursor-pointer bg-white">
                                     <span class="text-sm text-gray-600 truncate flex-1">@if($file_npwp_ind) <span
@@ -311,7 +298,6 @@
                             @endif
                         </div>
 
-                        {{-- 3. ALAMAT & TTD --}}
                         <div class="space-y-5">
                             <div class="flex items-center gap-2 mb-2">
                                 <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
@@ -374,7 +360,6 @@
                             </div>
                         </div>
 
-                        {{-- 4. DATA LOGIN --}}
                         <div
                             x-data="{
                                 showPassword: false,
@@ -384,7 +369,6 @@
                         >
                             <h3 class="text-lg font-bold text-gray-900">Buat Password</h3>
 
-                            <!-- EMAIL -->
                             <input
                                 wire:model="email"
                                 type="email"
@@ -395,7 +379,6 @@
                                 <span class="text-red-500 text-xs block">{{ $message }}</span>
                             @enderror
 
-                            <!-- PASSWORD -->
                             <div class="relative">
                                 <input
                                     wire:model="password"
@@ -408,7 +391,6 @@
                                     @click="showPassword = !showPassword"
                                     class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                                 >
-                                    <!-- SHOW -->
                                     <svg x-show="!showPassword" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -428,7 +410,6 @@
                                 <span class="text-red-500 text-xs block">{{ $message }}</span>
                             @enderror
 
-                            <!-- PASSWORD CONFIRM -->
                             <div class="relative">
                                 <input
                                     wire:model="password_confirmation"
@@ -458,7 +439,6 @@
                         </div>
 
 
-                        {{-- ACTIONS --}}
                         <div class="flex gap-3 pt-6 pb-2">
                             <button wire:click="prevStep"
                                 class="w-1/3 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all">Kembali</button>

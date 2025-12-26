@@ -33,7 +33,6 @@ class Mutation extends Component
             ->latest('id')
             ->get()
             ->groupBy(function($item) {
-                // Carbon parse untuk memastikan format tanggal benar
                 return \Carbon\Carbon::parse($item->transaction_date)->format('Y-m-d');
             });
 

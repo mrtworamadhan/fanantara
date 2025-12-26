@@ -242,7 +242,7 @@ class Profile extends Component
     
             if ($this->member->type == 'individual') {
                 $profile = $this->member->individualProfile()->firstOrCreate([]);
-                $column = 'photo'; // Sesuai request kamu: kolom 'photo'
+                $column = 'photo'; 
                 $folder = 'members/individuals/photos';
             } else {
                 $profile = $this->member->institutionProfile()->firstOrCreate([]);
@@ -250,7 +250,7 @@ class Profile extends Component
                 $folder = 'members/institutions/logos';
             }
 
-            $oldPhoto = $profile->{$column}; // Mengakses property secara dinamis ($profile->photo atau $profile->logo)
+            $oldPhoto = $profile->{$column};
             
             if ($oldPhoto) {
                 $oldPath = is_array($oldPhoto) ? ($oldPhoto[0] ?? null) : $oldPhoto;
@@ -260,15 +260,12 @@ class Profile extends Component
                 }
             }
 
-            // 3. Simpan Foto Baru
             $newPath = $this->new_profile_photo->store($folder, 'public');
 
-            // 4. Update Kolom Dinamis
             $profile->update([
-                $column => $newPath // Update kolom 'photo' atau 'logo'
+                $column => $newPath
             ]);
             
-            // Reset input upload biar bersih
             $this->reset('new_profile_photo');
         }
         $this->user->update(['name' => $this->name]);

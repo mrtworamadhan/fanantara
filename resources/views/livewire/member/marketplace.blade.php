@@ -1,5 +1,4 @@
 <div class="h-screen bg-gray-50 flex flex-col relative overflow-hidden font-sans">
-    {{-- HEADER FIXED --}}
     <div class="bg-emerald-700 px-5 pt-5 pb-4 shadow-lg z-40 flex-none">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
@@ -13,7 +12,6 @@
                 <span class="absolute top-0 right-0 w-4 h-4 bg-amber-500 text-[10px] flex items-center justify-center rounded-full border border-emerald-600">0</span>
             </button>
         </div>
-        {{-- SEARCH BAR --}}
         <div class="relative">
             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-emerald-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -22,16 +20,13 @@
         </div>
     </div>
 
-    {{-- CONTENT SCROLLABLE --}}
     <div class="flex-1 overflow-y-auto no-scrollbar bg-gradient-to-b from-emerald-700 via-gray-50 to-white px-5 pt-4 pb-24">
         <div class="grid grid-cols-2 gap-4 animate-fade-in">
             @foreach($products as $product)
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    {{-- Foto Produk --}}
                     <img src="{{ asset('storage/' . $product->image) ?? 'https://placehold.co/400' }}" class="w-full h-40 object-cover">
                     
                     <div class="p-4">
-                        {{-- Nama Produsen (Supplier) --}}
                         <div class="flex items-center gap-1 mb-1">
                             <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                             <span class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">
@@ -41,10 +36,8 @@
 
                         <h3 class="text-sm font-bold text-gray-800 leading-tight mb-2">{{ $product->name }}</h3>
 
-                        {{-- Logic Harga Dinamis --}}
                         <div class="space-y-1">
                             @if($memberType === 'institution')
-                                {{-- Member Institusi/Agen dapat harga grosir --}}
                                 <p class="text-emerald-600 font-black text-lg leading-none">
                                     Rp {{ number_format($product->sell_price_wholesale, 0, ',', '.') }}
                                 </p>
@@ -52,7 +45,6 @@
                                     Rp {{ number_format($product->sell_price_retail, 0, ',', '.') }}
                                 </p>
                             @else
-                                {{-- Member Individu dapat harga retail --}}
                                 <p class="text-emerald-600 font-black text-lg leading-none">
                                     Rp {{ number_format($product->sell_price_retail, 0, ',', '.') }}
                                 </p>

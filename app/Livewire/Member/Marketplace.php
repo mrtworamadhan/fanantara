@@ -20,7 +20,6 @@ class Marketplace extends Component
 
         $products = Product::query()
             ->where('is_active', true)
-            // Eager Load supplier (Member) agar tidak N+1 Query saat nampilin nama produsen
             ->with(['supplier']) 
             ->when($this->search, function($q) {
                 $q->where('name', 'like', '%' . $this->search . '%')
@@ -31,7 +30,7 @@ class Marketplace extends Component
 
         return view('livewire.member.marketplace', [
             'products' => $products,
-            'memberType' => $member->type // Kita kirim tipe member ke view
+            'memberType' => $member->type
         ]);
     }
 }

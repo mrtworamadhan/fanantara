@@ -1,6 +1,5 @@
 <div class="min-h-screen bg-gray-50 flex flex-col relative pb-10">
     
-    {{-- HEADER (Dinamis Warnanya kalau Rejected) --}}
     <div class="h-48 {{ $is_rejected ? 'bg-gradient-to-br from-red-600 to-orange-700' : 'bg-gradient-to-br from-emerald-600 to-teal-800' }} rounded-b-[2.5rem] relative shadow-lg transition-colors duration-500">
         <div class="absolute inset-0 bg-white/10 opacity-30 pattern-dots"></div>
         
@@ -14,10 +13,8 @@
         </div>
     </div>
 
-    {{-- MAIN CARD --}}
     <div class="px-6 -mt-20 z-10">
         
-        {{-- ALERT REJECTED (Hanya muncul jika ditolak) --}}
         @if($is_rejected)
             <div class="bg-red-50 border border-red-200 rounded-2xl p-4 mb-4 shadow-sm animate-pulse">
                 <div class="flex items-start gap-3">
@@ -35,10 +32,8 @@
             </div>
         @endif
 
-        {{-- CARD UTAMA --}}
         <div class="bg-white rounded-3xl shadow-xl p-6 mb-6 border border-gray-100">
             
-            {{-- LOGIC: Tampilkan Form JIKA (Belum Submit) ATAU (Ditolak) --}}
             @if(!$is_submitted || $is_rejected)
                 <div class="text-center mb-6">
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Total Tagihan</p>
@@ -52,7 +47,6 @@
                     </div>
                 </div>
 
-                {{-- REKENING INFO --}}
                 <div class="space-y-4">
                     <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 relative group hover:border-emerald-200 transition-all">
                         <div class="flex items-center gap-4">
@@ -69,7 +63,6 @@
                     </div>
                 </div>
 
-                {{-- UPLOAD FORM --}}
                 <div class="mt-8">
                     <form wire:submit.prevent="submitPayment" class="space-y-4">
                         <div>
@@ -107,14 +100,12 @@
                 </div>
 
             @else
-                {{-- TAMPILAN MENUNGGU (WAITING) --}}
                 <div class="text-center py-8">
                     <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                         <svg class="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-2">Bukti Diterima!</h3>
                     
-                    {{-- PREVIEW IMAGE --}}
                     @if(isset(auth()->user()->member->activation_payment_data['proof_path']))
                         <div class="mx-auto w-40 h-40 mt-4 mb-4 border-4 border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                             <img src="{{ Storage::url(auth()->user()->member->activation_payment_data['proof_path']) }}" 
@@ -134,7 +125,6 @@
                 </div>
             @endif
 
-            {{-- TOMBOL WA CS (SELALU MUNCUL) --}}
             <div class="mt-8 pt-6 border-t border-dashed border-gray-200 text-center">
                 <p class="text-xs text-gray-500 mb-3">
                     {{ $is_rejected ? 'Butuh bantuan soal penolakan ini?' : 'Kesulitan melakukan pembayaran?' }}
@@ -150,7 +140,6 @@
 
         </div>
 
-        {{-- LOGOUT --}}
         <div class="text-center">
             <a href="{{ route('logout') }}" class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-red-500 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>

@@ -31,7 +31,6 @@ class PosPage extends Component
     {
         $product = Product::find($productId);
         
-        // Cek Stok Fisik Dulu (Gudang Utama ID=1, sesuaikan nanti)
         $stock = InventoryStock::where('product_id', $productId)->first();
         if (!$stock || $stock->quantity <= 0) {
             session()->flash('error', 'Stok Habis!');
@@ -45,9 +44,9 @@ class PosPage extends Component
             $this->cart[$productId] = [
                 'id' => $product->id,
                 'name' => $product->name,
-                'image' => $product->image_url, // Pastikan accessor image_url ada di model Product
-                'price' => $product->sell_price_retail, // Atau harga jual
-                'base_price' => $product->base_price, // HPP (Penting buat Jurnal)
+                'image' => $product->image_url,
+                'price' => $product->sell_price_retail,
+                'base_price' => $product->base_price,
                 'qty' => 1,
                 'subtotal' => $product->sell_price_retail
             ];
