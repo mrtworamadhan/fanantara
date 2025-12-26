@@ -4,6 +4,7 @@ namespace App\Filament\Resources\JournalEntries\Pages;
 
 use App\Filament\Resources\JournalEntries\JournalEntryResource;
 use App\Models\Account;
+use App\Services\FinancialService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -252,6 +253,7 @@ class FinancialReport extends Page implements HasForms, HasInfolists
 
     public function calculateReport()
     {
+        $service = app(FinancialService::class);
         $data = $this->form->getState();
         $startDate = $data['start_date'] ?? now()->startOfYear();
         $endDate = $data['end_date'] ?? now()->endOfYear();
@@ -262,13 +264,7 @@ class FinancialReport extends Page implements HasForms, HasInfolists
             });
         }])->get();
 
-        $report = [
-            'assets' => [], 'liabilities' => [], 'equity' => [],
-            'revenue' => [], 'expenses' => [],
-            'total_assets' => 0, 'total_liabilities' => 0, 'total_equity' => 0,
-            'total_revenue' => 0, 'total_expenses' => 0, 'total_pasiva' => 0,
-            'net_income' => 0,
-        ];
+        $report['net_income'] = $service->getNetIncome($startDate, $endDate);
 
         foreach ($accounts as $account) {
             $debit = $account->journalItems->sum('debit');

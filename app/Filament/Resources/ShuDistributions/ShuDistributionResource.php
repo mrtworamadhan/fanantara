@@ -5,11 +5,13 @@ namespace App\Filament\Resources\ShuDistributions;
 use App\Filament\Resources\ShuDistributions\Pages\CreateShuDistribution;
 use App\Filament\Resources\ShuDistributions\Pages\EditShuDistribution;
 use App\Filament\Resources\ShuDistributions\Pages\ListShuDistributions;
+use App\Filament\Resources\ShuDistributions\Pages\ViewShuDistribution;
 use App\Filament\Resources\ShuDistributions\RelationManagers\DetailsRelationManager;
 use App\Filament\Resources\ShuDistributions\Schemas\ShuDistributionForm;
 use App\Filament\Resources\ShuDistributions\Tables\ShuDistributionsTable;
 use App\Models\ShuDistribution;
 use BackedEnum;
+use Illuminate\Database\Eloquent\Model;
 use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -29,6 +31,12 @@ class ShuDistributionResource extends Resource
     protected static ?string $navigationLabel = 'Pembagian SHU';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function canEdit(Model $record): bool
+    {
+        return $record->status !== 'completed';
+    }
+
 
     public static function form(Schema $schema): Schema
     {
@@ -52,6 +60,7 @@ class ShuDistributionResource extends Resource
         return [
             'index' => ListShuDistributions::route('/'),
             'create' => CreateShuDistribution::route('/create'),
+            'view' => ViewShuDistribution::route('/{record}'),
             'edit' => EditShuDistribution::route('/{record}/edit'),
         ];
     }

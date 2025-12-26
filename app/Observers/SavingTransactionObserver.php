@@ -21,6 +21,21 @@ class SavingTransactionObserver
         }
 
         $this->createJournal($trx);
+        $savingType = $trx->account->savingType;
+        if ($savingType && $savingType->category === 'equity' && $trx->type === 'deposit') {
+            $shuService = app(\App\Services\ShuService::class);
+            $period = AccountingPeriod::where('is_closed', false)->latest()->first();
+
+            if ($period) {
+                $newWeight = $shuService->calculateWeight($trx->amount, $trx->transaction_date->format('Y-m-d'), $period);
+                
+                // Tambahkan bobot ke tabel snapshot
+                \DB::table('member_shu_snapshots')
+                    ->where('member_id', $trx->account->member_id)
+                    ->where('accounting_period_id', $period->id)
+                    ->increment('accumulated_modal_weight', $newWeight);
+            }
+        }
     }
 
     protected function createJournal(SavingTransaction $trx)

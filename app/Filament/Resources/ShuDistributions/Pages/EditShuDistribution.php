@@ -5,9 +5,13 @@ namespace App\Filament\Resources\ShuDistributions\Pages;
 use App\Filament\Resources\ShuDistributions\ShuDistributionResource;
 use App\Models\Member;
 use App\Models\Order;
+use App\Models\Account;
+use App\Models\SavingAccount;
+use App\Models\ShuAllocation;
 use Filament\Actions\Action;
-use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\DB;
+use Filament\Notifications\Notification;
 
 class EditShuDistribution extends EditRecord
 {
@@ -22,95 +26,143 @@ class EditShuDistribution extends EditRecord
                 ->color('success')
                 ->requiresConfirmation()
                 ->modalHeading('Mulai Perhitungan SHU?')
-                ->modalDescription('Sistem akan menghitung jatah SHU untuk setiap anggota berdasarkan Simpanan dan Transaksi mereka pada periode ini. Proses ini mungkin memakan waktu.')
+                ->modalDescription('Sistem akan memindahkan laba ke simpanan sukarela anggota berdasarkan porsi alokasi yang telah ditentukan.')
                 ->action(function () {
                     $shu = $this->getRecord();
                     
-                    // ==========================================
-                    // 1. HITUNG DENOMINATOR (PEMBAGI) GLOBAL
-                    // ==========================================
-
-                    // A. Total Simpanan Modal Koperasi (Pokok + Wajib seluruh anggota)
-                    // Kita ambil dari tabel saving_accounts yang tipe-nya 'equity'
-                    $totalSimpananKoperasi = \App\Models\SavingAccount::whereHas('savingType', function ($q) {
-                            $q->where('category', 'equity');
-                        })->sum('balance');
-
-                    // B. Total Omset Anggota (Belanjaan)
-                    // Ambil dari Order yang 'completed' dalam periode tahun buku ini
-                    $start = $shu->period->start_date;
-                    $end = $shu->period->end_date;
-                    
-                    $totalOmsetAnggota = Order::where('status', 'completed')
-                        ->whereBetween('created_at', [$start, $end])
-                        ->whereNotNull('member_id') // Hanya order punya member
-                        ->sum('total_amount');
-
-                    // Validasi Anti-Error (Division by Zero)
-                    if ($totalSimpananKoperasi <= 0) $totalSimpananKoperasi = 1;
-                    if ($totalOmsetAnggota <= 0) $totalOmsetAnggota = 1;
-
-                    // ==========================================
-                    // 2. LOOPING PERHITUNGAN PER ANGGOTA
-                    // ==========================================
-                    
-                    // Ambil semua member
-                    $members = Member::all();
-                    
-                    // Reset detail lama biar gak duplikat kalau diklik 2x
-                    $shu->details()->delete(); 
-
-                    foreach ($members as $member) {
-                        // --- A. DATA SIMPANAN (JASA MODAL) ---
-                        // Ambil total saldo dari akun simpanan kategori 'equity' milik member ini
-                        $memberSimpanan = $member->savingAccounts()
-                            ->whereHas('savingType', fn($q) => $q->where('category', 'equity'))
-                            ->sum('balance');
-
-                        // --- B. DATA BELANJA (JASA USAHA) ---
-                        // Ambil total belanja dia di periode ini
-                        $memberBelanja = $member->orders()
-                            ->where('status', 'completed')
-                            ->whereBetween('created_at', [$start, $end])
-                            ->sum('total_amount');
-
-                        // --- C. RUMUS SHU ---
-                        $jasaModal = 0;
-                        $jasaUsaha = 0;
-
-                        // Hitung Jasa Modal
-                        if ($memberSimpanan > 0) {
-                            $jasaModal = ($memberSimpanan / $totalSimpananKoperasi) * $shu->amount_modal;
-                        }
-
-                        // Hitung Jasa Usaha
-                        if ($memberBelanja > 0) {
-                            $jasaUsaha = ($memberBelanja / $totalOmsetAnggota) * $shu->amount_services;
-                        }
-
-                        $totalDiterima = $jasaModal + $jasaUsaha;
-
-                        // --- D. SIMPAN HASIL ---
-                        if ($totalDiterima > 0) {
-                            $shu->details()->create([
-                                'member_id'       => $member->id,
-                                'total_savings'   => $memberSimpanan,
-                                'total_purchases' => $memberBelanja,
-                                'shu_modal'       => $jasaModal,
-                                'shu_services'    => $jasaUsaha,
-                                'total_received'  => $totalDiterima,
-                            ]);
-                        }
+                    if ($shu->status === 'completed') {
+                        Notification::make()->title('SHU sudah diproses sebelumnya.')->danger()->send();
+                        return;
                     }
 
-                    // Update status jadi processed
-                    $shu->update(['status' => 'processed']);
-                    
-                    \Filament\Notifications\Notification::make()
-                        ->title('Perhitungan SHU Selesai')
-                        ->body("Total Modal Koperasi: Rp " . number_format($totalSimpananKoperasi) . "\nTotal Omset Anggota: Rp " . number_format($totalOmsetAnggota))
-                        ->success()
-                        ->send();
+                    DB::transaction(function () use ($shu) {
+                        $start = $shu->period->start_date;
+                        $end = $shu->period->end_date;
+                        $allocationItems = $shu->allocation_results; // Ambil data JSON hasil input di Form
+                        
+                        // 1. HITUNG PARAMETER GLOBAL (Untuk Prorata Anggota)
+                        $totalSimpananKoperasi = SavingAccount::whereHas('savingType', fn($q) => $q->where('category', 'equity'))->sum('balance') ?: 1;
+                        $totalOmsetAnggota = Order::where('status', 'completed')
+                            ->whereBetween('created_at', [$start, $end])
+                            ->whereNotNull('member_id')
+                            ->sum('total_amount') ?: 1;
+
+                        $totalMemberSHUCollectively = 0; // Untuk menampung total JM + JK yang dibagikan ke anggota
+                        $members = Member::all();
+
+                        $shu->details()->delete();
+
+                        // --- 2. LOOPING DISTRIBUSI PER MEMBER ---
+                        foreach ($members as $member) {
+                            $memberSimpanan = $member->savingAccounts()
+                                ->whereHas('savingType', fn($q) => $q->where('category', 'equity'))
+                                ->sum('balance');
+
+                            $memberBelanja = $member->orders()
+                                ->where('status', 'completed')
+                                ->whereBetween('created_at', [$start, $end])
+                                ->sum('total_amount');
+
+                            $breakdown = [];
+                            $totalMemberReceived = 0;
+
+                            foreach ($allocationItems as $item) {
+                                $allocation = ShuAllocation::find($item['shu_allocation_id']);
+                                if (!$allocation) continue;
+
+                                $nominalKategori = (float) $item['amount'];
+                                $jatahMember = 0;
+
+                                // Hitung Prorata sesuai kode alokasi
+                                if ($allocation->code === 'JM') { // Jasa Modal
+                                    $jatahMember = ($memberSimpanan / $totalSimpananKoperasi) * $nominalKategori;
+                                } elseif ($allocation->code === 'JK') { // Jasa Kontribusi/Usaha
+                                    $jatahMember = ($memberBelanja / $totalOmsetAnggota) * $nominalKategori;
+                                }
+
+                                if ($jatahMember > 0) {
+                                    $breakdown[$allocation->name] = $jatahMember;
+                                    $totalMemberReceived += $jatahMember;
+                                }
+                            }
+
+                            if ($totalMemberReceived > 0) {
+                                // Simpan rincian detail member
+                                $shu->details()->create([
+                                    'member_id' => $member->id,
+                                    'total_savings' => $memberSimpanan,
+                                    'total_purchases' => $memberBelanja,
+                                    'distribution_breakdown' => $breakdown,
+                                    'total_received' => $totalMemberReceived,
+                                ]);
+
+                                // Update Simpanan Sukarela Anggota (Trigger Observer untuk Jurnal per Member)
+                                $accSukarela = $member->savingAccounts()
+                                    ->whereHas('savingType', fn($q) => $q->where('code', 'SS'))
+                                    ->first();
+
+                                if ($accSukarela) {
+                                    $accSukarela->transactions()->create([
+                                        'transaction_date' => now(),
+                                        'type'             => 'deposit',
+                                        'amount'           => $totalMemberReceived,
+                                        'reference_number' => "SHU-" . $shu->id . "-" . $member->id,
+                                        'notes'            => "SHU " . $shu->period->name,
+                                        'created_by'       => auth()->id(),
+                                    ]);
+                                }
+                                $totalMemberSHUCollectively += $totalMemberReceived;
+                            }
+                        }
+
+                        // --- 3. JURNAL GLOBAL (PENUTUPAN SHU KE SEMUA POS ALOKASI) ---
+                        // Kita buat satu entri jurnal besar untuk mendistribusikan Total SHU
+                        $entry = \App\Models\JournalEntry::create([
+                            'accounting_period_id' => $shu->accounting_period_id,
+                            'transaction_date'     => $shu->period->end_date,
+                            'reference_number'     => "SHU-DIST-" . $shu->id,
+                            'description'          => "Distribusi SHU Periode " . $shu->period->name,
+                            'total_amount'         => $shu->total_shu,
+                            'created_by'           => auth()->id(),
+                        ]);
+
+                        // A. DEBIT: 3301 (SHU Tahun Berjalan) -> SALDO JADI NOL
+                        $entry->items()->create([
+                            'account_id' => Account::where('code', '3301')->first()->id,
+                            'debit'      => $shu->total_shu,
+                            'credit'     => 0,
+                        ]);
+
+                        // B. KREDIT: KE SEMUA AKUN TUJUAN ALOKASI
+                        foreach ($allocationItems as $item) {
+                            $allocation = ShuAllocation::find($item['shu_allocation_id']);
+                            $nominal = (float) $item['amount'];
+
+                            if ($allocation && $nominal > 0) {
+                                // Jika JM atau JU, Kredit ke 2102 (Simpanan Sukarela) secara kolektif
+                                if (in_array($allocation->code, ['JM', 'JU'])) {
+                                    $targetAccountId = Account::where('code', '2102')->first()->id;
+                                } else {
+                                    // Jika alokasi lain (Cadangan, Pengurus, Sosial), gunakan mapping account_id di master
+                                    $targetAccountId = $allocation->account_id; 
+                                }
+
+                                if ($targetAccountId) {
+                                    $entry->items()->create([
+                                        'account_id' => $targetAccountId,
+                                        'debit'      => 0,
+                                        'credit'     => $nominal,
+                                    ]);
+                                }
+                            }
+                        }
+
+                        // --- 4. FINALIZE ---
+                        $shu->update(['status' => 'completed']);
+                        $shu->period->update(['is_closed' => true]);
+
+                        Notification::make()->title('SHU Berhasil Didistribusikan secara Akuntansi')->success()->send();
+                    });
                 }),
         ];
     }

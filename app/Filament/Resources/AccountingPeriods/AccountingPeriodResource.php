@@ -5,6 +5,7 @@ namespace App\Filament\Resources\AccountingPeriods;
 use App\Filament\Resources\AccountingPeriods\Pages\ManageAccountingPeriods;
 use App\Models\AccountingPeriod;
 use BackedEnum;
+use Filament\Actions\Action;
 use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -97,6 +98,13 @@ class AccountingPeriodResource extends Resource
                 //
             ])
             ->recordActions([
+                Action::make('download_report')
+                    ->label('Download Laporan')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('success')
+                    ->visible(fn ($record) => $record->is_closed) // Hanya muncul jika sudah tutup buku
+                    ->url(fn ($record) => route('reports.finance-bundle', $record))
+                    ->openUrlInNewTab(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

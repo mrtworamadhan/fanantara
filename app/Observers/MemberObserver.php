@@ -10,7 +10,7 @@ class MemberObserver
 {
     public function created(Member $member): void
     {
-        $types = SavingType::whereIn('code', ['SP', 'SW'])->get();
+        $types = SavingType::whereIn('code', ['SP', 'SW', 'SS'])->get();
 
         foreach ($types as $type) {
             SavingAccount::create([

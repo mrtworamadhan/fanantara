@@ -11,6 +11,11 @@ class Member extends Model
 {
     protected $guarded = []; 
 
+    protected $casts = [
+        'join_date' => 'date',
+        'activation_payment_data' => 'array',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -65,7 +70,7 @@ class Member extends Model
     {
         if (! $this->profileable) return '-';
 
-        return $this->profileable->phone ?? $this->profileable->phone_number ?? '-';
+        return $this->profileable->pic_phone ?? $this->profileable->phone_number ?? '-';
     }
 
     public function getAddressAttribute(): string
@@ -143,5 +148,10 @@ class Member extends Model
                ($this->district->nama ?? '') . ", " . 
                ($this->city->nama ?? '') . ", " . 
                ($this->province->nama ?? '');
+    }
+
+    public function structures()
+    {
+        return $this->hasOne(OrganizationStructure::class);
     }
 }

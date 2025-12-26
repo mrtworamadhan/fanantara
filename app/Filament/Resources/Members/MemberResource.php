@@ -9,6 +9,7 @@ use App\Filament\Resources\Members\Schemas\MemberForm;
 use App\Filament\Resources\Members\Tables\MembersTable;
 use App\Models\Member;
 use BackedEnum;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -21,13 +22,18 @@ class MemberResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedIdentification;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Database';
+    protected static string | UnitEnum | null $navigationGroup = 'Keanggotaan';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationLabel = 'Data Anggota';
+    protected static ?string $navigationLabel = 'Anggota Aktif';
 
     protected static ?string $recordTitleAttribute = 'name';
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->where('status', 'active');
+    }
 
     public static function form(Schema $schema): Schema
     {

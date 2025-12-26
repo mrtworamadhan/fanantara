@@ -8,5 +8,9 @@ class ShuDistributionDetail extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'distribution_breakdown' => 'array',
+    ];
+
     public function member() { return $this->belongsTo(Member::class); }
 }

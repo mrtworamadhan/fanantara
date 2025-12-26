@@ -29,6 +29,15 @@ class OrderResource extends Resource
 
     protected static ?string $navigationLabel = 'Order';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status', 'pending')->count();
+    }
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return OrderForm::configure($schema);

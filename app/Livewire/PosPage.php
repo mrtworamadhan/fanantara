@@ -23,9 +23,8 @@ class PosPage extends Component
     public $member_id;
     public $payment_method = 'cash';    public $grand_total = 0;
 
+    #[Layout('components.layouts.app')] 
 
-
-    // Supaya pencarian produk responsif
     public function updatedSearch() { $this->render(); }
 
     public function addToCart($productId)
@@ -153,6 +152,6 @@ class PosPage extends Component
         return view('livewire.pos-page', [
             'products' => Product::where('name', 'like', '%' . $this->search . '%')->take(12)->get(),
             'members' => Member::all(),
-        ])->layout('components.layouts.pos'); // Pake layout khusus tadi
+        ]);
     }
 }

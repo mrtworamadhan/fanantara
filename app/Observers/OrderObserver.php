@@ -13,13 +13,16 @@ class OrderObserver
 {
     public function updated(Order $order): void
     {
-        if ($order->isDirty('status') && $order->status === 'completed') {
+        if ($order->isDirty('status') && $order->status === 'completed' && $order->member_id) {
+            $period = AccountingPeriod::where('is_closed', false)->latest()->first();
             
-            if (JournalEntry::where('sourceable_id', $order->id)->where('sourceable_type', Order::class)->exists()) {
-                return;
+            if ($period) {
+                DB::table('member_shu_snapshots')
+                    ->updateOrInsert(
+                        ['member_id' => $order->member_id, 'accounting_period_id' => $period->id],
+                        ['total_transaction_volume' => DB::raw("total_transaction_volume + {$order->total_amount}"), 'updated_at' => now()]
+                    );
             }
-
-            $this->createJournal($order);
         }
     }
 
@@ -27,11 +30,8 @@ class OrderObserver
     {
         $isMember = in_array($order->member->type, ['individual', 'institution']);
         
-        // Akun Kredit: PENDAPATAN
         $accPendapatan = Account::where('code', $isMember ? '4101' : '4201')->first()->id;
 
-        // --- B. DETEKSI CARA BAYAR  ---
-        // Cek status pembayaran dari form Order
         if ($order->payment_status === 'paid') {
             $accDebitPenjualan = Account::where('code', '1101')->first()->id; 
             $descTambahan = '(Lunas Tunai)';
@@ -40,11 +40,9 @@ class OrderObserver
             $descTambahan = '(Tempo/Piutang)';
         }
 
-        // Akun HPP & Persediaan
         $accHPP        = Account::where('code', '5100')->first()->id; // [cite: 52]
         $accPersediaan = Account::where('code', '1106')->first()->id; // [cite: 16]
 
-        // --- C. HITUNG TOTAL HPP ---
         $totalHPP = 0;
         foreach ($order->items as $item) {
             $totalHPP += ($item->product->base_price * $item->quantity);
@@ -54,7 +52,6 @@ class OrderObserver
 
         DB::transaction(function () use ($order, $accDebitPenjualan, $accPendapatan, $accHPP, $accPersediaan, $totalHPP, $period, $descTambahan) {
             
-            // 1. Buat Header Jurnal
             $journal = JournalEntry::create([
                 'accounting_period_id' => $period->id ?? 1,
                 'transaction_date'     => now(),
@@ -66,15 +63,13 @@ class OrderObserver
                 'created_by'           => auth()->id() ?? 1,
             ]);
 
-            // --- JURNAL 1: PENJUALAN (Harga Jual) ---
-            // Debit: KAS (jika paid) atau PIUTANG (jika unpaid)
             JournalItem::create([
                 'journal_entry_id' => $journal->id,
                 'account_id'       => $accDebitPenjualan,
                 'debit'            => $order->total_amount,
                 'credit'           => 0,
             ]);
-            // Kredit: PENDAPATAN
+
             JournalItem::create([
                 'journal_entry_id' => $journal->id,
                 'account_id'       => $accPendapatan,
@@ -82,15 +77,13 @@ class OrderObserver
                 'credit'           => $order->total_amount,
             ]);
 
-            // --- JURNAL 2: HPP (Harga Modal) ---
-            // Debit: BEBAN POKOK (HPP)
             JournalItem::create([
                 'journal_entry_id' => $journal->id,
                 'account_id'       => $accHPP,
                 'debit'            => $totalHPP,
                 'credit'           => 0,
             ]);
-            // Kredit: PERSEDIAAN
+
             JournalItem::create([
                 'journal_entry_id' => $journal->id,
                 'account_id'       => $accPersediaan,

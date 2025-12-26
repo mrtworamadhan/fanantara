@@ -9,6 +9,10 @@ class SavingTransaction extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'transaction_date' => 'date',
+    ];
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(SavingAccount::class, 'saving_account_id');

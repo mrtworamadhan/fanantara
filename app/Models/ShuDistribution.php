@@ -8,7 +8,15 @@ class ShuDistribution extends Model
 {
     protected $guarded = [];
 
-    public function period() { return $this->belongsTo(AccountingPeriod::class, 'accounting_period_id'); }
+    protected $casts = [
+        'allocation_results' => 'array', 
+    ];
+
+    public function period() { 
+        return $this->belongsTo(AccountingPeriod::class, 'accounting_period_id'); 
+    }
     
-    public function details() { return $this->hasMany(ShuDistributionDetail::class); }
+    public function details() { 
+        return $this->hasMany(ShuDistributionDetail::class); 
+    }
 }

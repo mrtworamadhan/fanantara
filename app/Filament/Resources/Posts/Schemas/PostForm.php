@@ -44,6 +44,8 @@ class PostForm
                         ->schema([
                             FileUpload::make('thumbnail')
                                 ->image()
+                                ->disk('public')
+                                ->visibility('public')
                                 ->directory('posts'),
 
                             Select::make('category')

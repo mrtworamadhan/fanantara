@@ -27,14 +27,18 @@ class ListMembers extends ListRecords
             'institutions' => Tab::make('Koperasi / Lembaga')
                 ->icon('heroicon-m-building-library') // Saya sarankan icon gedung biar relevan
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('type', 'institution'))
-                ->badge(\App\Models\Member::where('type', 'institution')->count())
+                ->badge(\App\Models\Member::where('type', 'institution')
+                    ->where('status', 'active')
+                    ->count())
                 ->badgeColor('warning'),
             
             'individuals' => Tab::make('Perorangan')
                 ->icon('heroicon-m-user-group')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('type', 'individual'))
-                ->badge(\App\Models\Member::where('type', 'individual')->count())
-                ->badgeColor('success'), // Warna badge hijau
+                ->badge(\App\Models\Member::where('type', 'individual')
+                    ->where('status', 'active')
+                    ->count())
+                ->badgeColor('success'),
         ];
     }
 }
