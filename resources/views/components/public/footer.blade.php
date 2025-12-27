@@ -18,9 +18,16 @@
                             class="w-full h-full object-contain"
                         />
                     </div>
+
                     <div>
-                        <h3 class="text-lg font-bold text-gray-800">{{ strtoupper($appName) }}</h3>
-                        <p class="text-xs text-gray-500">{{ $appTagline }}</p>
+                        <p class="text-xs text-red-500">{{ $appTagline }}</p>
+                        <h3
+                            class="text-xl font-bold text-blue-800 font-brand tracking-wide"
+                        >
+                            FANANTARA
+                        </h3>
+                        <p class="text-xs text-primary-500">FORMAS ANUGERAH NUSANTARA</p>
+                        
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm mb-4">

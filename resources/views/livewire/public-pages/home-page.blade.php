@@ -134,7 +134,7 @@
                 </div>
 
                 <!-- Benefit 3 -->
-                <div
+                <!-- <div
                     class="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm border border-gray-100"
                 >
                     <div
@@ -148,7 +148,7 @@
                             Akses pinjaman dengan bunga rendah dan proses cepat tanpa ribet
                         </p>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Benefit 4 -->
                 <div

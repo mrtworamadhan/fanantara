@@ -21,12 +21,14 @@
                     />
                 </div>
                 <div>
+                    <p class="text-xs text-red-500">{{ $appTagline }}</p>
                     <h1
-                        class="text-xl font-bold text-primary-600 font-brand tracking-wide"
+                        class="text-xl font-bold text-blue-800 font-brand tracking-wide"
                     >
-                        {{ strtoupper($appName) }}
+                        FANANTARA
                     </h1>
-                    <p class="text-xs text-gray-500">{{ $appTagline }}</p>
+                    <p class="text-xs text-primary-500">FORMAS ANUGERAH NUSANTARA</p>
+                    
                 </div>
             </a>
 
