@@ -23,6 +23,7 @@
         <img src="{{ $logo_path }}" class="logo">
         <div style="font-size: 14px; font-weight: bold; color: crimson;">KOPERASI MULTI PIHAK</div>
         <div style="font-size: 20px; margin-top: 5px; font-weight: bold; color: darkslateblue;">FANANTARA</div>
+        <div style="font-size: 12px; font-weight: bold; color: crimson;">KOPERASI MULTI PIHAK</div>
         <div style="font-size: 9px; margin-top: 5px">Gedung Nucira, Lantai 1, Jl. Mr Haryono kav. 27, Tebet Timur - Tebet - Jakarta Selatan</div>
     </div>
     

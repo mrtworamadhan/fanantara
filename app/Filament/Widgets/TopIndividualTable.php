@@ -59,4 +59,8 @@ class TopIndividualTable extends BaseWidget
             ])
             ->paginated(false);
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 }

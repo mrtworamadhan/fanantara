@@ -44,43 +44,68 @@ class Dashboard extends Component
         $member = $user->member;
         $shuService = app(ShuService::class);
 
+        // --- 1. DATA BASIC MEMBER ---
         $this->member_photo = $member->image_url;
         $this->member_name = $user->name;
         $this->member_number = $member->member_number ?? 'REG-' . $member->id;
         $this->member_type = match ($member->type) {
             'individual' => 'Anggota Perorangan',
             'institution' => 'Anggota Institusi',
-            default => 'Anggota',
+            'default' => 'Anggota',
         };
 
-        $this->allocations = $shuService->getActiveAllocations();
+        // --- 2. DATA KEUANGAN (Baru Ditambahkan) ---
+        // Load semua akun simpanan member beserta tipe-nya (Eager Loading biar cepat)
+        $myAccounts = $member->savingAccounts()->with('savingType')->get();
 
+        // A. Hitung Total Aset (Semua saldo dijumlahkan)
+        $this->total_asset = $myAccounts->sum('balance');
+
+        // B. Ambil Saldo Sukarela (SS) untuk Quick View
+        $sukarelaAcc = $myAccounts->first(fn($acc) => $acc->savingType->code === 'SS');
+        $this->saldo_sukarela = $sukarelaAcc ? $sukarelaAcc->balance : 0;
+
+        // C. List Akun (Untuk ditampilkan di Cards/List Dashboard)
+        $this->accounts_list = $myAccounts->map(function($acc) {
+            return [
+                'id' => $acc->id,
+                'name' => $acc->savingType->name,     // Simpanan Pokok/Wajib/Sukarela
+                'code' => $acc->savingType->code,     // SP/SW/SS
+                'number' => $acc->account_number,     // Nomor Rekening
+                'balance' => $acc->balance,           // Saldo
+            ];
+        });
+
+        // --- 3. DATA SHU ---
+        $this->allocations = $shuService->getActiveAllocations();
         $this->shu_data = $shuService->getEstimatedShu($member->id);        
 
+        // --- 4. DATA KONTRIBUSI & POIN ---
         $this->total_contribution = $member->orders()
             ->where('payment_status', 'paid')
             ->sum('total_amount');
 
         $this->poin_rewards = floor($this->total_contribution / 100000);
 
+        // --- 5. ASSET GROWTH (Statistik Sederhana) ---
+        // Menghitung apakah ada deposit bulan ini untuk menampilkan indikator "Naik"
         $depositBulanIni = $member->savingAccounts()
             ->whereHas('transactions', function($q) {
                 $q->whereMonth('transaction_date', now()->month)
+                  ->whereYear('transaction_date', now()->year) // <--- GANTI JADI INI (whereYear)
                   ->where('type', 'deposit');
-            })->count();
+            })->exists();
             
-        $this->asset_growth = ($depositBulanIni > 0) ? "+5.2%" : "0%"; 
+        // Logic dummy: Kalau ada deposit, growth dianggap positif (bisa dipercanggih nanti)
+        $this->asset_growth = $depositBulanIni ? "+5.2%" : "0%"; 
         
+        // --- 6. PROFILE COMPLETION ---
         $filledFields = 0;
         $totalFields = 0;
 
         $baseFields = [
-            'street_address', 
-            'province_code', 
-            'city_code', 
-            'district_code', 
-            'postal_code',
-            'digital_signature' 
+            'street_address', 'province_code', 'city_code', 
+            'district_code', 'postal_code', 'digital_signature' 
         ];
 
         foreach ($baseFields as $field) {
@@ -94,15 +119,7 @@ class Dashboard extends Component
             $profile = $member->individualProfile;
             
             if ($profile) {
-                $indivFields = [
-                    'nik', 
-                    'gender', 
-                    'place_of_birth', 
-                    'date_of_birth', 
-                    'job_type', 
-                    'ktp_image'
-                ];
-
+                $indivFields = ['nik', 'gender', 'place_of_birth', 'date_of_birth', 'job_type', 'ktp_image'];
                 foreach ($indivFields as $field) {
                     $totalFields++;
                     if (!empty($profile->$field)) $filledFields++;
@@ -118,20 +135,11 @@ class Dashboard extends Component
             $profile = $member->institutionProfile;
 
             if ($profile) {
-                $instFields = [
-                    'nib', 
-                    'npwp', 
-                    'pic_name', 
-                    'pic_phone', 
-                    'supply_chain_role', 
-                    'nib_image'
-                ];
-
+                $instFields = ['nib', 'npwp', 'pic_name', 'pic_phone', 'supply_chain_role', 'nib_image'];
                 foreach ($instFields as $field) {
                     $totalFields++;
                     if (!empty($profile->$field)) $filledFields++;
                 }
-
                 $totalFields++;
                 if ($this->isJsonFilled($profile->logistics_capacity)) $filledFields++;
                 
@@ -150,7 +158,6 @@ class Dashboard extends Component
             $this->show_completion_modal = true;
         }
     }
-
     private function isJsonFilled($data)
     {
         if (is_null($data)) return false;

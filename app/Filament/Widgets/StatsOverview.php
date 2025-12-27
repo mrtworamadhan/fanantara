@@ -45,4 +45,8 @@ class StatsOverview extends BaseWidget
                 ->chart([2, 10, 3, 12, 1, 15, 4]), 
         ];
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 }

@@ -33,9 +33,15 @@ class ShuService
             ->selectRaw('SUM(accumulated_modal_weight) as total_modal_weight, SUM(total_transaction_volume) as total_volume')
             ->first();
 
+        $rawModal = $totals->total_modal_weight ?? 0;
+        $rawVolume = $totals->total_volume ?? 0;
+
+        $floatModal = (float) $rawModal;
+        $floatVolume = (float) $rawVolume;
+
         return [
-            'total_modal_weight' => (float) ($totals->total_modal_weight ?? 1),
-            'total_volume'       => (float) ($totals->total_volume ?? 1),
+            'total_modal_weight' => $floatModal == 0 ? 1 : $floatModal,
+            'total_volume'       => $floatVolume == 0 ? 1 : $floatVolume,
         ];
     }
 

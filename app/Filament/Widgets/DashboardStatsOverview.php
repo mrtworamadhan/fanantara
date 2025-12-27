@@ -60,4 +60,8 @@ class DashboardStatsOverview extends BaseWidget
                 ->color('info'),
         ];
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 }

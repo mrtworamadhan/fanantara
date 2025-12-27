@@ -1,6 +1,17 @@
 <?php
 
 use App\Http\Controllers\ReportController;
+use App\Livewire\Member\Marketplace;
+use App\Livewire\Member\Mutation;
+use App\Livewire\Member\News;
+use App\Livewire\Member\NotificationInbox;
+use App\Livewire\Member\Shop\Cart;
+use App\Livewire\Member\Shop\Checkout;
+use App\Livewire\Member\Shop\MyOrders;
+use App\Livewire\Member\Shop\OrderSuccess;
+use App\Mail\WelcomeMemberMail;
+use App\Models\Member;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 // --- Controllers ---
@@ -56,9 +67,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/setup', SetupProfile::class)->name('setup');
         Route::get('/activation', ActivationPayment::class)->name('activation');
         Route::get('/profile', Profile::class)->name('profile');
-        Route::get('/member/mutation', \App\Livewire\Member\Mutation::class)->name('mutation');
-        Route::get('/member/marketplace', \App\Livewire\Member\Marketplace::class)->name('marketplace');
-        Route::get('/member/news', \App\Livewire\Member\News::class)->name('news');
+        Route::get('/member/mutation',Mutation::class)->name('mutation');
+        Route::get('/member/marketplace',Marketplace::class)->name('marketplace');
+        Route::get('/member/news',News::class)->name('news');
+        Route::get('/shop/cart', Cart::class)->name('shop.cart');
+        Route::get('/checkout', Checkout::class)->name('checkout');
+        Route::get('/order-success/{orderId}', OrderSuccess::class)->name('order.success');
+        Route::get('/orders', MyOrders::class)->name('orders.index');
+        Route::get('/notifications', NotificationInbox::class)->name('notifications');
+
     });
 
     // --- Dashboard (Strict Access) ---

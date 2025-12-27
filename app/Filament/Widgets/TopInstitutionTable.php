@@ -50,4 +50,8 @@ class TopInstitutionTable extends BaseWidget
             ])
             ->paginated(false);
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 }

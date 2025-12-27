@@ -44,10 +44,15 @@
                 </div>
             </a>
             
-            <button class="relative p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white backdrop-blur-md border border-white/10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-            </button>
+            <a href="{{ route('member.notifications') }}" class="relative p-2 text-gray-400 bg-gray-100 rounded-full">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                
+                @if(auth()->user()->unreadNotifications->count() > 0)
+                    <span class="absolute top-0 right-0 w-4 h-4 bg-red-500 text-[10px] text-white flex items-center justify-center rounded-full border-2 border-white">
+                        {{ auth()->user()->unreadNotifications->count() }}
+                    </span>
+                @endif
+            </a>
         </div>
 
         <div class="px-6 pb-4">
@@ -258,44 +263,48 @@
             </div>
 
         </div>
+        <div 
+            x-show="showCompletionModal"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="translate-y-full opacity-0"
+            x-transition:enter-end="translate-y-0 opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="translate-y-0 opacity-100"
+            x-transition:leave-end="translate-y-full opacity-0"
+            class="absolute bottom-30 inset-x-4 z-50 bg-white rounded-2xl shadow-2xl border border-gray-100 p-5"
+            x-data="{ showCompletionModal: @entangle('show_completion_modal') }"
+            style="display: none;"
+        >
+
+            
+            <div class="flex justify-between items-start mb-3">
+                <div>
+                    <h4 class="text-sm font-bold text-gray-900">Lengkapi Profil Anda</h4>
+                    <p class="text-[10px] text-gray-500 mt-1">Data yang lengkap memudahkan verifikasi dan akses fitur.</p>
+                </div>
+                <button @click="showCompletionModal = false" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            {{-- Progress Bar --}}
+            <div class="mb-4">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-[10px] font-bold text-emerald-600">{{ $profile_completion }}% Selesai</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-2">
+                    <div class="bg-emerald-500 h-2 rounded-full transition-all duration-1000" style="width: {{ $profile_completion }}%"></div>
+                </div>
+            </div>
+
+            <a href="{{ route('member.profile') }}" class="block w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold text-center rounded-xl shadow-lg shadow-emerald-500/30 transition-all">
+                Lengkapi Sekarang
+            </a>
+        </div>
     </div>
 
     <x-mobile.bottom-nav active="home" />
 
-    <div x-show="showCompletionModal" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="translate-y-full opacity-0"
-         x-transition:enter-end="translate-y-0 opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="translate-y-0 opacity-100"
-         x-transition:leave-end="translate-y-full opacity-0"
-         class="fixed bottom-30 left-4 right-4 z-50 bg-white rounded-2xl shadow-2xl border border-gray-100 p-5"
-         x-data="{ showCompletionModal: @entangle('show_completion_modal') }"
-         style="display: none;">
-        
-        <div class="flex justify-between items-start mb-3">
-            <div>
-                <h4 class="text-sm font-bold text-gray-900">Lengkapi Profil Anda</h4>
-                <p class="text-[10px] text-gray-500 mt-1">Data yang lengkap memudahkan verifikasi dan akses fitur.</p>
-            </div>
-            <button @click="showCompletionModal = false" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-
-        {{-- Progress Bar --}}
-        <div class="mb-4">
-            <div class="flex justify-between items-center mb-1">
-                <span class="text-[10px] font-bold text-emerald-600">{{ $profile_completion }}% Selesai</span>
-            </div>
-            <div class="w-full bg-gray-100 rounded-full h-2">
-                <div class="bg-emerald-500 h-2 rounded-full transition-all duration-1000" style="width: {{ $profile_completion }}%"></div>
-            </div>
-        </div>
-
-        <a href="{{ route('member.profile') }}" class="block w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold text-center rounded-xl shadow-lg shadow-emerald-500/30 transition-all">
-            Lengkapi Sekarang
-        </a>
-    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 </div>

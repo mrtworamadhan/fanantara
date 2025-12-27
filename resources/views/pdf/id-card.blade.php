@@ -1,3 +1,4 @@
+@php use SimpleSoftwareIO\QrCode\Facades\QrCode; @endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,51 +15,37 @@
 
             font-family: 'Arial', sans-serif;
 
-            background-color: #f0f0f0; /* Background luar (buat preview) */
+            background-color: #f0f0f0;
 
         }
         
         /* Container Kartu */
         .card {
-             width: 85.6mm;
+            width: 85.6mm;
 
             height: 53.98mm;
 
             position: relative;
 
-            background: linear-gradient(135deg, #059669 0%, #115e59 100%);
-            color: white;
-
+            
             border-radius: 4mm;
 
             overflow: hidden;
 
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 
-            margin: 20px auto; /* Tengahin buat preview */
+            margin: 20px auto;
         }
 
-        /* Hiasan Background */
-        .watermark {
+        .bg {
             position: absolute;
-            bottom: -15mm;
-            right: -10mm;
-            width: 50mm;
-            height: 50mm;
-            opacity: 0.1;
-            transform: rotate(12deg);
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             z-index: 0;
         }
-        .circle-blur {
-            position: absolute;
-            top: -10mm;
-            right: -10mm;
-            width: 40mm;
-            height: 40mm;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            z-index: 0;
-        }
+
 
         /* Header (Logo & Label) */
         .header {
@@ -77,9 +64,8 @@
             gap: 2mm;
         }
         .logo-img {
-            width: 8mm;
-            height: 8mm;
-            object-fit: contain;
+            height: 8mm; 
+            flex-shrink: 0;
         }
         .logo-text h3 {
             font-size: 7px;
@@ -96,8 +82,8 @@
             line-height: 1;
         }
         .badge {
-            background-color: #fbbf24; /* amber-400 */
-            color: #064e3b; /* emerald-900 */
+            background-color: #fbbf24;
+            color: #064e3b;
             font-size: 6px;
             font-weight: bold;
             text-transform: uppercase;
@@ -106,7 +92,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Content Utama (Bawah) */
         .content {
             position: absolute;
             bottom: 4mm;
@@ -149,6 +134,7 @@
         .detail-item p {
             font-size: 8px;
             font-weight: bold;
+            color: #a7f3d0;
             margin: 0;
             font-family: 'Courier New', monospace;
         }
@@ -175,55 +161,40 @@
             align-items: center;
             justify-content: center;
         }
-        @media print {
 
-            body { background: none; margin: 0; }
-
-            .card-container {
-
-                margin: 0;
-
-                box-shadow: none;
-
-                /* Force Print Background Colors */
-
-                -webkit-print-color-adjust: exact;
-
-                print-color-adjust: exact;
-
-            }
-
-        }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <img src="{{ asset('images/logoElemen.png') }}" class="watermark">
-        <div class="circle-blur"></div>
+        <img src="{{ public_path('images/bg-kta.png') }}" class="bg">
+        <!-- <div class="circle-blur"></div>
         <div class="header">
+            
             <div class="logo-section">
+                <img src="{{ asset('images/logo3d.png') }}" class="logo-img">
                 <div class="logo-text">
-                    <h3>Koperasi</h3>
-                    <h2>Fanantara</h2>
+                    <h3>Koperasi Multipihak</h3>
+                    <h2>FANANTARA</h2>
+                    <h2>Formas Anugerah Nusantara</h2>
                 </div>
             </div>
             <div class="badge">Member</div>
-        </div>
+        </div> -->
 
         <div class="content">
             <div class="info-left">
                 <div class="label">Nama Anggota</div>
-                <div class="name">{{ Str::limit($member->user->name, 25) }}</div>
+                <div class="name">{{ Str::title($member->name) }}</div>
 
                 <div class="details-row">
                     <div class="detail-item">
                         <div class="label">ID Anggota</div>
-                        <p>{{ $member->member_number }}</p>
+                        <p class="'number">{{ $member->member_number }}</p>
                     </div>
                     <div class="detail-item">
                         <div class="label">Bergabung</div>
-                        <p>{{ $member->created_at->format('M Y') }}</p>
+                        <p class="'number">{{ $member->created_at->format('M Y') }}</p>
                     </div>
                 </div>
 
@@ -234,7 +205,7 @@
                         $kota = $member->city_code ? \App\Models\Wilayah::where('kode', $member->city_code)->value('nama') : '';
                         
                         $addrParts = [];
-                        if($member->street_address) $addrParts[] = Str::limit($member->street_address, 20);
+                        if($member->street_address) $addrParts[] = Str::title($member->street_address);
                         if($desa) $addrParts[] = Str::title($desa);
                         if($kota) $addrParts[] = Str::title($kota);
                         
@@ -245,7 +216,7 @@
             </div>
 
             <div class="qr-box">
-                <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(100)->margin(0)->generate($member->member_number)) }}" 
+                <img src="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(100)->margin(0)->generate($member->member_number)) }}" 
                      style="width: 100%; height: 100%;">
             </div>
         </div>

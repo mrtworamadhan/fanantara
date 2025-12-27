@@ -77,6 +77,10 @@ class MemberLocationChart extends ChartWidget
             'labels' => $labels,
         ];
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 
     protected function getType(): string
     {

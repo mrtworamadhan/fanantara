@@ -52,9 +52,9 @@
                                     : 'hover:bg-white/10'
                                }}">
                         <x-heroicon-o-building-storefront
-                            class="w-6 h-6 {{ $active === 'shop' ? 'text-amber-400' : 'text-gray-400' }}"
+                            class="w-6 h-6 {{ $active === 'marketplace' ? 'text-amber-400' : 'text-gray-400' }}"
                         />
-                        <span class="text-[11px] mt-1 {{ $active === 'shop' ? 'text-amber-400' : 'text-gray-400' }}">
+                        <span class="text-[11px] mt-1 {{ $active === 'marketplace' ? 'text-amber-400' : 'text-gray-400' }}">
                             Shop
                         </span>
                     </div>

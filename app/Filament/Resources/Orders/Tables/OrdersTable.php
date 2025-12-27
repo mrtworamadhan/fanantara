@@ -36,17 +36,50 @@ class OrdersTable
                 TextColumn::make('payment_status')
                     ->badge(),
             ])
+            ->defaultSort('created_at','desc')
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make()->label(''),
+                // EditAction::make()->label(''),
                 Action::make('print')
                     ->label('Cetak Invoice')
                     ->icon('heroicon-o-printer')
                     ->color('gray')
                     ->url(fn (Order $record) => route('print.invoice', $record))
                     ->openUrlInNewTab(),
+                Action::make('confirm_payment')
+                    ->label('Terima Pembayaran')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('info')
+                    ->requiresConfirmation()
+                    ->visible(fn (Order $record) => $record->status === 'pending')
+                    ->action(function (Order $record) {
+                        $record->update([
+                            'status' => 'processing',
+                            'payment_status' => 'paid'
+                        ]);
+                        
+                        Notification::make()->title('Pembayaran Dikonfirmasi')->success()->send();
+                    }),
+
+                // ACTION BUTTON: SELESAIKAN ORDER (Untuk yg Processing -> Completed)
+                // INI TOMBOL SAKTI PEMICU JURNAL & SHU
+                Action::make('mark_completed')
+                    ->label('Selesai / Diambil')
+                    ->icon('heroicon-o-truck')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Selesaikan Order?')
+                    ->modalDescription('Pastikan barang sudah diserahkan/dikirim. Sistem akan mencatat Jurnal & SHU otomatis.')
+                    ->visible(fn (Order $record) => $record->status === 'processing' && $record->payment_status === 'paid')
+                    ->action(function (Order $record) {
+                        // Update status ke completed
+                        // Ini akan memicu OrderObserver::updated()
+                        $record->update(['status' => 'completed']);
+                        
+                        Notification::make()->title('Order Selesai. Jurnal Tercatat.')->success()->send();
+                    }),
                 Action::make('pay')
                     ->label('Bayar / Cicil')
                     ->icon('heroicon-o-banknotes')

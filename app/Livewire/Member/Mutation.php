@@ -17,8 +17,6 @@ class Mutation extends Component
     {
         $member = Auth::user()->member;
 
-        // Gunakan whereHas untuk memfilter transaksi milik member ini
-        // Penelusuran: Transaction -> Account -> Member
         $query = SavingTransaction::query()
             ->with(['account.savingType'])
             ->whereHas('account', function ($q) use ($member) {

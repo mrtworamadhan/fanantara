@@ -55,6 +55,8 @@ class AdminPanelProvider extends PanelProvider
                     ->visible(fn () => auth()->user()->hasRole('super_admin')), 
             ])
             ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s')
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Keanggotaan')

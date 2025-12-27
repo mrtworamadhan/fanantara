@@ -43,4 +43,8 @@ class SupplyChainStats extends BaseWidget
                 ->color('danger'),
         ];
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 }

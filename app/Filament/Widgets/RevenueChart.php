@@ -74,4 +74,8 @@ class RevenueChart extends ChartWidget
             ],
         ];
     }
+    protected function getPollingInterval(): ?string
+    {
+        return '15s';
+    }
 }
