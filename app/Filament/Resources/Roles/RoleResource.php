@@ -24,14 +24,10 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Unique;
-use BackedEnum;
-use UnitEnum;
-
 
 class RoleResource extends Resource
 {
@@ -41,10 +37,6 @@ class RoleResource extends Resource
     use Essentials\HasLabels;
     use Essentials\HasNavigation;
     use HasShieldFormComponents;
-
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShieldCheck;
-
-    protected static string | UnitEnum | null $navigationGroup = 'Settings';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -170,5 +162,4 @@ class RoleResource extends Resource
     {
         return FilamentShieldPlugin::get();
     }
-
 }

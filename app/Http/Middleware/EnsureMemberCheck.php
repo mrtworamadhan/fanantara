@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureMemberCheck
 {
-  
+
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
