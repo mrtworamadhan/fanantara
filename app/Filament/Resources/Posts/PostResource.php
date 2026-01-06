@@ -33,7 +33,7 @@ class PostResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('category', ['news', 'announcement', 'activity']);
+            ->whereIn('category', ['news', 'announcement', 'activity']);
     }
 
     public static function form(Schema $schema): Schema

@@ -16,24 +16,4 @@ class ManageSiteSettings extends ManageRecords
             CreateAction::make(),
         ];
     }
-    
-
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $data['value'] =
-            $data['value_text']
-            ?? $data['value_color']
-            ?? $data['value_image']
-            ?? null;
-
-        unset(
-            $data['value_text'],
-            $data['value_color'],
-            $data['value_image']
-        );
-
-        return $data;
-    }
-
-
 }

@@ -10,8 +10,7 @@
     </div>
 
 
-    <div class="flex-1 overflow-y-auto px-5 py-6 pb-50 no-scrollbar">
-
+    <div class="flex-1 overflow-y-auto px-5 py-6 pb-48 no-scrollbar">
 
         {{-- 1. Alamat --}}
         <div class="bg-white p-5 mb-3 rounded-2xl shadow-sm border border-gray-100">
@@ -124,28 +123,32 @@
                 </div>
             </div>
         </div>
-        <div
-            class="fixed bottom-0 left-0 right-0 p-5 bg-white/95 backdrop-blur-md border-t border-gray-100 max-w-md mx-auto z-50 rounded-t-[2.5rem] shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-            <div class="flex justify-between items-center mb-4">
-                <div>
-                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                        Total Bayar
-                    </p>
-                    <p class="text-xl font-black text-gray-900">
-                        Rp {{ number_format($totalAmount, 0, ',', '.') }}
-                    </p>
-                </div>
+
+        {{-- Spacer untuk fixed bottom button --}}
+        <div class="h-40"></div>
+    </div>
+
+    {{-- Fixed Bottom Button --}}
+    <div
+        class="fixed bottom-0 left-0 right-0 p-5 bg-white/95 backdrop-blur-md border-t border-gray-100 max-w-md mx-auto z-50 rounded-t-[2.5rem] shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                    Total Bayar
+                </p>
+                <p class="text-xl font-black text-gray-900">
+                    Rp {{ number_format($totalAmount, 0, ',', '.') }}
+                </p>
             </div>
-
-            <button wire:click="processOrder" wire:loading.attr="disabled" {{ ($paymentMethod === 'ss' && $saldoSukarela < $totalAmount) ? 'disabled' : '' }}
-                class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:text-gray-500 text-white font-black rounded-2xl shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2">
-                <span wire:loading.remove>BAYAR SEKARANG</span>
-                <span wire:loading>MEMPROSES...</span>
-            </button>
-
-            <div class="h-4"></div>
         </div>
-    
+
+        <button wire:click="processOrder" wire:loading.attr="disabled" {{ ($paymentMethod === 'ss' && $saldoSukarela < $totalAmount) ? 'disabled' : '' }}
+            class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:text-gray-500 text-white font-black rounded-2xl shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2">
+            <span wire:loading.remove>BAYAR SEKARANG</span>
+            <span wire:loading>MEMPROSES...</span>
+        </button>
+
+        <div class="h-4"></div>
     </div>
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }

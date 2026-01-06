@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto no-scrollbar bg-gray-100 px-4 pt-4 pb-24">
+    <div class="flex-1 overflow-y-auto no-scrollbar bg-gray-100 px-4 pt-4 pb-24 mb-6">
         <div class="grid grid-cols-2 gap-3">
             @foreach($products as $product)
                 <div class="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition">

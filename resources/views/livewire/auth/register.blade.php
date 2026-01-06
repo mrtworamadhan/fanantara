@@ -1,4 +1,41 @@
 <div class="relative min-h-screen w-full overflow-hidden bg-gray-900" x-data="{ showPassword: false }">
+    <style>
+        .gradient-primary {
+            background: linear-gradient(
+                135deg,
+                #22c55e 0%,
+                #16a34a 50%,
+                #15803d 100%
+            );
+        }
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-primary::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        }
+    </style>
 
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10"></div>
@@ -88,9 +125,14 @@
                         </label>
 
                         <button wire:click="nextStep"
-                            class="w-full py-3.5 rounded-xl font-bold text-white bg-emerald-600 shadow-lg mt-4 hover:bg-emerald-700 transition-all">
+                            class="w-full py-3.5 rounded-xl font-bold text-white btn-primary gradient-primary shadow-lg mt-4 transition-all">
                             Lanjut Isi Data
                         </button>
+
+                        <p class="text-center text-sm text-gray-500 mt-4">
+                            Sudah punya akun?
+                            <a href="{{ route('login') }}" class="font-bold text-emerald-600 hover:underline">Masuk</a>
+                        </p>
                     </div>
                 @endif
 
@@ -443,12 +485,18 @@
                             <button wire:click="prevStep"
                                 class="w-1/3 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all">Kembali</button>
                             <button wire:click="register" wire:loading.attr="disabled"
-                                class="w-2/3 py-3 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-lg transition-all flex justify-center items-center">
+                                class="w-2/3 py-3 rounded-xl font-bold text-white btn-primary gradient-primary shadow-lg transition-all flex justify-center items-center">
                                 <span wire:loading.remove>Daftar Sekarang</span>
                                 <span wire:loading>Memproses...</span>
                             </button>
                         </div>
                     </div>
+                    </div>
+                    
+                    <p class="text-center text-sm text-gray-500 mt-6 pb-6">
+                        Sudah punya akun?
+                        <a href="{{ route('login') }}" class="font-bold text-emerald-600 hover:underline">Masuk</a>
+                    </p>
                 @endif
             </div>
         </div>

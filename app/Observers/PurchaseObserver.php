@@ -15,6 +15,10 @@ class PurchaseObserver
     {
         if ($purchase->isDirty('status') && $purchase->status === 'received') {
             
+            // 1. TAMBAHKAN STOK KE GUDANG
+            $this->addStockToWarehouse($purchase);
+            
+            // 2. BUAT JURNAL (Jika belum ada)
             if (JournalEntry::where('sourceable_id', $purchase->id)->where('sourceable_type', Purchase::class)->exists()) {
                 return;
             }
@@ -23,16 +27,57 @@ class PurchaseObserver
         }
     }
 
+    protected function addStockToWarehouse(Purchase $purchase): void
+    {
+        foreach ($purchase->items as $item) {
+            // UpdateOrCreate stock record
+            $stock = \App\Models\InventoryStock::updateOrCreate(
+                [
+                    'warehouse_id' => $purchase->warehouse_id,
+                    'product_id' => $item->product_id,
+                ],
+                [
+                    'quantity' => DB::raw('quantity + ' . $item->quantity),
+                ]
+            );
+
+            // Jika baru dibuat, set quantity langsung (karena DB::raw tidak bekerja untuk insert)
+            if ($stock->wasRecentlyCreated) {
+                $stock->update(['quantity' => $item->quantity]);
+            }
+
+            // Log stock movement
+            \App\Models\StockMovement::create([
+                'inventory_stock_id' => $stock->id,
+                'user_id'            => auth()->id() ?? 1,
+                'type'               => 'in',
+                'quantity'           => $item->quantity,
+                'reference_number'   => $purchase->purchase_number,
+                'notes'              => 'Penerimaan barang dari PO: ' . $purchase->purchase_number,
+            ]);
+        }
+    }
+
     protected function createJournal(Purchase $purchase)
     {
-        $accPersediaan = Account::where('code', '1106')->first()->id; 
+        $accPersediaan = Account::where('code', '1106')->first();
+        
+        // Skip journal creation if account not found
+        if (!$accPersediaan) {
+            return;
+        }
 
         if ($purchase->payment_status === 'paid') {
-            $accKredit = Account::where('code', '1101')->first()->id; // Kas di Koperasi
+            $accKredit = Account::where('code', '1101')->first(); // Kas di Koperasi
             $keterangan = ' (Lunas Tunai)';
         } else {
-            $accKredit = Account::where('code', '2101')->first()->id; // Hutang Usaha
+            $accKredit = Account::where('code', '2101')->first(); // Hutang Usaha
             $keterangan = ' (Hutang/Tempo)';
+        }
+
+        // Skip if credit account not found
+        if (!$accKredit) {
+            return;
         }
 
         $period = AccountingPeriod::where('is_closed', false)->latest()->first();
@@ -54,7 +99,7 @@ class PurchaseObserver
             // Detail Jurnal (Debit: Persediaan)
             JournalItem::create([
                 'journal_entry_id' => $journal->id,
-                'account_id'       => $accPersediaan,
+                'account_id'       => $accPersediaan->id,
                 'debit'            => $purchase->total_amount,
                 'credit'           => 0,
             ]);
@@ -62,7 +107,7 @@ class PurchaseObserver
             // Detail Jurnal (Kredit: Kas atau Hutang)
             JournalItem::create([
                 'journal_entry_id' => $journal->id,
-                'account_id'       => $accKredit, // <--- DINAMIS
+                'account_id'       => $accKredit->id,
                 'debit'            => 0,
                 'credit'           => $purchase->total_amount,
             ]);

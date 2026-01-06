@@ -9,6 +9,14 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    />
+
     @filamentStyles
 
     @livewireStyles
@@ -50,7 +58,7 @@
 
 </head>
 
-<body class="bg-white font-sans antialiased text-gray-900 flex justify-center min-h-screen">
+<body class="bg-slate-50 font-sans antialiased text-gray-900 flex justify-center min-h-screen">
     <div id="global-splash" class="fixed inset-0 z-[9999] bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-700">
         <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center animate-bounce-slight">
             <img src="{{ asset('images/logoElemen.png') }}" class="w-20 h-20 mb-4 animate-spin-slow object-contain" >            

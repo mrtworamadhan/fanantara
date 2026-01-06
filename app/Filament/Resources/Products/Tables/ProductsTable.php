@@ -40,9 +40,9 @@ class ProductsTable
                     ->money('IDR')
                     ->sortable(),
                 
-                TextColumn::make('inventory_stocks_sum_quantity')
+                TextColumn::make('stock')
                     ->label('Stok Gudang')
-                    ->sum('inventoryStocks', 'quantity') 
+                    ->getStateUsing(fn ($record) => $record->inventoryStocks()->sum('quantity') ?: 0)
                     ->badge()
                     ->color(fn ($state) => $state <= 5 ? 'danger' : 'success')
                     ->sortable(),

@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <h1 class="mt-6 text-2xl font-bold text-red-600 tracking-tight animate-pulse">
+            <h1 class="mt-6 text-2xl font-bold text-blue-600 tracking-tight animate-pulse">
                 FANANTARA
             </h1>
             <h2 class="mt-1 text-lg font-semibold text-red-600 tracking-tight animate-pulse">
@@ -45,6 +45,44 @@
     </div>
 
 
+    <style>
+        .gradient-primary {
+            background: linear-gradient(
+                135deg,
+                #22c55e 0%,
+                #16a34a 50%,
+                #15803d 100%
+            );
+        }
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-primary::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: left 0.5s ease;
+        }
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        }
+    </style>
+
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10"></div>
 
@@ -53,7 +91,7 @@
             alt="Background Banner">
     </div>
 
-    <div class="absolute top-12 left-0 right-0 z-20 px-6">
+    <div class="absolute top-8 left-0 right-0 z-20 px-6">
         <div class="flex justify-center mb-3">
                 <div
                     class="w-25 h-25 bg-white/20 backdrop-blur-md
@@ -73,10 +111,10 @@
                     px-6 py-4
                     shadow-xl text-center">
 
-            <h2 class="text-3xl font-bold text-red-600 tracking-tight drop-shadow-lg">
+            <h2 class="text-3xl font-bold text-blue-600 tracking-tight drop-shadow-lg">
                 FANANTARA
             </h2>
-            <h3 class="text-xl font-bold text-red-600 tracking-tight drop-shadow-lg">
+            <h3 class="text-xl font-semibold text-red-600 tracking-tight drop-shadow-lg">
                 KOPERASI MULTIPIHAK
             </h3>
             <p class="text-black/90 text-sm mt-1 drop-shadow-md">
@@ -137,9 +175,9 @@
                     <a href="#" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lupa Password?</a>
                 </div>
 
-                <div class="pt-2 space-y-3">
+                <div class="space-y-3">
                     <button type="submit" wire:loading.attr="disabled"
-                        class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-white font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg shadow-emerald-500/30 transition-all transform active:scale-95">
+                        class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-white font-semibold btn-primary gradient-primary shadow-lg shadow-emerald-500/30 transition-all transform active:scale-95">
                         <span wire:loading.remove>Masuk Sekarang</span>
                         <span wire:loading><svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -159,7 +197,7 @@
                     </a>
                 </div>
 
-                <p class="text-center text-sm text-gray-500 mt-6">
+                <p class="text-center text-sm text-gray-500 mt-4">
                     Belum menjadi anggota?
                     <a href="{{ route('register') }}" class="font-bold text-emerald-600 hover:underline">Daftar Akun</a>
                 </p>

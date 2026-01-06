@@ -84,6 +84,14 @@ class SiteSettingSeeder extends Seeder
                 'label' => 'Alamat Kantor',
                 'type' => 'textarea',
             ],
+
+            // Dokumen
+            [
+                'key' => 'adart_file',
+                'value' => 'documents/adart.pdf',
+                'label' => 'File AD/ART (PDF)',
+                'type' => 'file',
+            ],
         ];
 
         foreach ($settings as $setting) {

@@ -97,7 +97,7 @@ Route::middleware('auth')->group(function () {
 
     // --- Dashboard (Strict Access) ---
     Route::get('/dashboard', Dashboard::class)
-        ->middleware(['verified', 'member.check'])
+        ->middleware(['member.check'])
         ->name('dashboard');
 
     // --- POS System ---
