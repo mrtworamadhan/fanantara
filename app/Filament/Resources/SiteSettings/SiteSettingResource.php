@@ -15,6 +15,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
@@ -43,6 +44,7 @@ class SiteSettingResource extends Resource
             'text' => $data['value_text'] = $data['value'],
             'color' => $data['value_color'] = $data['value'],
             'image' => $data['value_image'] = $data['value'],
+            'file' => $data['value_file'] = $data['value'],
             default => null,
         };
 
@@ -82,6 +84,17 @@ class SiteSettingResource extends Resource
                         ->dehydrated(false)
                         ->visible(fn (Get $get) => $get('type') === 'image'),
 
+                    FileUpload::make('value_file')
+                        ->label('Upload File PDF Baru')
+                        ->acceptedFileTypes(['application/pdf'])
+                        ->directory('documents')
+                        ->disk('public')
+                        ->dehydrated(true)
+                        ->helperText(fn ($record) => $record && $record->value 
+                            ? new \Illuminate\Support\HtmlString('File saat ini: <a href="' . asset('storage/' . $record->value) . '" target="_blank" class="text-primary-600 hover:underline">' . basename($record->value) . '</a>')
+                            : 'Belum ada file yang diupload')
+                        ->visible(fn (Get $get) => $get('type') === 'file'),
+
                     Hidden::make('type'),
                 ])->columnSpanFull()
                     
@@ -100,6 +113,7 @@ class SiteSettingResource extends Resource
                 TextColumn::make('value')
                     ->formatStateUsing(fn ($state, $record) => match ($record->type) {
                         'image' => '🖼 Gambar',
+                        'file' => '📄 File PDF',
                         default => (string) $state,
                     })
                     ->limit(50),
@@ -116,7 +130,67 @@ class SiteSettingResource extends Resource
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->mutateRecordDataUsing(function (array $data): array {
+                        // Load existing value into appropriate field based on type
+                        match ($data['type'] ?? null) {
+                            'text', 'textarea' => $data['value_text'] = $data['value'] ?? null,
+                            'color' => $data['value_color'] = $data['value'] ?? null,
+                            // FileUpload expects array format for existing files
+                            'image' => $data['value_image'] = !empty($data['value']) ? [$data['value']] : [],
+                            'file' => $data['value_file'] = !empty($data['value']) ? [$data['value']] : [],
+                            default => null,
+                        };
+                        return $data;
+                    })
+                    ->using(function ($record, array $data) {
+                        // Store old value for cleanup
+                        $oldValue = $record->value;
+                        
+                        // Handle different field types
+                        if ($record->type === 'file' && isset($data['value_file'])) {
+                            // File upload - FileUpload returns an array, get the first element
+                            $filePath = is_array($data['value_file']) 
+                                ? (reset($data['value_file']) ?: null) 
+                                : $data['value_file'];
+                            
+                            // Only update if a new file was uploaded
+                            if ($filePath) {
+                                $newPath = 'documents/' . basename($filePath);
+                                
+                                // Delete old file if it exists and is different from new file
+                                if ($oldValue && $oldValue !== $newPath && Storage::disk('public')->exists($oldValue)) {
+                                    Storage::disk('public')->delete($oldValue);
+                                }
+                                
+                                $record->value = $newPath;
+                            }
+                        } elseif ($record->type === 'image' && isset($data['value_image'])) {
+                            $imagePath = is_array($data['value_image']) 
+                                ? (reset($data['value_image']) ?: null) 
+                                : $data['value_image'];
+                            
+                            if ($imagePath) {
+                                $newPath = 'settings/' . basename($imagePath);
+                                
+                                // Delete old image if it exists and is different from new image
+                                if ($oldValue && $oldValue !== $newPath && Storage::disk('public')->exists($oldValue)) {
+                                    Storage::disk('public')->delete($oldValue);
+                                }
+                                
+                                $record->value = $newPath;
+                            }
+                        } elseif ($record->type === 'color' && isset($data['value_color'])) {
+                            $record->value = $data['value_color'];
+                        } elseif (isset($data['value_text'])) {
+                            $record->value = $data['value_text'];
+                        }
+                        
+                        // Save only the value field
+                        $record->save();
+                        
+                        return $record;
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

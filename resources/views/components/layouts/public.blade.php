@@ -205,7 +205,7 @@
             transition: all 0.3s ease;
         }
         .hamburger-icon:hover {
-            color: #9333ea;
+            color: #4b5563;
             transform: scale(1.1);
         }
         /* Banner Animations */
@@ -328,40 +328,32 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 50px;
-            height: 50px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: linear-gradient(
-                135deg,
-                rgba(34, 197, 94, 0.85),
-                rgba(147, 51, 234, 0.85)
-            );
-            color: white;
+            background: white;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
             z-index: 999;
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
-            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease,
-                background 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         .scroll-up-btn:hover {
-            background: linear-gradient(
-                135deg,
-                rgba(34, 197, 94, 1),
-                rgba(147, 51, 234, 1)
-            );
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+            background: #f9fafb;
+            color: #374151;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
         .scroll-up-btn.visible {
-            opacity: 0.7;
+            opacity: 0.8;
             visibility: visible;
             transform: translateY(0);
         }

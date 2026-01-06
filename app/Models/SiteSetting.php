@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class SiteSetting extends Model
 {
-    protected $guarded = [];
+    // Only allow these fields to be mass-assigned (prevents value_file, value_text, etc. from being saved)
+    protected $fillable = [
+        'key',
+        'value',
+        'type',
+        'label',
+    ];
 
     /**
      * Get setting value by key

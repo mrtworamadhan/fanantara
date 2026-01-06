@@ -1,4 +1,8 @@
-<div>
+@php
+    $adartFile = \App\Models\SiteSetting::get('adart_file', 'documents/adart.pdf');
+@endphp
+
+<x-layouts.public title="AD/ART">
     <!-- Hero Header - Mobile First -->
     <section class="pt-24 pb-6 md:pt-28 md:pb-8 bg-gradient-to-br from-emerald-50 via-white to-purple-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -53,10 +57,10 @@
                     </div>
 
                     <!-- PDF Pages akan di-render disini -->
-                    <div id="pdf-pages" class="hidden flex-col items-center gap-3 p-3 max-h-[50vh] md:max-h-[80vh] overflow-y-auto"></div>
+                    <div id="pdf-pages" class="hidden flex-col items-center gap-3 p-3 max-h-[70vh] overflow-y-auto"></div>
 
                     <!-- Error State -->
-                    <div id="pdf-error" class="hidden flex flex-col items-center justify-center py-16 px-4 text-center">
+                    <div id="pdf-error" class="hidden flex-col items-center justify-center py-16 px-4 text-center">
                         <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
                             <i class="bi bi-exclamation-triangle-fill text-red-500 text-2xl"></i>
                         </div>
@@ -95,74 +99,72 @@
         </div>
     </section>
 
-    @assets
+    <!-- PDF.js Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    @endassets
-
-    @script
     <script>
-        const pdfUrl = "{{ asset('storage/' . $adartFile) }}";
-        const pagesContainer = document.getElementById('pdf-pages');
-        const loadingEl = document.getElementById('pdf-loading');
-        const errorEl = document.getElementById('pdf-error');
-        const controlsEl = document.getElementById('pdf-controls');
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfUrl = "{{ asset('storage/' . $adartFile) }}";
+            const pagesContainer = document.getElementById('pdf-pages');
+            const loadingEl = document.getElementById('pdf-loading');
+            const errorEl = document.getElementById('pdf-error');
+            const controlsEl = document.getElementById('pdf-controls');
 
-        // Set worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            // Set worker
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // Load PDF
-        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-            loadingEl.classList.add('hidden');
-            pagesContainer.classList.remove('hidden');
-            pagesContainer.classList.add('flex');
-            controlsEl.classList.remove('hidden');
-            
-            document.getElementById('pdf-total').textContent = pdf.numPages;
-
-            // Render semua halaman
-            for (let i = 1; i <= pdf.numPages; i++) {
-                renderPage(pdf, i);
-            }
-        }).catch(function(error) {
-            console.error('PDF Error:', error);
-            loadingEl.classList.add('hidden');
-            errorEl.classList.remove('hidden');
-            errorEl.classList.add('flex');
-        });
-
-        function renderPage(pdf, pageNum) {
-            pdf.getPage(pageNum).then(function(page) {
-                const containerWidth = pagesContainer.clientWidth - 24;
-                const viewport = page.getViewport({ scale: 1.0 });
-                const scale = containerWidth / viewport.width;
-                const scaledViewport = page.getViewport({ scale: scale });
-
-                const canvas = document.createElement('canvas');
-                canvas.className = 'bg-white shadow rounded-lg';
-                canvas.width = scaledViewport.width;
-                canvas.height = scaledViewport.height;
+            // Load PDF
+            pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+                loadingEl.classList.add('hidden');
+                pagesContainer.classList.remove('hidden');
+                pagesContainer.classList.add('flex');
+                controlsEl.classList.remove('hidden');
                 
-                pagesContainer.appendChild(canvas);
+                document.getElementById('pdf-total').textContent = pdf.numPages;
 
-                page.render({
-                    canvasContext: canvas.getContext('2d'),
-                    viewport: scaledViewport
-                });
-            });
-        }
-
-        // Track halaman saat scroll
-        pagesContainer.addEventListener('scroll', function() {
-            const canvases = pagesContainer.querySelectorAll('canvas');
-            const containerTop = pagesContainer.getBoundingClientRect().top;
-            
-            canvases.forEach((canvas, index) => {
-                const rect = canvas.getBoundingClientRect();
-                if (rect.top <= containerTop + 100 && rect.bottom >= containerTop) {
-                    document.getElementById('pdf-current').textContent = index + 1;
+                // Render semua halaman
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    renderPage(pdf, i);
                 }
+            }).catch(function(error) {
+                console.error('PDF Error:', error);
+                loadingEl.classList.add('hidden');
+                errorEl.classList.remove('hidden');
+                errorEl.classList.add('flex');
+            });
+
+            function renderPage(pdf, pageNum) {
+                pdf.getPage(pageNum).then(function(page) {
+                    const containerWidth = pagesContainer.clientWidth - 24;
+                    const viewport = page.getViewport({ scale: 1.0 });
+                    const scale = containerWidth / viewport.width;
+                    const scaledViewport = page.getViewport({ scale: scale });
+
+                    const canvas = document.createElement('canvas');
+                    canvas.className = 'bg-white shadow rounded-lg';
+                    canvas.width = scaledViewport.width;
+                    canvas.height = scaledViewport.height;
+                    
+                    pagesContainer.appendChild(canvas);
+
+                    page.render({
+                        canvasContext: canvas.getContext('2d'),
+                        viewport: scaledViewport
+                    });
+                });
+            }
+
+            // Track halaman saat scroll
+            pagesContainer.addEventListener('scroll', function() {
+                const canvases = pagesContainer.querySelectorAll('canvas');
+                const containerTop = pagesContainer.getBoundingClientRect().top;
+                
+                canvases.forEach((canvas, index) => {
+                    const rect = canvas.getBoundingClientRect();
+                    if (rect.top <= containerTop + 100 && rect.bottom >= containerTop) {
+                        document.getElementById('pdf-current').textContent = index + 1;
+                    }
+                });
             });
         });
     </script>
-    @endscript
-</div>
+</x-layouts.public>

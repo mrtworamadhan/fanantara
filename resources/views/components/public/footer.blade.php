@@ -97,12 +97,12 @@
                             class="text-gray-600 hover:text-primary-600 text-sm transition"
                         >Daftar</a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a
                             href="{{ route('adart') }}"
                             class="text-gray-600 hover:text-primary-600 text-sm transition"
                         >AD/ART</a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a
                             href="{{ route('contact') }}"

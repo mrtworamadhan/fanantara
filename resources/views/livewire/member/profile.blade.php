@@ -1,6 +1,7 @@
-@use('SimpleSoftwareIO\QrCode\Facades\QrCode')
-
 <div class="h-screen bg-gray-50 flex flex-col relative overflow-hidden font-sans">
+    @php
+        use SimpleSoftwareIO\QrCode\Facades\QrCode;
+    @endphp
     
     <div class="bg-emerald-800 px-5 pt-5 pb-6 shadow-lg shadow-emerald-900/20 z-40 flex-none relative">
         <div class="flex items-center justify-between mb-5">
@@ -12,7 +13,7 @@
             </div>
 
             <button wire:click="logout" 
-                class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/20 text-red-100 border border-red-500/30 active:scale-90 transition-all backdrop-blur-sm">
+                class="flex items-center gap-2 px-3 py-1.5 rounded-full border-2 border-red-400 bg-transparent hover:bg-red-500 text-red-100 hover:text-white active:scale-95 transition-all">
                 <span class="text-xs font-bold uppercase tracking-wider">Keluar</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -146,7 +147,7 @@
                             </div>
                         </div>
 
-                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-md">
+                        <div class="bg-white p-5 mb-9 rounded-2xl border border-gray-100 shadow-md">
                             <div class="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
                                 <div class="p-1.5 bg-blue-100 rounded-lg text-blue-600">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -167,7 +168,7 @@
                                         @if($new_ktp)
                                             <img src="{{ $new_ktp->temporaryUrl() }}" class="absolute inset-0 w-full h-full object-cover">
                                         @elseif($existing_ktp)
-                                            <img src="{{ Storage::url($existing_ktp) }}" class="absolute inset-0 w-full h-full object-cover">
+                                            <img src="{{ asset('storage/' . $existing_ktp) }}" class="absolute inset-0 w-full h-full object-cover">
                                         @else
                                             <div class="text-center">
                                                 <svg class="w-8 h-8 text-gray-300 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -189,7 +190,7 @@
                                         @if($new_npwp_ind)
                                             <img src="{{ $new_npwp_ind->temporaryUrl() }}" class="absolute inset-0 w-full h-full object-cover">
                                         @elseif($existing_npwp_ind)
-                                            <img src="{{ Storage::url($existing_npwp_ind) }}" class="absolute inset-0 w-full h-full object-cover">
+                                            <img src="{{ asset('storage/' . $existing_npwp_ind) }}" class="absolute inset-0 w-full h-full object-cover">
                                         @else
                                             <span class="text-xs text-gray-400 font-medium">Opsional</span>
                                         @endif
@@ -501,7 +502,7 @@
                     </div>
 
                     <div class="w-full max-w-[340px] grid grid-cols-2 gap-3 mt-2">
-                        <a href="{{ route('print.card', $member->id) }}" target="_blank" class="flex items-center justify-center gap-2 py-3 bg-emerald-600 text-white rounded-xl font-bold text-xs shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 transition-all">
+                        <a href="{{ route('print.card', $member->id) }}" target="_blank" class="flex items-center justify-center gap-2 py-3 bg-gradient-to-br from-emerald-600 to-teal-800 text-white rounded-xl font-bold text-xs shadow-lg shadow-emerald-500/20 hover:from-emerald-700 hover:to-teal-900 transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12"></path></svg>
                             Download PDF
                         </a>

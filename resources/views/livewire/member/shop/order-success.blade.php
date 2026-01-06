@@ -4,17 +4,18 @@
 
     <div class="relative z-10 w-full max-w-md animate-fade-in-up">
         
-        <div class="bg-white rounded-3xl shadow-xl overflow-hidden text-center p-8 pt-25 relative">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden text-center p-8 relative">
             
-            <div class="absolute top-5 left-1/2 transform -translate-x-1/2">
-                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
+            {{-- Icon Ceklis --}}
+            <div class="flex justify-center mb-5">
+                <div class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center">
                     <div class="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center animate-scale-in">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                 </div>
             </div>
 
-            <h1 class="text-2xl font-black text-gray-800 mt-4 mb-2">Pembayaran Berhasil!</h1>
+            <h1 class="text-2xl font-black text-gray-800 mb-2">Pembayaran Berhasil!</h1>
             <p class="text-sm text-gray-500 mb-8">Terima kasih telah berbelanja di Koperasi.</p>
 
             <div class="bg-gray-50 rounded-2xl p-5 mb-6 text-left border border-gray-100 border-dashed">

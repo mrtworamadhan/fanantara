@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto no-scrollbar bg-gradient-to-b from-emerald-700 via-gray-50 to-white px-4 pt-4 pb-24">
+    <div class="flex-1 overflow-y-auto no-scrollbar bg-gradient-to-b from-emerald-700 via-gray-50 to-white px-4 pt-4 pb-24 mb-6">
         <div class="space-y-3 animate-fade-in">
             @forelse($articles as $article)
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm active:scale-[0.98] transition-all relative">

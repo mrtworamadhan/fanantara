@@ -4,7 +4,7 @@
 @endphp
 <!-- Navbar -->
 <nav
-    class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300"
+    class="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm transition-all duration-300"
     id="navbar"
 >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +48,7 @@
 
             <!-- Mobile Toggle -->
             <button
-                class="md:hidden text-2xl text-primary-600 hamburger-icon"
+                class="md:hidden text-2xl text-gray-700 hamburger-icon"
                 onclick="toggleMobileMenu()"
                 id="menuBtn"
             >

@@ -216,8 +216,7 @@
             </div>
 
             <div class="qr-box">
-                <img src="data:image/png;base64,{{ base64_encode(QrCode::format('png')->size(100)->margin(0)->generate($member->member_number)) }}" 
-                     style="width: 100%; height: 100%;">
+                {!! QrCode::size(100)->margin(0)->generate($member->member_number) !!}
             </div>
         </div>
     </div>

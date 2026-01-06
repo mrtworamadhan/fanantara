@@ -34,7 +34,7 @@
     </div>
 
     {{-- ================= LIST BARANG ================= --}}
-    <div class="flex-1 overflow-y-auto no-scrollbar bg-gray-50 relative w-full pb-40">
+    <div class="flex-1 overflow-y-auto no-scrollbar bg-gray-50 relative w-full pb-40 mb-6">
         <div class="px-5 py-4 space-y-3">
             
             @forelse($cartItems as $item)
@@ -99,6 +99,9 @@
             @endforelse
 
         </div>
+
+        {{-- Spacer untuk fixed bottom button --}}
+        <div class="h-40"></div>
     </div>
 
     {{-- ================= FOOTER DINAMIS ================= --}}
