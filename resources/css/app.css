@@ -13,18 +13,16 @@
     --color-primary-50: var(--color-emerald-50);
     --color-primary-100: var(--color-emerald-100);
     --color-primary-500: var(--color-emerald-500);
-    --color-primary-600: var(--color-emerald-600); /* Main Brand Color */
+    --color-primary-600: var(--color-emerald-600); 
     --color-primary-700: var(--color-emerald-700);
 
-    /* SECONDARY: Ungu Elegan (Accent / Tombol Penting) */
     --color-secondary-50: var(--color-violet-50);
     --color-secondary-100: var(--color-violet-100);
     --color-secondary-500: var(--color-violet-500);
-    --color-secondary-600: var(--color-violet-600); /* Accent Color */
+    --color-secondary-600: var(--color-violet-600); 
     --color-secondary-700: var(--color-violet-700);
 }
 
-/* Custom Scrollbar (Optional - Biar rapi di HP) */
 .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
 }

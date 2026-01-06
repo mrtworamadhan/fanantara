@@ -275,6 +275,15 @@ class Profile extends Component
         return redirect()->route('dashboard');
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
+
     public function render()
     {
         return view('livewire.member.profile');

@@ -2,12 +2,22 @@
 
 <div class="h-screen bg-gray-50 flex flex-col relative overflow-hidden font-sans">
     
-    <div class="bg-emerald-800 px-5 pt-10 pb-6 shadow-lg shadow-emerald-900/20 z-40 flex-none relative">
-        <div class="flex items-center gap-3 mb-5">
-            <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all -ml-2 backdrop-blur-sm">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            </a>
-            <h1 class="text-xl font-bold text-white tracking-tight drop-shadow-sm">Profil & KTA</h1>
+    <div class="bg-emerald-800 px-5 pt-5 pb-6 shadow-lg shadow-emerald-900/20 z-40 flex-none relative">
+        <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-3">
+                <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all -ml-2 backdrop-blur-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </a>
+                <h1 class="text-xl font-bold text-white tracking-tight drop-shadow-sm">Profil & KTA</h1>
+            </div>
+
+            <button wire:click="logout" 
+                class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/20 text-red-100 border border-red-500/30 active:scale-90 transition-all backdrop-blur-sm">
+                <span class="text-xs font-bold uppercase tracking-wider">Keluar</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+            </button>
         </div>
 
         <div class="p-1 bg-emerald-500/40 backdrop-blur-md rounded-xl flex gap-1 border border-emerald-500/30">

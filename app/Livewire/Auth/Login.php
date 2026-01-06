@@ -23,19 +23,29 @@ class Login extends Component
         $this->validate();
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            
             session()->regenerate();
-            
             $user = Auth::user();
 
             if ($user->member->status !== 'active') {
-                return redirect()->route('member.activation');
+                // Contoh notif gagal karena status belum aktif
+                $this->dispatch('notify', [
+                    'type' => 'warning',
+                    'title' => 'Akun Belum Aktif',
+                    'message' => 'Silahkan lakukan aktivasi terlebih dahulu.'
+                ]);
+                Auth::logout();
+                return;
             }
 
             return redirect()->intended('/dashboard');
         }
 
-        $this->addError('email', 'Email atau password salah.');
+        // Jika Gagal Login
+        $this->dispatch('notify', [
+            'type' => 'error',
+            'title' => 'Login Gagal',
+            'message' => 'Email atau password yang kamu masukkan salah.'
+        ]);
     }
 
     public function render()

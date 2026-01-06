@@ -16,12 +16,71 @@
 
     <style>
         [x-cloak] { display: none !important; }
+        
+        #nprogress .bar { background: #D4AF37 !important; height: 3px !important; box-shadow: 0 0 10px #D4AF37; }
+
+        .animate-bounce-soft {
+            animation: bounceSoft 1.4s ease-in-out infinite;
+        }
+
+            @keyframes bounceSoft {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+
+        
+        #global-splash {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out; 
+        }
+
+        body.page-ready #global-splash {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
     </style>
 
 </head>
 
 <body class="bg-white font-sans antialiased text-gray-900 flex justify-center min-h-screen">
-    
+    <div id="global-splash" class="fixed inset-0 z-[9999] bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-700">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center animate-bounce-slight">
+            <img src="{{ asset('images/logoElemen.png') }}" class="w-20 h-20 mb-4 animate-spin-slow object-contain" >            
+            <span class="text-xs font-bold text-black uppercase tracking-[0.2em] animate-pulse">Memuat...</span>
+        </div>
+    </div>
+
+    <script>
+        const SPLASH_DELAY = 2000; 
+
+        function hideSplashWithDelay() {
+            setTimeout(() => {
+                document.body.classList.add('page-ready');
+            }, SPLASH_DELAY);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            hideSplashWithDelay();
+        });
+
+        document.addEventListener('livewire:navigating', () => {
+            document.body.classList.remove('page-ready');
+        });
+
+        document.addEventListener('livewire:navigated', () => {
+            applyTheme();
+            hideSplashWithDelay();
+        });
+    </script>
+
     <main class="w-full max-w-md bg-white min-h-screen relative flex flex-col overflow-hidden">
         
         <div class="flex-1 overflow-y-auto custom-scrollbar">
