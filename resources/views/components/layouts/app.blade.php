@@ -59,12 +59,12 @@
 </head>
 
 <body class="bg-slate-50 font-sans antialiased text-gray-900 flex justify-center min-h-screen">
-    <div id="global-splash" class="fixed inset-0 z-[9999] bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-700">
+    {{-- <div id="global-splash" class="fixed inset-0 z-[9999] bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-700">
         <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center animate-bounce-slight">
             <img src="{{ asset('images/logoElemen.png') }}" class="w-20 h-20 mb-4 animate-spin-slow object-contain" >            
             <span class="text-xs font-bold text-black uppercase tracking-[0.2em] animate-pulse">Memuat...</span>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         const SPLASH_DELAY = 2000; 

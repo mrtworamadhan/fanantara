@@ -1,6 +1,6 @@
 <div>
     <!-- Hero Header - Compact Mobile First -->
-    <section class="pt-24 pb-8 md:pt-28 md:pb-12 bg-gradient-to-br from-purple-50 via-white to-emerald-50">
+    <section class="pt-24 pb-8 md:pt-28 md:pb-12 bg-gradient-to-br from-purple-50 via-white to-primary-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <span class="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 text-purple-700 text-sm font-bold rounded-full mb-4">
@@ -60,7 +60,7 @@
                                     {{ $article->created_at->diffForHumans() }}
                                 </p>
 
-                                <h2 class="text-sm font-bold text-gray-900 leading-snug line-clamp-3 hover:text-emerald-600 transition-colors">
+                                <h2 class="text-sm font-bold text-gray-900 leading-snug line-clamp-3 hover:text-primary-600 transition-colors">
                                     {{ $article->title }}
                                 </h2>
                             </div>
@@ -69,7 +69,7 @@
                         <div class="flex items-center justify-between px-4 pb-3">
                             <a 
                                 href="{{ route('articles.show', $article->slug) }}"
-                                class="text-emerald-600 text-[11px] font-black uppercase tracking-tight inline-flex items-center gap-1"
+                                class="text-primary-600 text-[11px] font-black uppercase tracking-tight inline-flex items-center gap-1"
                             >
                                 Baca Detail
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@
 
                             <button
                                 onclick="shareArticle('{{ addslashes($article->title) }}', '{{ route('articles.show', $article->slug) }}')"
-                                class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-emerald-50 hover:text-emerald-600 transition-all"
+                                class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-primary-50 hover:text-primary-600 transition-all"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -3,7 +3,7 @@
         use SimpleSoftwareIO\QrCode\Facades\QrCode;
     @endphp
     
-    <div class="bg-emerald-800 px-5 pt-5 pb-6 shadow-lg shadow-emerald-900/20 z-40 flex-none relative">
+    <div class="bg-purple-800 px-5 pt-5 pb-6 shadow-lg shadow-purple-900/20 z-40 flex-none relative">
         <div class="flex items-center justify-between mb-5">
             <div class="flex items-center gap-3">
                 <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all -ml-2 backdrop-blur-sm">
@@ -21,40 +21,40 @@
             </button>
         </div>
 
-        <div class="p-1 bg-emerald-500/40 backdrop-blur-md rounded-xl flex gap-1 border border-emerald-500/30">
+        <div class="p-1 bg-purple-500/40 backdrop-blur-md rounded-xl flex gap-1 border border-purple-500/30">
             <button type="button" @click="$wire.set('activeTab', 'basic')" 
                 class="flex-1 py-2.5 text-[10px] sm:text-xs font-bold rounded-lg transition-all duration-300
-                {{ $activeTab == 'basic' ? 'bg-amber-400 text-emerald-700 shadow-md transform scale-[1.02]' : 'text-emerald-100 hover:text-white hover:bg-white/5' }}">
+                {{ $activeTab == 'basic' ? 'bg-amber-400 text-purple-700 shadow-md transform scale-[1.02]' : 'text-purple-100 hover:text-white hover:bg-white/5' }}">
                 Pribadi
             </button>
             <button type="button" @click="$wire.set('activeTab', 'economy')" 
                 class="flex-1 py-2.5 text-[10px] sm:text-xs font-bold rounded-lg transition-all duration-300
-                {{ $activeTab == 'economy' ? 'bg-amber-400 text-emerald-700 shadow-md transform scale-[1.02]' : 'text-emerald-100 hover:text-white hover:bg-white/5' }}">
+                {{ $activeTab == 'economy' ? 'bg-amber-400 text-purple-700 shadow-md transform scale-[1.02]' : 'text-purple-100 hover:text-white hover:bg-white/5' }}">
                 Ekonomi
             </button>
             <button type="button" @click="$wire.set('activeTab', 'kta')" 
                 class="flex-1 py-2.5 text-[10px] sm:text-xs font-bold rounded-lg transition-all duration-300
-                {{ $activeTab == 'kta' ? 'bg-amber-400 text-emerald-900 shadow-md transform scale-[1.02]' : 'text-emerald-100 hover:text-white hover:bg-white/5' }}">
+                {{ $activeTab == 'kta' ? 'bg-amber-400 text-purple-900 shadow-md transform scale-[1.02]' : 'text-purple-100 hover:text-white hover:bg-white/5' }}">
                 KTA Digital
             </button>
         </div>
     </div>  
 
-    <div class="flex-1 overflow-y-auto bg-gradient-to-b from-emerald-800 via-gray-50 to-white relative w-full no-scrollbar">
+    <div class="flex-1 overflow-y-auto bg-gradient-to-b from-purple-800 via-gray-50 to-white relative w-full no-scrollbar">
         
-        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-emerald-800 to-transparent pointer-events-none"></div>
+        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-purple-800 to-transparent pointer-events-none"></div>
 
         <div class="px-5 py-6 space-y-6 pb-32 relative z-10"> 
             
             @if($activeTab == 'basic')
                 <div class="space-y-6 animate-fade-in">
                     
-                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-xl shadow-emerald-900/5">
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-xl shadow-purple-900/5">
                         
                         <div class="flex flex-col items-center mb-6 -mt-10">
                             <div class="relative group cursor-pointer" onclick="document.getElementById('profile_photo').click()">
                                 <div class="w-24 h-24 rounded-full bg-white p-1 shadow-lg transition-transform group-hover:scale-105">
-                                    <div class="w-full h-full rounded-full overflow-hidden bg-emerald-100 relative">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-purple-100 relative">
                                         
                                         @if ($new_profile_photo)
                                             <img src="{{ $new_profile_photo->temporaryUrl() }}" class="w-full h-full object-cover">
@@ -78,7 +78,7 @@
                                        class="hidden" 
                                        accept="image/*"> 
                             </div>
-                            <p class="text-[10px] font-bold text-emerald-600 mt-2 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100 uppercase tracking-wider">{{ $member->member_number }}</p>
+                            <p class="text-[10px] font-bold text-purple-600 mt-2 bg-purple-50 px-3 py-1 rounded-full border border-purple-100 uppercase tracking-wider">{{ $member->member_number }}</p>
                         </div>
 
                         <div class="space-y-4">
@@ -92,7 +92,7 @@
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Alamat Domisili</label>
-                                <textarea wire:model="address" rows="3" class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all placeholder-gray-400 font-medium"></textarea>
+                                <textarea wire:model="address" rows="3" class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all placeholder-gray-400 font-medium"></textarea>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     @if($member->type == 'individual')
                         <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-md">
                             <div class="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
-                                <div class="p-1.5 bg-emerald-100 rounded-lg text-emerald-600">
+                                <div class="p-1.5 bg-purple-100 rounded-lg text-purple-600">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                 </div>
                                 <h3 class="text-sm font-bold text-gray-900">Detail Pribadi</h3>
@@ -115,11 +115,11 @@
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Tempat Lahir</label>
-                                        <input type="text" wire:model="place_of_birth" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                        <input type="text" wire:model="place_of_birth" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Tgl Lahir</label>
-                                        <input type="date" wire:model="birth_date" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                        <input type="date" wire:model="birth_date" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                     </div>
                                 </div>
 
@@ -127,7 +127,7 @@
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Gender</label>
                                         <div class="relative">
-                                            <select wire:model="gender" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all appearance-none">
+                                            <select wire:model="gender" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all appearance-none">
                                                 <option value="m">Laki-laki</option>
                                                 <option value="f">Perempuan</option>
                                             </select>
@@ -136,13 +136,13 @@
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">No WhatsApp</label>
-                                        <input type="tel" wire:model="phone" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                        <input type="tel" wire:model="phone" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                     </div>
                                 </div>
 
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Nama Ibu Kandung</label>
-                                    <input type="text" wire:model="mother_name" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                    <input type="text" wire:model="mother_name" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                 </div>
                             </div>
                         </div>
@@ -159,12 +159,12 @@
                                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                                     <div class="flex justify-between items-center mb-3">
                                         <label class="text-xs font-bold text-gray-500 uppercase">Foto KTP</label>
-                                        <label for="ktp" class="text-[10px] font-bold text-emerald-600 bg-white border border-emerald-200 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-emerald-50 shadow-sm transition-all">
+                                        <label for="ktp" class="text-[10px] font-bold text-purple-600 bg-white border border-purple-200 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-purple-50 shadow-sm transition-all">
                                             {{ $existing_ktp ? 'Ubah File' : '+ Upload' }}
                                         </label>
                                         <input type="file" id="ktp" wire:model="new_ktp" class="hidden">
                                     </div>
-                                    <div class="h-40 w-full bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative group hover:border-emerald-400 transition-colors">
+                                    <div class="h-40 w-full bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative group hover:border-purple-400 transition-colors">
                                         @if($new_ktp)
                                             <img src="{{ $new_ktp->temporaryUrl() }}" class="absolute inset-0 w-full h-full object-cover">
                                         @elseif($existing_ktp)
@@ -181,12 +181,12 @@
                                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                                     <div class="flex justify-between items-center mb-3">
                                         <label class="text-xs font-bold text-gray-500 uppercase">Foto NPWP</label>
-                                        <label for="npwp" class="text-[10px] font-bold text-emerald-600 bg-white border border-emerald-200 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-emerald-50 shadow-sm transition-all">
+                                        <label for="npwp" class="text-[10px] font-bold text-purple-600 bg-white border border-purple-200 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-purple-50 shadow-sm transition-all">
                                             {{ $existing_npwp_ind ? 'Ubah File' : '+ Upload' }}
                                         </label>
                                         <input type="file" id="npwp" wire:model="new_npwp_ind" class="hidden">
                                     </div>
-                                    <div class="h-24 w-full bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative group hover:border-emerald-400 transition-colors">
+                                    <div class="h-24 w-full bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative group hover:border-purple-400 transition-colors">
                                         @if($new_npwp_ind)
                                             <img src="{{ $new_npwp_ind->temporaryUrl() }}" class="absolute inset-0 w-full h-full object-cover">
                                         @elseif($existing_npwp_ind)
@@ -216,11 +216,11 @@
                                 </div>
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">NPWP Perusahaan</label>
-                                    <input type="text" wire:model="npwp" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                    <input type="text" wire:model="npwp" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                 </div>
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Tanggal Berdiri</label>
-                                    <input type="date" wire:model="establishment_date" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                    <input type="date" wire:model="establishment_date" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                 </div>
                             </div>
                         </div>
@@ -236,12 +236,12 @@
                             <div class="space-y-5">
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Nama Lengkap PIC</label>
-                                    <input type="text" wire:model="pic_name" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                    <input type="text" wire:model="pic_name" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">No HP PIC</label>
-                                        <input type="tel" wire:model="pic_phone" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all">
+                                        <input type="tel" wire:model="pic_phone" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all">
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Jabatan</label>
@@ -262,7 +262,7 @@
                             <div class="space-y-4">
                                 <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-emerald-600 border border-gray-200 shadow-sm">
+                                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-purple-600 border border-gray-200 shadow-sm">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                         </div>
                                         <div>
@@ -270,7 +270,7 @@
                                             <p class="text-[10px] text-gray-400">{{ $existing_nib ? 'File tersedia' : 'Belum ada file' }}</p>
                                         </div>
                                     </div>
-                                    <label for="file_nib" class="text-[10px] font-bold text-white bg-emerald-500 hover:bg-emerald-600 px-3 py-1.5 rounded-lg cursor-pointer shadow-sm transition-all">
+                                    <label for="file_nib" class="text-[10px] font-bold text-white bg-purple-500 hover:bg-purple-600 px-3 py-1.5 rounded-lg cursor-pointer shadow-sm transition-all">
                                         Upload
                                         <input type="file" id="file_nib" wire:model="new_nib" class="hidden">
                                     </label>
@@ -279,15 +279,15 @@
                                 <div class="grid grid-cols-2 gap-3">
                                     <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 text-center">
                                         <p class="text-[10px] font-bold text-gray-500 mb-2 uppercase">AHU</p>
-                                        <label for="file_ahu" class="block w-full py-3 border-2 border-dashed border-gray-300 rounded-xl bg-white cursor-pointer hover:border-emerald-400 transition-colors">
-                                            <span class="text-xs text-emerald-600 font-bold">{{ $existing_ahu || $new_ahu ? 'Ganti File' : '+ Upload' }}</span>
+                                        <label for="file_ahu" class="block w-full py-3 border-2 border-dashed border-gray-300 rounded-xl bg-white cursor-pointer hover:border-purple-400 transition-colors">
+                                            <span class="text-xs text-purple-600 font-bold">{{ $existing_ahu || $new_ahu ? 'Ganti File' : '+ Upload' }}</span>
                                             <input type="file" id="file_ahu" wire:model="new_ahu" class="hidden">
                                         </label>
                                     </div>
                                     <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 text-center">
                                         <p class="text-[10px] font-bold text-gray-500 mb-2 uppercase">NPWP</p>
-                                        <label for="file_npwp_inst" class="block w-full py-3 border-2 border-dashed border-gray-300 rounded-xl bg-white cursor-pointer hover:border-emerald-400 transition-colors">
-                                            <span class="text-xs text-emerald-600 font-bold">{{ $existing_npwp_inst || $new_npwp_inst ? 'Ganti File' : '+ Upload' }}</span>
+                                        <label for="file_npwp_inst" class="block w-full py-3 border-2 border-dashed border-gray-300 rounded-xl bg-white cursor-pointer hover:border-purple-400 transition-colors">
+                                            <span class="text-xs text-purple-600 font-bold">{{ $existing_npwp_inst || $new_npwp_inst ? 'Ganti File' : '+ Upload' }}</span>
                                             <input type="file" id="file_npwp_inst" wire:model="new_npwp_inst" class="hidden">
                                         </label>
                                     </div>
@@ -309,7 +309,7 @@
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Pekerjaan Utama</label>
                                     <div class="relative">
-                                        <select wire:model.live="job_type" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all appearance-none">
+                                        <select wire:model.live="job_type" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all appearance-none">
                                             <option value="">Pilih Pekerjaan...</option>
                                             <option value="petani">Petani</option>
                                             <option value="nelayan">Nelayan</option>
@@ -324,7 +324,7 @@
                                 @if(in_array($job_type, ['petani', 'nelayan', 'peternak']))
                                     <div>
                                         <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Komoditas Utama</label>
-                                        <input type="text" wire:model="main_commodity" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all" placeholder="Contoh: Padi, Jagung, Lele">
+                                        <input type="text" wire:model="main_commodity" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all" placeholder="Contoh: Padi, Jagung, Lele">
                                     </div>
                                 @endif
                             </div>
@@ -333,23 +333,23 @@
                         @if(in_array($job_type, ['petani', 'nelayan', 'peternak']))
                             <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-md">
                                 <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
-                                    <div class="p-1.5 bg-emerald-100 rounded-lg text-emerald-600">
+                                    <div class="p-1.5 bg-green-100 rounded-lg text-green-600">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                                     </div>
                                     <h3 class="text-sm font-bold text-gray-900">Kapasitas Produksi</h3>
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider mb-1 block ml-1">Lahan (Ha)</label>
-                                        <input type="text" wire:model="prod_lahan" class="w-full px-3 py-2.5 rounded-lg bg-gray-50 border border-emerald-200 text-gray-900 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all text-center">
+                                        <label class="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1 block ml-1">Lahan (Ha)</label>
+                                        <input type="text" wire:model="prod_lahan" class="w-full px-3 py-2.5 rounded-lg bg-gray-50 border border-green-200 text-gray-900 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-500/10 outline-none transition-all text-center">
                                     </div>
                                     <div>
-                                        <label class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider mb-1 block ml-1">Panen (Ton)</label>
-                                        <input type="text" wire:model="prod_panen" class="w-full px-3 py-2.5 rounded-lg bg-gray-50 border border-emerald-200 text-gray-900 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all text-center">
+                                        <label class="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1 block ml-1">Panen (Ton)</label>
+                                        <input type="text" wire:model="prod_panen" class="w-full px-3 py-2.5 rounded-lg bg-gray-50 border border-green-200 text-gray-900 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-500/10 outline-none transition-all text-center">
                                     </div>
                                     <div class="col-span-2">
-                                        <label class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider mb-1 block ml-1">Siklus Panen (Bulan)</label>
-                                        <input type="text" wire:model="prod_siklus" class="w-full px-3 py-2.5 rounded-lg bg-gray-50 border border-emerald-200 text-gray-900 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all text-center">
+                                        <label class="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1 block ml-1">Siklus Panen (Bulan)</label>
+                                        <input type="text" wire:model="prod_siklus" class="w-full px-3 py-2.5 rounded-lg bg-gray-50 border border-green-200 text-gray-900 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-500/10 outline-none transition-all text-center">
                                     </div>
                                 </div>
                             </div>
@@ -390,7 +390,7 @@
                             <div>
                                 <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Peran Rantai Pasok</label>
                                 <div class="relative">
-                                    <select wire:model="supply_chain_role" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all appearance-none">
+                                    <select wire:model="supply_chain_role" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all appearance-none">
                                         <option value="produsen">Produsen</option>
                                         <option value="distributor">Distributor</option>
                                         <option value="retailer">Retailer</option>
@@ -403,11 +403,11 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Jumlah Anggota</label>
-                                    <input type="number" wire:model="total_members" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all text-center">
+                                    <input type="number" wire:model="total_members" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all text-center">
                                 </div>
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block ml-1">Omset (Rp)</label>
-                                    <input type="text" wire:model="annual_turnover" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all text-center">
+                                    <input type="text" wire:model="annual_turnover" class="w-full px-4 py-3.5 rounded-xl bg-white border border-gray-300 text-gray-900 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none transition-all text-center">
                                 </div>
                             </div>
                         </div>
@@ -420,7 +420,7 @@
                                     </div>
                                     <h3 class="text-sm font-bold text-gray-900">Aset Logistik</h3>
                                 </div>
-                                <button type="button" wire:click="addLogistic" class="text-[10px] bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg shadow-sm font-bold transition-all flex items-center gap-1">
+                                <button type="button" wire:click="addLogistic" class="text-[10px] bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg shadow-sm font-bold transition-all flex items-center gap-1">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg> Tambah
                                 </button>
                             </div>
@@ -449,7 +449,7 @@
             @if($activeTab == 'kta')
                 <div class="space-y-6 animate-fade-in flex flex-col items-center justify-center pt-4">
                     
-                    <div class="relative w-full max-w-[340px] aspect-[1.586/1] bg-gradient-to-br from-emerald-600 to-teal-800 rounded-2xl shadow-2xl overflow-hidden text-white transform transition-transform hover:scale-[1.02] duration-300">
+                    <div class="relative w-full max-w-[340px] aspect-[1.586/1] bg-gradient-to-br from-purple-600 to-violet-800 rounded-2xl shadow-2xl overflow-hidden text-white transform transition-transform hover:scale-[1.02] duration-300">
                         
                         <div class="absolute -right-10 -bottom-10 w-40 h-40 opacity-10 transform rotate-12">
                             <img src="{{ asset('images/logoElemen.png') }}" class="w-full h-full object-contain">
@@ -461,11 +461,11 @@
                             <div class="flex items-center gap-2">
                                 <img src="{{ asset('images/logoElemen.png') }}" class="w-8 h-8 object-contain drop-shadow-sm">
                                 <div>
-                                    <h3 class="text-[10px] font-bold uppercase tracking-widest leading-none text-emerald-100">Koperasi</h3>
+                                    <h3 class="text-[10px] font-bold uppercase tracking-widest leading-none text-purple-100">Koperasi</h3>
                                     <h2 class="text-sm font-black uppercase tracking-wide leading-none text-white mt-0.5">Fanantara</h2>
                                 </div>
                             </div>
-                            <span class="px-2 py-0.5 rounded text-[8px] font-bold bg-amber-400 text-emerald-900 uppercase tracking-wider shadow-sm">
+                            <span class="px-2 py-0.5 rounded text-[8px] font-bold bg-amber-400 text-purple-900 uppercase tracking-wider shadow-sm">
                                 Member
                             </span>
                         </div>
@@ -473,23 +473,23 @@
                         <div class="absolute top-20 left-4 right-4 bottom-4 flex items-end justify-between z-10">
                             <div class="flex-1 pr-2">
                                 <div class="mb-3">
-                                    <p class="text-[8px] text-emerald-200 uppercase tracking-widest mb-0.5">Nama Anggota</p>
+                                    <p class="text-[8px] text-purple-200 uppercase tracking-widest mb-0.5">Nama Anggota</p>
                                     <h4 class="text-sm font-bold text-amber-300 uppercase tracking-wide leading-tight line-clamp-1 drop-shadow-sm">
                                         {{ $name }}
                                     </h4>
                                 </div>
                                 <div class="flex gap-4">
                                     <div>
-                                        <p class="text-[7px] text-emerald-200 uppercase tracking-widest mb-0.5">ID Anggota</p>
+                                        <p class="text-[7px] text-purple-200 uppercase tracking-widest mb-0.5">ID Anggota</p>
                                         <p class="text-[10px] font-mono font-bold text-white tracking-wider">{{ $member->member_number }}</p>
                                     </div>
                                     <div>
-                                        <p class="text-[7px] text-emerald-200 uppercase tracking-widest mb-0.5">Bergabung</p>
+                                        <p class="text-[7px] text-purple-200 uppercase tracking-widest mb-0.5">Bergabung</p>
                                         <p class="text-[10px] font-bold text-white">{{ $member->created_at->format('M Y') }}</p>
                                     </div>
                                 </div>
                                 <div class="mt-2 pt-2 border-t border-white/10">
-                                    <p class="text-[8px] text-emerald-100 leading-tight opacity-80 line-clamp-3">
+                                    <p class="text-[8px] text-purple-100 leading-tight opacity-80 line-clamp-3">
                                         {{ $full_address ?? 'Alamat belum dilengkapi' }}
                                     </p>
                                 </div>
@@ -502,7 +502,7 @@
                     </div>
 
                     <div class="w-full max-w-[340px] grid grid-cols-2 gap-3 mt-2">
-                        <a href="{{ route('print.card', $member->id) }}" target="_blank" class="flex items-center justify-center gap-2 py-3 bg-gradient-to-br from-emerald-600 to-teal-800 text-white rounded-xl font-bold text-xs shadow-lg shadow-emerald-500/20 hover:from-emerald-700 hover:to-teal-900 transition-all">
+                        <a href="{{ route('print.card', $member->id) }}" target="_blank" class="flex items-center justify-center gap-2 py-3 bg-gradient-to-br from-purple-600 to-violet-800 text-white rounded-xl font-bold text-xs shadow-lg shadow-purple-500/20 hover:from-purple-700 hover:to-violet-900 transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12"></path></svg>
                             Download PDF
                         </a>
@@ -523,7 +523,7 @@
 
         @if($activeTab !== 'kta')
             <div class="fixed bottom-0 left-0 right-0 p-5 bg-white/95 backdrop-blur-md border-t border-gray-100 max-w-md mx-auto z-50">
-                <button type="button" wire:click="save" wire:loading.attr="disabled" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2 transform active:scale-[0.98]">
+                <button type="button" wire:click="save" wire:loading.attr="disabled" class="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition-all flex justify-center items-center gap-2 transform active:scale-[0.98]">
                     
                     <div class="flex items-center gap-2" wire:loading.remove>
                         <span>Simpan Perubahan</span>

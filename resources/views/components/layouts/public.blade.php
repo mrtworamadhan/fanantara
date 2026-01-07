@@ -42,19 +42,6 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: "#f0fdf4",
-                            100: "#dcfce7",
-                            200: "#bbf7d0",
-                            300: "#86efac",
-                            400: "#4ade80",
-                            500: "#22c55e",
-                            600: "#16a34a",
-                            700: "#15803d",
-                            800: "#166534",
-                            900: "#14532d",
-                            950: "#052e16",
-                        },
-                        secondary: {
                             50: "#faf5ff",
                             100: "#f3e8ff",
                             200: "#e9d5ff",
@@ -66,6 +53,19 @@
                             800: "#6b21a8",
                             900: "#581c87",
                             950: "#3b0764",
+                        },
+                        secondary: {
+                            50: "#f0fdf4",
+                            100: "#dcfce7",
+                            200: "#bbf7d0",
+                            300: "#86efac",
+                            400: "#4ade80",
+                            500: "#22c55e",
+                            600: "#16a34a",
+                            700: "#15803d",
+                            800: "#166534",
+                            900: "#14532d",
+                            950: "#052e16",
                         },
                     },
                     fontFamily: {
@@ -84,25 +84,25 @@
         .gradient-primary {
             background: linear-gradient(
                 135deg,
-                #22c55e 0%,
-                #16a34a 50%,
-                #15803d 100%
+                #9333ea 0%,
+                #7c3aed 50%,
+                #6b21a8 100%
             );
         }
         .gradient-secondary {
-            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
         }
         .gradient-mixed {
-            background: linear-gradient(135deg, #22c55e 0%, #9333ea 100%);
+            background: linear-gradient(135deg, #9333ea 0%, #22c55e 100%);
         }
         .text-gradient {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .text-gradient-mixed {
-            background: linear-gradient(135deg, #22c55e, #9333ea);
+            background: linear-gradient(135deg, #9333ea, #22c55e);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -112,7 +112,7 @@
         }
         .card-hover:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
+            box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15);
         }
         .glass {
             background: rgba(255, 255, 255, 0.1);
@@ -122,8 +122,8 @@
         .banner-bg {
             background: linear-gradient(
                     135deg,
-                    rgba(34, 197, 94, 0.85),
-                    rgba(147, 51, 234, 0.75)
+                    rgba(147, 51, 234, 0.85),
+                    rgba(34, 197, 94, 0.75)
                 ),
                 url("{{ asset('images/banner.webp') }}") center/cover no-repeat;
         }
@@ -139,7 +139,7 @@
             left: 50%;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, #22c55e, #9333ea);
+            background: linear-gradient(90deg, #9333ea, #22c55e);
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
@@ -147,7 +147,7 @@
             width: 100%;
         }
         .nav-link:hover {
-            color: #22c55e;
+            color: #9333ea;
         }
         .logo-animate {
             transition: all 0.3s ease;
@@ -186,7 +186,7 @@
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+            box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
         }
         .mobile-menu {
             animation: slideDown 0.3s ease;

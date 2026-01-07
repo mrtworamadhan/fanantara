@@ -286,7 +286,7 @@
                     </div>
                     <div class="p-3">
                         <div class="flex items-center gap-1 mb-1">
-                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                            <svg class="w-3 h-3 text-primary-600" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                             <span class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">
                                 {{ $product->supplier->name ?? 'Koperasi Pusat' }}
                             </span>
@@ -295,7 +295,7 @@
                         <h3 class="text-sm font-bold text-gray-800 leading-tight mb-2">{{ $product->name }}</h3>
 
                         <div class="space-y-1">
-                            <p class="text-emerald-600 font-black text-lg leading-none">
+                            <p class="text-primary-600 font-black text-lg leading-none">
                                 Rp {{ number_format($product->sell_price_retail, 0, ',', '.') }}
                             </p>
                             <span class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">
@@ -380,7 +380,7 @@
                                 {{ $post->created_at->diffForHumans() }}
                             </p>
 
-                            <h2 class="text-sm font-bold text-gray-900 leading-snug line-clamp-3 hover:text-emerald-600 transition-colors">
+                            <h2 class="text-sm font-bold text-gray-900 leading-snug line-clamp-3 hover:text-primary-600 transition-colors">
                                 {{ $post->title }}
                             </h2>
                         </div>
@@ -389,7 +389,7 @@
                     <div class="flex items-center justify-between px-4 pb-3">
                         <a 
                             href="{{ route('articles.show', $post->slug) }}"
-                            class="text-emerald-600 text-[11px] font-black uppercase tracking-tight inline-flex items-center gap-1"
+                            class="text-primary-600 text-[11px] font-black uppercase tracking-tight inline-flex items-center gap-1"
                         >
                             Baca Detail
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -399,7 +399,7 @@
 
                         <button
                             onclick="shareArticle('{{ addslashes($post->title) }}', '{{ route('articles.show', $post->slug) }}')"
-                            class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-emerald-50 hover:text-emerald-600 transition-all"
+                            class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-primary-50 hover:text-primary-600 transition-all"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

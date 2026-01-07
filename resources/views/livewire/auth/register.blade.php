@@ -1,41 +1,4 @@
 <div class="relative min-h-screen w-full overflow-hidden bg-gray-900" x-data="{ showPassword: false }">
-    <style>
-        .gradient-primary {
-            background: linear-gradient(
-                135deg,
-                #22c55e 0%,
-                #16a34a 50%,
-                #15803d 100%
-            );
-        }
-        .btn-primary {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .btn-primary::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            transition: left 0.5s ease;
-        }
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
-        }
-    </style>
 
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10"></div>
@@ -61,10 +24,8 @@
                 <div
                     class="flex items-center justify-between mb-6 mt-2 sticky top-0 bg-white z-10 py-4 border-b border-gray-100">
                     <div class="flex gap-2">
-                        <div class="h-2 w-8 rounded-full {{ $currentStep >= 1 ? 'bg-emerald-600' : 'bg-gray-200' }}">
-                        </div>
-                        <div class="h-2 w-8 rounded-full {{ $currentStep >= 2 ? 'bg-emerald-600' : 'bg-gray-200' }}">
-                        </div>
+                        <div class="h-2 w-8 rounded-full" style="background-color: {{ $currentStep >= 1 ? '#9333ea' : '#e5e7eb' }};"></div>
+                        <div class="h-2 w-8 rounded-full" style="background-color: {{ $currentStep >= 2 ? '#9333ea' : '#e5e7eb' }};"></div>
                     </div>
                     <span class="text-xs font-bold text-gray-500">Langkah {{ $currentStep }}/2</span>
                 </div>
@@ -79,10 +40,10 @@
                         <label class="relative block cursor-pointer group">
                             <input type="radio" wire:model.live="account_type" value="individual" class="peer sr-only">
                             <div
-                                class="p-5 rounded-2xl border-2 border-gray-100 bg-gray-50 hover:bg-white peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all shadow-sm">
+                                class="p-5 rounded-2xl border-2 border-gray-100 bg-gray-50 hover:bg-white peer-checked:border-purple-500 peer-checked:bg-purple-50 transition-all shadow-sm">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-sm peer-checked:bg-emerald-600 peer-checked:text-white transition-colors">
+                                        class="w-12 h-12 rounded-full bg-white text-purple-600 flex items-center justify-center shadow-sm peer-checked:bg-purple-600 peer-checked:text-white transition-colors">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
@@ -94,7 +55,7 @@
                                         <p class="text-xs text-gray-500 mt-1">Perorangan</p>
                                     </div>
                                     <div
-                                        class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-emerald-500 peer-checked:bg-emerald-900 transition-all">
+                                        class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-purple-500 peer-checked:bg-purple-900 transition-all">
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +64,7 @@
                         <label class="relative block cursor-pointer group">
                             <input type="radio" wire:model.live="account_type" value="institution" class="peer sr-only">
                             <div
-                                class="p-5 rounded-2xl border-2 border-gray-100 bg-gray-50 hover:bg-white peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all shadow-sm">
+                                class="p-5 rounded-2xl border-2 border-gray-100 bg-gray-50 hover:bg-white peer-checked:border-purple-500 peer-checked:bg-purple-50 transition-all shadow-sm">
                                 <div class="flex items-center gap-4">
                                     <div
                                         class="w-12 h-12 rounded-full bg-white text-indigo-600 flex items-center justify-center shadow-sm peer-checked:bg-indigo-600 peer-checked:text-white transition-colors">
@@ -131,7 +92,7 @@
 
                         <p class="text-center text-sm text-gray-500 mt-4">
                             Sudah punya akun?
-                            <a href="{{ route('login') }}" class="font-bold text-emerald-600 hover:underline">Masuk</a>
+                            <a href="{{ route('login') }}" class="font-bold text-purple-600 hover:underline">Masuk</a>
                         </p>
                     </div>
                 @endif
@@ -141,7 +102,7 @@
 
                         <div class="space-y-5">
                             <div class="flex items-center gap-2 mb-2">
-                                <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                                <div class="w-1 h-6 rounded-full" style="background-color: #9333ea;"></div>
                                 <h3 class="text-lg font-bold text-gray-900">Data Identitas</h3>
                             </div>
 
@@ -150,7 +111,7 @@
                                     {{ $account_type == 'individual' ? 'Nama Lengkap' : 'Nama Perusahaan' }}
                                 </label>
                                 <input wire:model="name" type="text"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all placeholder-gray-400">
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all placeholder-gray-400">
                                 @error('name') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                             </div>
 
@@ -159,7 +120,7 @@
                                     {{ $account_type == 'individual' ? 'NIK (16 Digit)' : 'NIB (Nomor Induk Berusaha)' }}
                                 </label>
                                 <input wire:model="identity_no" type="number"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all">
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all">
                                 @error('identity_no') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -171,13 +132,13 @@
                                             class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">Tempat
                                             Lahir</label>
                                         <input wire:model="place_of_birth" type="text"
-                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                     </div>
                                     <div>
                                         <label class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">Tgl
                                             Lahir</label>
                                         <input wire:model="birth_date" type="date"
-                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                         @error('birth_date') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -187,7 +148,7 @@
                                         <label
                                             class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">Gender</label>
                                         <select wire:model="gender"
-                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                             <option value="m">Laki-laki</option>
                                             <option value="f">Perempuan</option>
                                         </select>
@@ -196,7 +157,7 @@
                                         <label class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">No
                                             HP (WA)</label>
                                         <input wire:model="phone_individual" type="tel"
-                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                         @error('phone_individual') <span
                                         class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                                     </div>
@@ -205,13 +166,13 @@
                                     <label class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">Nama
                                         Ibu Kandung</label>
                                     <input wire:model="mother_name" type="text"
-                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                 </div>
                                 <div>
                                     <label
                                         class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">Pekerjaan</label>
                                     <input wire:model="job_type" type="text"
-                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                 </div>
                             @endif
 
@@ -220,24 +181,24 @@
                                     <label class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">NPWP
                                         Perusahaan</label>
                                     <input wire:model="npwp" type="text"
-                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                 </div>
                                 <div>
                                     <label class="text-xs font-bold uppercase text-gray-500 mb-1.5 block tracking-wider">Tanggal
                                         Berdiri</label>
                                     <input wire:model="establishment_date" type="date"
-                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                 </div>
                                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
                                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Data PIC</p>
                                     <input wire:model="pic_name" type="text" placeholder="Nama PIC"
-                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                        class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                     @error('pic_name') <span class="text-red-500 text-xs block">{{ $message }}</span> @enderror
                                     <div class="grid grid-cols-2 gap-3">
                                         <input wire:model="pic_phone" type="tel" placeholder="HP PIC"
-                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                         <input wire:model="pic_position" type="text" placeholder="Jabatan"
-                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                            class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
                                     </div>
                                     @error('pic_phone') <span class="text-red-500 text-xs block">{{ $message }}</span> @enderror
                                 </div>
@@ -246,7 +207,7 @@
 
                         <div class="space-y-5">
                             <div class="flex items-center gap-2 mb-2">
-                                <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                                <div class="w-1 h-6 rounded-full" style="background-color: #9333ea;"></div>
                                 <h3 class="text-lg font-bold text-gray-900">Dokumen Legalitas</h3>
                             </div>
 
@@ -255,7 +216,7 @@
                                     <label class="text-xs font-bold uppercase text-gray-500 mb-2 block tracking-wider">Foto KTP
                                         (Wajib)</label>
                                     <label for="file_ktp"
-                                        class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-emerald-50 transition-all relative overflow-hidden">
+                                        class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-purple-50 transition-all relative overflow-hidden">
                                         @if ($file_ktp)
                                             <img src="{{ $file_ktp->temporaryUrl() }}"
                                                 class="absolute inset-0 w-full h-full object-cover opacity-90">
@@ -283,7 +244,7 @@
                                 <label for="file_npwp_ind"
                                     class="flex items-center justify-between px-4 py-3 border border-gray-300 rounded-xl cursor-pointer bg-white">
                                     <span class="text-sm text-gray-600 truncate flex-1">@if($file_npwp_ind) <span
-                                    class="text-emerald-600 font-bold">File Terpilih</span> @else Upload NPWP (Opsional)
+                                    class="text-purple-600 font-bold">File Terpilih</span> @else Upload NPWP (Opsional)
                                             @endif</span>
                                     <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">Browse</span>
                                     <input id="file_npwp_ind" wire:model="file_npwp_ind" type="file" class="hidden"
@@ -296,7 +257,7 @@
                                     <label class="text-xs font-bold uppercase text-gray-500 mb-2 block tracking-wider">Scan NIB
                                         (Wajib)</label>
                                     <label for="file_nib"
-                                        class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-emerald-50 transition-all relative overflow-hidden">
+                                        class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-purple-50 transition-all relative overflow-hidden">
                                         @if ($file_nib)
                                             <img src="{{ $file_nib->temporaryUrl() }}"
                                                 class="absolute inset-0 w-full h-full object-cover opacity-90">
@@ -323,7 +284,7 @@
                                     <label for="file_ahu"
                                         class="flex flex-col items-center justify-center h-20 border border-gray-200 rounded-xl cursor-pointer bg-white">
                                         <span class="text-[10px] font-bold uppercase text-gray-400 mb-1">AHU (Opsional)</span>
-                                        @if ($file_ahu) <span class="text-xs text-emerald-600 font-bold">Terpilih</span> @else
+                                        @if ($file_ahu) <span class="text-xs text-purple-600 font-bold">Terpilih</span> @else
                                         <span class="text-xs text-gray-400">+ Upload</span> @endif
                                         <input id="file_ahu" wire:model="file_ahu" type="file" class="hidden"
                                             accept="image/*" />
@@ -331,7 +292,7 @@
                                     <label for="file_npwp_inst"
                                         class="flex flex-col items-center justify-center h-20 border border-gray-200 rounded-xl cursor-pointer bg-white">
                                         <span class="text-[10px] font-bold uppercase text-gray-400 mb-1">NPWP (Opsional)</span>
-                                        @if ($file_npwp_inst) <span class="text-xs text-emerald-600 font-bold">Terpilih</span>
+                                        @if ($file_npwp_inst) <span class="text-xs text-purple-600 font-bold">Terpilih</span>
                                         @else <span class="text-xs text-gray-400">+ Upload</span> @endif
                                         <input id="file_npwp_inst" wire:model="file_npwp_inst" type="file" class="hidden"
                                             accept="image/*" />
@@ -342,30 +303,30 @@
 
                         <div class="space-y-5">
                             <div class="flex items-center gap-2 mb-2">
-                                <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                                <div class="w-1 h-6 rounded-full" style="background-color: #9333ea;"></div>
                                 <h3 class="text-lg font-bold text-gray-900">Alamat & Persetujuan</h3>
                             </div>
 
                             <div><select wire:model.live="province_code"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none">
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none">
                                     <option value="">Pilih Provinsi</option>@foreach($provinces as $code => $name)<option
                                     value="{{ $code }}">{{ $name }}</option>@endforeach
                                 </select></div>
                             <div><select wire:model.live="city_code"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none"
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none"
                                     @if(empty($cities)) disabled @endif>
                                     <option value="">Pilih Kota/Kab</option>@foreach($cities as $code => $name)<option
                                     value="{{ $code }}">{{ $name }}</option>@endforeach
                                 </select></div>
                             <div class="grid grid-cols-2 gap-4">
                                 <select wire:model.live="district_code"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none"
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none"
                                     @if(empty($districts)) disabled @endif>
                                     <option value="">Kecamatan</option>@foreach($districts as $code => $name)<option
                                     value="{{ $code }}">{{ $name }}</option>@endforeach
                                 </select>
                                 <select wire:model.live="village_code"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none"
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none"
                                     @if(empty($villages)) disabled @endif>
                                     <option value="">Desa/Kel</option>@foreach($villages as $code => $name)<option
                                     value="{{ $code }}">{{ $name }}</option>@endforeach
@@ -373,7 +334,7 @@
                             </div>
                             <div>
                                 <textarea wire:model="street_address" rows="3"
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all"
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all"
                                     placeholder="Nama Jalan, RT/RW, No Rumah..."></textarea>
                                 @error('street_address') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
                                 @enderror
@@ -394,7 +355,7 @@
                                         <button type="button" @click="clear()"
                                             class="text-xs bg-gray-200 px-3 py-1.5 rounded font-bold text-gray-600">Hapus</button>
                                         <button type="button" @click="save()"
-                                            class="text-xs bg-emerald-600 px-3 py-1.5 rounded font-bold text-white shadow">Simpan</button>
+                                            class="text-xs bg-purple-600 px-3 py-1.5 rounded font-bold text-white shadow">Simpan</button>
                                     </div>
                                 </div>
                                 @error('digital_signature') <span class="text-red-500 text-xs block mt-1">Wajib diisi &
@@ -415,7 +376,7 @@
                                 wire:model="email"
                                 type="email"
                                 placeholder="Email"
-                                class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
 
                             @error('email')
                                 <span class="text-red-500 text-xs block">{{ $message }}</span>
@@ -426,7 +387,7 @@
                                     wire:model="password"
                                     :type="showPassword ? 'text' : 'password'"
                                     placeholder="Password"
-                                    class="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                    class="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
 
                                 <button
                                     type="button"
@@ -457,7 +418,7 @@
                                     wire:model="password_confirmation"
                                     :type="showConfirm ? 'text' : 'password'"
                                     placeholder="Ulangi Password"
-                                    class="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-300 focus:border-emerald-500 outline-none transition-all">
+                                    class="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-300 focus:border-purple-500 outline-none transition-all">
 
                                 <button
                                     type="button"
@@ -495,7 +456,7 @@
                     
                     <p class="text-center text-sm text-gray-500 mt-6 pb-6">
                         Sudah punya akun?
-                        <a href="{{ route('login') }}" class="font-bold text-emerald-600 hover:underline">Masuk</a>
+                        <a href="{{ route('login') }}" class="font-bold text-purple-600 hover:underline">Masuk</a>
                     </p>
                 @endif
             </div>
