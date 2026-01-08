@@ -1,8 +1,8 @@
 <div>
     <!-- Hero Header - Mobile First -->
-    <section class="pt-24 pb-6 md:pt-28 md:pb-8 bg-gradient-to-br from-emerald-50 via-white to-purple-50">
+    <section class="pt-24 pb-6 md:pt-28 md:pb-8 bg-gradient-to-br from-primary-50 via-white to-purple-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full mb-3">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-100 text-primary-700 text-xs font-bold rounded-full mb-3">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 Dokumen Resmi
             </span>
@@ -35,7 +35,7 @@
                         </div>
                         <a href="{{ asset('storage/' . $adartFile) }}" 
                            target="_blank"
-                           class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700 transition-colors">
+                           class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 bg-primary-600 text-white text-xs font-bold rounded-lg hover:bg-primary-700 transition-colors">
                             <i class="bi bi-box-arrow-up-right"></i>
                             <span class="hidden sm:inline">Buka PDF</span>
                         </a>
@@ -47,7 +47,7 @@
                     <!-- Loading -->
                     <div id="pdf-loading" class="flex items-center justify-center py-20">
                         <div class="text-center">
-                            <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                            <div class="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
                             <p class="text-sm text-gray-500">Memuat dokumen...</p>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                         <p class="text-gray-700 font-medium mb-1">Gagal memuat dokumen</p>
                         <p class="text-gray-500 text-sm mb-4">Silakan buka PDF secara langsung</p>
                         <a href="{{ asset('storage/' . $adartFile) }}" target="_blank" 
-                           class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white text-sm font-bold rounded-lg hover:bg-emerald-700">
+                           class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-600 text-white text-sm font-bold rounded-lg hover:bg-primary-700">
                             <i class="bi bi-box-arrow-up-right"></i> Buka PDF
                         </a>
                     </div>

@@ -35,9 +35,9 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-8">
                 <a href="{{ route('home') }}" class="nav-link text-gray-700 font-medium">Home</a>
-                <a href="{{ route('products') }}" class="nav-link font-medium {{ request()->routeIs('products') ? 'text-emerald-600' : 'text-gray-700' }}">Produk</a>
-                <a href="{{ route('articles') }}" class="nav-link font-medium {{ request()->routeIs('articles*') ? 'text-emerald-600' : 'text-gray-700' }}">Artikel</a>
-                <a href="{{ route('about') }}" class="nav-link font-medium {{ request()->routeIs('about') ? 'text-emerald-600' : 'text-gray-700' }}">Tentang Kami</a>
+                <a href="{{ route('products') }}" class="nav-link font-medium {{ request()->routeIs('products') ? 'text-primary-600' : 'text-gray-700' }}">Produk</a>
+                <a href="{{ route('articles') }}" class="nav-link font-medium {{ request()->routeIs('articles*') ? 'text-primary-600' : 'text-gray-700' }}">Artikel</a>
+                <a href="{{ route('about') }}" class="nav-link font-medium {{ request()->routeIs('about') ? 'text-primary-600' : 'text-gray-700' }}">Tentang Kami</a>
                 <a
                     href="{{ route('register') }}"
                     class="btn-primary gradient-primary text-white px-6 py-2.5 rounded-full font-semibold flex items-center gap-2"
@@ -69,15 +69,15 @@
             >Home</a>
             <a
                 href="{{ route('products') }}"
-                class="font-medium py-3 px-4 rounded-lg transition-all duration-200 {{ request()->routeIs('products') ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50' }}"
+                class="font-medium py-3 px-4 rounded-lg transition-all duration-200 {{ request()->routeIs('products') ? 'text-primary-600 bg-primary-50' : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50' }}"
             >Produk</a>
             <a
                 href="{{ route('articles') }}"
-                class="font-medium py-3 px-4 rounded-lg transition-all duration-200 {{ request()->routeIs('articles*') ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50' }}"
+                class="font-medium py-3 px-4 rounded-lg transition-all duration-200 {{ request()->routeIs('articles*') ? 'text-primary-600 bg-primary-50' : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50' }}"
             >Artikel</a>
             <a
                 href="{{ route('about') }}"
-                class="font-medium py-3 px-4 rounded-lg transition-all duration-200 {{ request()->routeIs('about') ? 'text-emerald-600 bg-emerald-50' : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50' }}"
+                class="font-medium py-3 px-4 rounded-lg transition-all duration-200 {{ request()->routeIs('about') ? 'text-primary-600 bg-primary-50' : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50' }}"
             >Tentang Kami</a>
             <a
                 href="{{ route('register') }}"

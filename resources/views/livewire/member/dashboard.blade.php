@@ -6,8 +6,8 @@
 
     <div class="absolute top-0 left-0 right-0 transition-all duration-700 ease-in-out z-0"
          :class="{ 
-            'h-[220px] rounded-b-[2.5rem] bg-gradient-to-br from-emerald-700 to-teal-800': tab !== 'portofolio', 
-            'h-full rounded-none bg-gradient-to-b from-teal-900 via-teal-900 to-gray-900': tab === 'portofolio' 
+            'h-[220px] rounded-b-[2.5rem] bg-gradient-to-br from-purple-700 to-violet-800': tab !== 'portofolio', 
+            'h-full rounded-none bg-gradient-to-b from-violet-900 via-purple-900 to-gray-900': tab === 'portofolio' 
          }">
         <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-16 -mt-16 blur-3xl opacity-50"></div>
         <div class="absolute bottom-0 left-0 w-40 h-40 bg-white/10 rounded-full -ml-10 -mb-10 blur-2xl opacity-30"></div>
@@ -67,15 +67,15 @@
                 </div>
 
                 <button @click="tab = 'rekening'" class="flex-1 py-2.5 text-xs font-bold text-center relative z-10 transition-colors duration-300"
-                    :class="tab === 'rekening' ? 'text-emerald-700' : 'text-white/80 hover:text-white'">
+                    :class="tab === 'rekening' ? 'text-purple-700' : 'text-white/80 hover:text-white'">
                     Rekening
                 </button>
                 <button @click="tab = 'shu'" class="flex-1 py-2.5 text-xs font-bold text-center relative z-10 transition-colors duration-300"
-                    :class="tab === 'shu' ? 'text-emerald-700' : 'text-white/80 hover:text-white'">
+                    :class="tab === 'shu' ? 'text-purple-700' : 'text-white/80 hover:text-white'">
                     SHU
                 </button>
                 <button @click="tab = 'portofolio'" class="flex-1 py-2.5 text-xs font-bold text-center relative z-10 transition-colors duration-300"
-                    :class="tab === 'portofolio' ? 'text-teal-900' : 'text-white/80 hover:text-white'">
+                    :class="tab === 'portofolio' ? 'text-violet-900' : 'text-white/80 hover:text-white'">
                     Portofolio
                 </button>
             </div>
@@ -92,15 +92,15 @@
                  x-transition:enter-end="opacity-100 translate-y-0"
                  class="mb-6">
                 
-                <div class="bg-white rounded-3xl shadow-xl shadow-emerald-900/10 p-6 border border-white relative overflow-hidden group">
+                <div class="bg-white rounded-3xl shadow-xl shadow-purple-900/10 p-6 border border-white relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-10">
-                        <svg class="w-24 h-24 text-emerald-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
+                        <svg class="w-24 h-24 text-purple-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z"/></svg>
                     </div>
 
                     <div class="mb-6 relative z-10">
                         <div class="flex justify-between items-center mb-1">
                             <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">Total Aset</p>
-                            <button @click="showBalance = !showBalance" class="text-gray-400 hover:text-emerald-600 transition-colors p-1 -mr-2">
+                            <button @click="showBalance = !showBalance" class="text-gray-400 hover:text-purple-600 transition-colors p-1 -mr-2">
                                 <svg x-show="!showBalance" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 <svg x-show="showBalance" style="display: none;" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
                             </button>
@@ -114,15 +114,15 @@
                             </template>
                         </div>
                     </div>
-                    <div class="h-px bg-gray-100 w-full mb-4 group-hover:bg-emerald-100 transition-colors"></div>
+                    <div class="h-px bg-gray-100 w-full mb-4 group-hover:bg-purple-100 transition-colors"></div>
                     <div class="flex justify-between items-center relative z-10">
                         <div>
                             <p class="text-[10px] text-gray-400 font-semibold mb-0.5">Saldo Cair (Sukarela)</p>
-                            <template x-if="showBalance"><p class="text-emerald-600 font-bold text-lg">Rp {{ number_format($saldo_sukarela, 0, ',', '.') }}</p></template>
-                            <template x-if="!showBalance"><div class="flex gap-1 h-6 items-center"><div class="w-2 h-2 bg-emerald-100 rounded-full"></div><div class="w-2 h-2 bg-emerald-100 rounded-full"></div><div class="w-2 h-2 bg-emerald-100 rounded-full"></div></div></template>
+                            <template x-if="showBalance"><p class="text-green-600 font-bold text-lg">Rp {{ number_format($saldo_sukarela, 0, ',', '.') }}</p></template>
+                            <template x-if="!showBalance"><div class="flex gap-1 h-6 items-center"><div class="w-2 h-2 bg-purple-100 rounded-full"></div><div class="w-2 h-2 bg-purple-100 rounded-full"></div><div class="w-2 h-2 bg-purple-100 rounded-full"></div></div></template>
                         </div>
                         <div class="flex gap-2">
-                            <button class="bg-emerald-50 text-emerald-600 p-2.5 rounded-xl hover:bg-emerald-100 transition-colors shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></button>
+                            <button class="bg-purple-50 text-purple-600 p-2.5 rounded-xl hover:bg-purple-100 transition-colors shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg></button>
                             <button class="bg-orange-50 text-orange-600 p-2.5 rounded-xl hover:bg-orange-100 transition-colors shadow-sm"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg></button>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                         <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center transition-transform active:scale-95">
                             <div class="flex items-center gap-4">
                                 <div class="w-10 h-10 rounded-full flex items-center justify-center border border-gray-50 shadow-sm
-                                    {{ $account['code'] == 'SP' ? 'bg-blue-50 text-blue-600' : ($account['code'] == 'SW' ? 'bg-purple-50 text-purple-600' : 'bg-emerald-50 text-emerald-600') }}">
+                                    {{ $account['code'] == 'SP' ? 'bg-purple-50 text-purple-600' : ($account['code'] == 'SW' ? 'bg-violet-50 text-violet-600' : 'bg-green-50 text-green-600') }}">
                                     <span class="font-bold text-[10px]">{{ $account['code'] }}</span>
                                 </div>
                                 <div>
@@ -162,11 +162,11 @@
                 x-transition:enter-start="opacity-0 translate-x-4"
                 x-transition:enter-end="opacity-100 translate-x-0">
                 
-                <div class="bg-gradient-to-r from-orange-400 to-pink-500 rounded-3xl p-6 text-white shadow-xl shadow-orange-500/20 mb-6 relative overflow-hidden mt-2">
+                <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-xl shadow-green-500/20 mb-6 relative overflow-hidden mt-2">
                     <div class="absolute right-0 bottom-0 opacity-20 -mr-6 -mb-6">
                         <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39h-2.01c-.06-1.01-.71-1.76-2.13-1.76-1.63 0-2.22.88-2.22 1.51 0 .7.47 1.39 2.4 1.87 2.71.69 4.43 1.7 4.43 3.94 0 1.99-1.56 3.23-3.32 3.59z"/></svg>
                     </div>
-                    <p class="text-xs font-medium text-orange-100 mb-1">Estimasi SHU Tahun Ini</p>
+                    <p class="text-xs font-medium text-green-100 mb-1">Estimasi SHU Tahun Ini</p>
                     
                     <h2 class="text-3xl font-black mb-4">
                         Rp {{ number_format($shu_data['total_estimation'] ?? 0, 0, ',', '.') }}
@@ -203,8 +203,8 @@
                     @foreach($allocations as $alloc)
                         @php
                             $color = match($alloc->code) {
-                                'JM' => 'emerald',
-                                'JU' => 'blue',
+                                'JM' => 'purple',
+                                'JU' => 'green',
                                 default => 'gray',
                             };
                         @endphp
@@ -234,29 +234,29 @@
                  x-transition:enter-end="opacity-100 translate-y-0">
                 
                 <div class="text-center mb-8">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/50 mb-4 animate-pulse">
+                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-purple-400 to-violet-600 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/50 mb-4 animate-pulse">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
                     <h2 class="text-2xl font-bold text-white tracking-tight">Ringkasan Finansial</h2>
-                    <p class="text-teal-200 text-sm mt-1 opacity-80">Analisa performa akun Anda</p>
+                    <p class="text-violet-200 text-sm mt-1 opacity-80">Analisa performa akun Anda</p>
                 </div>
 
                 <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/10 text-white mb-4 shadow-lg">
-                    <p class="text-xs text-teal-200 uppercase tracking-widest mb-1">Total Aset Bersih</p>
+                    <p class="text-xs text-violet-200 uppercase tracking-widest mb-1">Total Aset Bersih</p>
                     <h3 class="text-3xl font-bold mb-4">Rp {{ number_format($total_asset, 0, ',', '.') }}</h3>
                     <div class="h-1.5 w-full bg-black/20 rounded-full mb-3 overflow-hidden">
-                        <div class="h-full bg-teal-400 rounded-full shadow-[0_0_10px_rgba(45,212,191,0.5)]" style="width: 70%"></div>
+                        <div class="h-full bg-green-400 rounded-full shadow-[0_0_10px_rgba(74,222,128,0.5)]" style="width: 70%"></div>
                     </div>
-                    <p class="text-xs text-teal-100">Pertumbuhan aset <span class="font-bold text-white">+5%</span> bulan ini.</p>
+                    <p class="text-xs text-violet-100">Pertumbuhan aset <span class="font-bold text-white">+5%</span> bulan ini.</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 shadow-lg hover:bg-white/10 transition-colors">
-                        <p class="text-[10px] text-teal-200 uppercase mb-2 font-bold tracking-wider">Total Belanja</p>
+                        <p class="text-[10px] text-violet-200 uppercase mb-2 font-bold tracking-wider">Total Belanja</p>
                         <p class="text-lg font-bold text-white">Rp {{ number_format($total_contribution, 0, ',', '.') }}</p>
                     </div>
                     <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 shadow-lg hover:bg-white/10 transition-colors">
-                        <p class="text-[10px] text-teal-200 uppercase mb-2 font-bold tracking-wider">Poin Rewards</p>
+                        <p class="text-[10px] text-violet-200 uppercase mb-2 font-bold tracking-wider">Poin Rewards</p>
                         <p class="text-lg font-bold text-white">0 Pts</p>
                     </div>
                 </div>
@@ -290,14 +290,15 @@
             {{-- Progress Bar --}}
             <div class="mb-4">
                 <div class="flex justify-between items-center mb-1">
-                    <span class="text-[10px] font-bold text-emerald-600">{{ $profile_completion }}% Selesai</span>
+                    <span class="text-[10px] font-bold" style="color: #16a34a;">{{ $profile_completion }}% Selesai</span>
                 </div>
                 <div class="w-full bg-gray-100 rounded-full h-2">
-                    <div class="bg-emerald-500 h-2 rounded-full transition-all duration-1000" style="width: {{ $profile_completion }}%"></div>
+                    <div class="h-2 rounded-full transition-all duration-1000" style="background-color: #22c55e; width: {{ $profile_completion }}%"></div>
                 </div>
             </div>
 
-            <a href="{{ route('member.profile') }}" class="block w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold text-center rounded-xl shadow-lg shadow-emerald-500/30 transition-all">
+            <a href="{{ route('member.profile') }}" class="block w-full py-3 text-white text-xs font-bold text-center rounded-xl shadow-lg transition-all" style="background-color: #16a34a;"
+               onmouseover="this.style.backgroundColor='#15803d'" onmouseout="this.style.backgroundColor='#16a34a'">
                 Lengkapi Sekarang
             </a>
         </div>

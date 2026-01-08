@@ -1,5 +1,5 @@
 <div class="h-screen bg-gray-50 flex flex-col relative overflow-hidden font-sans">
-    <div class="bg-emerald-700 px-5 pt-5 pb-4 shadow-lg z-40 flex-none">
+    <div class="bg-purple-700 px-5 pt-5 pb-4 shadow-lg z-40 flex-none">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-white/10 text-white backdrop-blur-sm">
@@ -24,7 +24,7 @@
 
                     @if($cartCount > 0)
                         <span
-                            class="absolute top-0 right-0 w-4 h-4 bg-amber-500 text-[10px] flex items-center justify-center rounded-full border border-emerald-600 animate-bounce">
+                            class="absolute top-0 right-0 w-4 h-4 bg-amber-500 text-[10px] flex items-center justify-center rounded-full border border-purple-600 animate-bounce">
                             {{ $cartCount }}
                         </span>
                     @endif
@@ -33,14 +33,14 @@
             
         </div>
         <div class="relative">
-            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-emerald-200">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-purple-200">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </span>
             <input wire:model.live="search" type="text" placeholder="Cari kebutuhan Anda..."
-                class="w-full pl-10 pr-4 py-2.5 bg-emerald-700/30 border border-emerald-500/30 rounded-xl text-white placeholder-emerald-200 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all">
+                class="w-full pl-10 pr-4 py-2.5 bg-purple-700/30 border border-white/30 rounded-xl text-white placeholder-purple-200 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all">
         </div>
     </div>
 
@@ -77,14 +77,14 @@
 
                         {{-- PRICE --}}
                         @if($memberType === 'institution')
-                            <p class="text-emerald-600 font-extrabold text-sm">
+                            <p class="text-purple-600 font-extrabold text-sm">
                                 Rp {{ number_format($product->sell_price_wholesale, 0, ',', '.') }}
                             </p>
                             <p class="text-[10px] text-gray-400 line-through">
                                 Rp {{ number_format($product->sell_price_retail, 0, ',', '.') }}
                             </p>
                         @else
-                            <p class="text-emerald-600 font-extrabold text-sm">
+                            <p class="text-purple-600 font-extrabold text-sm">
                                 Rp {{ number_format($product->sell_price_retail, 0, ',', '.') }}
                             </p>
                         @endif
@@ -97,7 +97,7 @@
 
                         {{-- BUTTON --}}
                         <button wire:click="addToCart({{ $product->id }})" wire:loading.attr="disabled"
-                            class="w-full mt-2 py-1.5 text-[11px] font-bold text-emerald-600 border border-emerald-600 rounded-lg hover:bg-emerald-50 active:scale-95 transition disabled:opacity-50">
+                            class="w-full mt-2 py-1.5 text-[11px] font-bold text-purple-600 border border-purple-600 rounded-lg hover:bg-purple-50 active:scale-95 transition disabled:opacity-50">
                             <span wire:loading.remove wire:target="addToCart({{ $product->id }})">
                                 + Keranjang
                             </span>

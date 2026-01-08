@@ -1,7 +1,7 @@
 <div class="h-screen bg-gray-50 flex flex-col relative overflow-hidden font-sans">
     
     {{-- ================= HEADER ================= --}}
-    <div class="bg-emerald-600 px-5 pt-5 pb-6 shadow-lg z-40 flex-none relative rounded-b-[2.5rem]">
+    <div class="bg-purple-600 px-5 pt-5 pb-6 shadow-lg z-40 flex-none relative rounded-b-[2.5rem]">
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <a href="{{ route('member.marketplace') }}" class="p-2 rounded-full bg-white/10 text-white backdrop-blur-sm active:scale-90 transition-all">
@@ -9,7 +9,7 @@
                 </a>
                 <div>
                     <h1 class="text-xl font-bold text-white tracking-tight">Keranjang</h1>
-                    <p class="text-[10px] text-emerald-100 uppercase tracking-widest font-medium">{{ count($cartItems) }} Produk Total</p>
+                    <p class="text-[10px] text-purple-100 uppercase tracking-widest font-medium">{{ count($cartItems) }} Produk Total</p>
                 </div>
             </div>
 
@@ -27,7 +27,7 @@
         @if(count($cartItems) > 0)
             <div class="mt-4 flex items-center gap-3">
                 <input type="checkbox" wire:model.live="selectAll" id="selectAll" 
-                    class="w-5 h-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 bg-white/90">
+                    class="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500 bg-white/90">
                 <label for="selectAll" class="text-white text-sm font-bold cursor-pointer select-none">Pilih Semua Barang</label>
             </div>
         @endif
@@ -43,7 +43,7 @@
                     {{-- CHECKBOX PER ITEM --}}
                     <div class="flex-none">
                         <input type="checkbox" value="{{ $item->id }}" wire:model.live="selectedItems" 
-                            class="w-5 h-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500">
+                            class="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500">
                     </div>
 
                     {{-- GAMBAR --}}
@@ -55,7 +55,7 @@
                     <div class="flex-1 flex flex-col justify-between py-0.5 min-w-0">
                         <div>
                             <h3 class="text-sm font-bold text-gray-800 line-clamp-1 leading-tight">{{ $item->product->name }}</h3>
-                            <p class="text-[10px] text-emerald-600 font-bold mt-0.5">
+                            <p class="text-[10px] text-purple-600 font-bold mt-0.5">
                                 Rp {{ number_format($item->product->sell_price_retail, 0, ',', '.') }}
                             </p>
                         </div>
@@ -68,12 +68,12 @@
                             </p>
                             
                             <div class="flex items-center gap-2 bg-gray-50 border border-gray-100 px-1.5 py-1 rounded-lg">
-                                <button wire:click="decrement({{ $item->id }})" class="w-6 h-6 flex items-center justify-center text-emerald-600 active:scale-75 transition-all">
+                                <button wire:click="decrement({{ $item->id }})" class="w-6 h-6 flex items-center justify-center text-purple-600 active:scale-75 transition-all">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"></path></svg>
                                 </button>
                                 <span class="text-xs font-bold text-gray-700 w-4 text-center">{{ $item->quantity }}</span>
                                 <button wire:click="increment({{ $item->id }})" 
-                                    class="w-6 h-6 flex items-center justify-center text-emerald-600 active:scale-75 transition-all 
+                                    class="w-6 h-6 flex items-center justify-center text-purple-600 active:scale-75 transition-all 
                                     {{ ($item->product->total_stock ?? 0) <= $item->quantity ? 'opacity-30 cursor-not-allowed' : '' }}"
                                     {{ ($item->product->total_stock ?? 0) <= $item->quantity ? 'disabled' : '' }}>
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path></svg>
@@ -88,12 +88,12 @@
             @empty
                 {{-- Kosong --}}
                 <div class="flex flex-col items-center justify-center py-20 opacity-40 text-center space-y-4">
-                    <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+                    <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center text-purple-600">
                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-800">Keranjang Masih Kosong</p>
-                        <a href="{{ route('member.marketplace') }}" class="mt-2 inline-block px-4 py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold">Mulai Belanja</a>
+                        <a href="{{ route('member.marketplace') }}" class="mt-2 inline-block px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-bold">Mulai Belanja</a>
                     </div>
                 </div>
             @endforelse
@@ -123,7 +123,7 @@
                 class="w-full py-4 font-black rounded-2xl shadow-lg transition-all flex justify-center items-center gap-3 transform active:scale-[0.98]
                 {{ empty($selectedItems) 
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none' 
-                    : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/30' }}">
+                    : 'bg-purple-600 hover:bg-purple-700 text-white shadow-purple-500/30' }}">
                 
                 <span wire:loading.remove>
                     {{ empty($selectedItems) ? 'PILIH BARANG DULU' : 'CHECKOUT (' . count($selectedItems) . ')' }}

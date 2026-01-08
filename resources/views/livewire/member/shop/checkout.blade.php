@@ -1,12 +1,15 @@
 <div class="h-screen flex flex-col bg-gray-50 font-sans overflow-hidden">
 
-    <div class="bg-white shadow-sm px-5 py-4 sticky top-0 z-40 flex items-center gap-3">
-        <a href="{{ route('member.shop.cart') }}" class="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-        </a>
-        <h1 class="text-lg font-bold text-gray-900">Pengiriman & Pembayaran</h1>
+    {{-- Header Purple --}}
+    <div class="bg-purple-700 px-5 pt-5 pb-4 shadow-lg z-40 flex-none">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('member.shop.cart') }}" class="p-2 -ml-2 rounded-full bg-white/10 text-white backdrop-blur-sm active:scale-90 transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </a>
+            <h1 class="text-xl font-bold text-white tracking-tight">Pengiriman & Pembayaran</h1>
+        </div>
     </div>
 
 
@@ -16,7 +19,7 @@
         <div class="bg-white p-5 mb-3 rounded-2xl shadow-sm border border-gray-100">
             <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Alamat Pengiriman</h3>
             <textarea wire:model="shippingAddress" rows="3"
-                class="w-full bg-gray-50 p-3  border-gray-200 rounded-xl focus:ring-emerald-500 focus:border-emerald-500 text-sm"
+                class="w-full bg-gray-50 p-3  border-gray-200 rounded-xl focus:ring-purple-500 focus:border-purple-500 text-sm"
                 placeholder="Detail alamat lengkap..."></textarea>
 
             <div class="mt-4">
@@ -25,7 +28,7 @@
                 </label>
 
                 <textarea wire:model="notes" rows="3" class="w-full mt-1 bg-gray-50 p-3 border-gray-200 rounded-xl
-                            focus:ring-emerald-500 focus:border-emerald-500 text-sm
+                            focus:ring-purple-500 focus:border-purple-500 text-sm
                             resize-none" placeholder="Contoh: Titip di pos satpam"></textarea>
             </div>
 
@@ -38,17 +41,17 @@
             <div class="space-y-3">
                 {{-- Opsi 1: Simpanan Sukarela --}}
                 <label
-                    class="flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all {{ $paymentMethod === 'ss' ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-gray-200 hover:border-gray-300' }}">
+                    class="flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all {{ $paymentMethod === 'ss' ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500' : 'border-gray-200 hover:border-gray-300' }}">
                     <div class="flex items-center gap-3">
                         <input type="radio" wire:model.live="paymentMethod" value="ss"
-                            class="text-emerald-600 focus:ring-emerald-500">
+                            class="text-purple-600 focus:ring-purple-500">
                         <div>
                             <p class="font-bold text-gray-800 text-sm">Saldo Simpanan Sukarela</p>
-                            <p class="text-xs text-gray-500">Saldo saat ini: <span class="font-bold text-emerald-600">Rp
+                            <p class="text-xs text-gray-500">Saldo saat ini: <span class="font-bold text-green-600">Rp
                                     {{ number_format($saldoSukarela, 0, ',', '.') }}</span></p>
                         </div>
                     </div>
-                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
                         </path>
@@ -57,10 +60,10 @@
 
                 {{-- Opsi 2: Transfer (Disabled Logic jika mau) --}}
                 <label
-                    class="flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all {{ $paymentMethod === 'transfer' ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-gray-200 hover:border-gray-300' }}">
+                    class="flex items-center justify-between p-4 border rounded-xl cursor-pointer transition-all {{ $paymentMethod === 'transfer' ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500' : 'border-gray-200 hover:border-gray-300' }}">
                     <div class="flex items-center gap-3">
                         <input type="radio" wire:model.live="paymentMethod" value="transfer"
-                            class="text-emerald-600 focus:ring-emerald-500">
+                            class="text-purple-600 focus:ring-purple-500">
                         <div>
                             <p class="font-bold text-gray-800 text-sm">Transfer Bank Manual</p>
                             <p class="text-xs text-gray-500">Konfirmasi via WhatsApp Admin</p>
@@ -112,7 +115,7 @@
                     <span>Subtotal Produk</span>
                     <span>Rp {{ number_format($totalAmount, 0, ',', '.') }}</span>
                 </div>
-                <div class="flex justify-between text-xs text-emerald-600 font-bold">
+                <div class="flex justify-between text-xs text-green-600 font-bold">
                     <span>Biaya Layanan</span>
                     <span>Gratis</span>
                 </div>
@@ -143,7 +146,7 @@
         </div>
 
         <button wire:click="processOrder" wire:loading.attr="disabled" {{ ($paymentMethod === 'ss' && $saldoSukarela < $totalAmount) ? 'disabled' : '' }}
-            class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:text-gray-500 text-white font-black rounded-2xl shadow-lg shadow-emerald-500/30 transition-all flex justify-center items-center gap-2">
+            class="w-full py-4 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:text-gray-500 text-white font-black rounded-2xl shadow-lg shadow-purple-500/30 transition-all flex justify-center items-center gap-2">
             <span wire:loading.remove>BAYAR SEKARANG</span>
             <span wire:loading>MEMPROSES...</span>
         </button>

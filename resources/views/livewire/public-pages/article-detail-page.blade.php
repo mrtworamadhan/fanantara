@@ -1,11 +1,11 @@
 <div>
     <!-- Back Button & Header -->
-    <section class="pt-24 pb-6 md:pt-28 md:pb-8 bg-gradient-to-br from-purple-50 via-white to-emerald-50">
+    <section class="pt-24 pb-6 md:pt-28 md:pb-8 bg-gradient-to-br from-purple-50 via-white to-primary-50">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Back Link -->
             <a 
                 href="{{ route('articles') }}" 
-                class="inline-flex items-center gap-2 text-gray-500 hover:text-emerald-600 text-sm font-medium mb-6 transition-colors"
+                class="inline-flex items-center gap-2 text-gray-500 hover:text-primary-600 text-sm font-medium mb-6 transition-colors"
             >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -19,7 +19,7 @@
                     {{ $article->created_at->diffForHumans() }}
                 </span>
                 @if($article->category)
-                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-bold rounded-full uppercase">
+                <span class="px-2.5 py-1 bg-primary-100 text-primary-700 text-[10px] font-bold rounded-full uppercase">
                     {{ $article->category }}
                 </span>
                 @endif
@@ -50,7 +50,7 @@
             <article class="prose prose-sm md:prose-base lg:prose-lg max-w-none 
                 prose-headings:font-bold prose-headings:text-gray-900 
                 prose-p:text-gray-600 prose-p:leading-relaxed 
-                prose-a:text-emerald-600 prose-a:no-underline hover:prose-a:underline
+                prose-a:text-primary-600 prose-a:no-underline hover:prose-a:underline
                 prose-img:rounded-xl prose-img:shadow-md">
                 {!! $article->content !!}
             </article>
@@ -101,7 +101,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="flex items-center gap-2 mb-6">
-                <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                <div class="w-1 h-6 bg-primary-500 rounded-full"></div>
                 <h2 class="text-lg md:text-xl font-bold text-gray-800">Artikel Terkait</h2>
             </div>
             
@@ -128,7 +128,7 @@
                             <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">
                                 {{ $related->created_at->diffForHumans() }}
                             </p>
-                            <h3 class="text-sm font-bold text-gray-900 leading-snug line-clamp-2 hover:text-emerald-600 transition-colors">
+                            <h3 class="text-sm font-bold text-gray-900 leading-snug line-clamp-2 hover:text-primary-600 transition-colors">
                                 {{ $related->title }}
                             </h3>
                         </div>

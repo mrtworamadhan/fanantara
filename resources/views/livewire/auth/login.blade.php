@@ -17,7 +17,7 @@
         <div class="relative z-10 flex flex-col items-center">
 
             <div class="relative flex items-center justify-center">
-                <div class="absolute w-32 h-32 bg-emerald-300 rounded-full animate-ping opacity-40"></div>
+                <div class="absolute w-32 h-32 bg-purple-300 rounded-full animate-ping opacity-40"></div>
 
                 <div
                     class="relative w-24 h-24 bg-white rounded-full shadow-xl
@@ -49,9 +49,9 @@
         .gradient-primary {
             background: linear-gradient(
                 135deg,
-                #22c55e 0%,
-                #16a34a 50%,
-                #15803d 100%
+                #9333ea 0%,
+                #7e22ce 50%,
+                #6b21a8 100%
             );
         }
         .btn-primary {
@@ -79,7 +79,7 @@
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+            box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
         }
     </style>
 
@@ -140,7 +140,7 @@
                     <label class="text-sm font-medium text-gray-700 ml-1">Email</label>
                     <div class="relative">
                         <input wire:model="email" type="email" required placeholder="member@fanantara.id"
-                            class="w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900 placeholder-gray-400">
+                            class="w-full pl-4 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-gray-900 placeholder-gray-400">
                     </div>
                     @error('email') <span class="text-red-500 text-xs ml-1">{{ $message }}</span> @enderror
                 </div>
@@ -150,7 +150,7 @@
                     <div class="relative">
                         <input wire:model="password" :type="showPassword ? 'text' : 'password'" required
                             placeholder="••••••••"
-                            class="w-full pl-4 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900 placeholder-gray-400">
+                            class="w-full pl-4 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all text-gray-900 placeholder-gray-400">
 
                         <button type="button" @click="showPassword = !showPassword"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1">
@@ -172,12 +172,12 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <a href="#" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lupa Password?</a>
+                    <a href="#" class="text-xs font-semibold text-purple-600 hover:text-purple-700">Lupa Password?</a>
                 </div>
 
                 <div class="space-y-3">
                     <button type="submit" wire:loading.attr="disabled"
-                        class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-white font-semibold btn-primary gradient-primary shadow-lg shadow-emerald-500/30 transition-all transform active:scale-95">
+                        class="w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-white font-semibold btn-primary gradient-primary shadow-lg shadow-purple-500/30 transition-all transform active:scale-95">
                         <span wire:loading.remove>Masuk Sekarang</span>
                         <span wire:loading><svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -199,7 +199,7 @@
 
                 <p class="text-center text-sm text-gray-500 mt-4">
                     Belum menjadi anggota?
-                    <a href="{{ route('register') }}" class="font-bold text-emerald-600 hover:underline">Daftar Akun</a>
+                    <a href="{{ route('register') }}" class="font-bold text-purple-600 hover:underline">Daftar Akun</a>
                 </p>
 
             </form>

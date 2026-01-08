@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 relative overflow-hidden">
     
-    <div class="absolute top-0 left-0 w-full h-85 bg-emerald-600 rounded-b-[3rem] z-0"></div>
+    <div class="absolute top-0 left-0 w-full h-85 bg-purple-600 rounded-b-[3rem] z-0"></div>
 
     <div class="relative z-10 w-full max-w-md animate-fade-in-up">
         
@@ -8,8 +8,8 @@
             
             {{-- Icon Ceklis --}}
             <div class="flex justify-center mb-5">
-                <div class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center">
-                    <div class="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center animate-scale-in">
+                <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center animate-scale-in">
                         <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                 
                 <div class="flex justify-between mb-2">
                     <span class="text-xs text-gray-500">Metode Bayar</span>
-                    <span class="text-xs font-bold text-emerald-600">
+                    <span class="text-xs font-bold text-green-600">
                         {{ $order->payment_status == 'paid' ? 'Simpanan Sukarela' : 'Transfer Bank' }}
                     </span>
                 </div>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="space-y-3">
-                <a href="{{ route('member.marketplace') }}" class="block w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition-transform active:scale-95">
+                <a href="{{ route('member.marketplace') }}" class="block w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition-transform active:scale-95">
                     Belanja Lagi
                 </a>
                 
@@ -70,7 +70,7 @@
 
         </div>
         
-        <p class="text-center text-emerald-800/50 text-[10px] mt-6">
+        <p class="text-center text-purple-800/50 text-[10px] mt-6">
             Bukti transaksi ini telah dikirim ke email Anda.
         </p>
     </div>

@@ -2,7 +2,7 @@
      x-data="{ showModal: false }" 
      @open-article-modal.window="showModal = true">
     
-     <div class="bg-emerald-700 px-5 pt-5 pb-4 shadow-lg z-40 flex-none text-white">
+     <div class="bg-purple-700 px-5 pt-5 pb-4 shadow-lg z-40 flex-none text-white">
         <div class="flex items-center gap-3">
             <a href="{{ route('dashboard') }}" class="p-2 rounded-full bg-white/10 backdrop-blur-sm active:scale-90 transition-all">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="flex-1 overflow-y-auto no-scrollbar bg-gradient-to-b from-emerald-700 via-gray-50 to-white px-4 pt-4 pb-24 mb-6">
+    <div class="flex-1 overflow-y-auto no-scrollbar bg-gradient-to-b from-purple-700 via-gray-50 to-white px-4 pt-4 pb-24 mb-6">
         <div class="space-y-3 animate-fade-in">
             @forelse($articles as $article)
                 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm active:scale-[0.98] transition-all relative">
@@ -35,7 +35,7 @@
                                 {{ $article->created_at->diffForHumans() }}
                             </p>
 
-                            <h2 class="text-sm font-bold text-gray-900 leading-snug line-clamp-3 hover:text-emerald-600 transition-colors">
+                            <h2 class="text-sm font-bold text-gray-900 leading-snug line-clamp-3 hover:text-purple-600 transition-colors">
                                 {{ $article->title }}
                             </h2>
                         </div>
@@ -44,7 +44,7 @@
                     <div class="flex items-center justify-between px-4 pb-3">
                         <button 
                             wire:click="showArticle({{ $article->id }})"
-                            class="text-emerald-600 text-[11px] font-black uppercase tracking-tight inline-flex items-center gap-1"
+                            class="text-purple-600 text-[11px] font-black uppercase tracking-tight inline-flex items-center gap-1"
                         >
                             Baca Detail
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,7 +58,7 @@
                                 'Cek berita terbaru dari Koperasi Fanantara',
                                 '{{ route('news.detail', $article->id) }}'
                             )"
-                            class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-emerald-50 hover:text-emerald-600 transition-all active:scale-90"
+                            class="p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-all active:scale-90"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -77,7 +77,7 @@
                 </div>
             @empty
                 <div class="flex flex-col items-center justify-center py-20 opacity-40 text-center">
-                    <x-heroicon-o-newspaper class="w-16 h-16 text-emerald-200 mb-4" />
+                    <x-heroicon-o-newspaper class="w-16 h-16 text-purple-200 mb-4" />
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">
                         Belum ada kabar terbaru
                     </p>
@@ -113,7 +113,7 @@
 
             <div class="flex-1 overflow-y-auto no-scrollbar px-6 py-8">
                 <div class="flex items-center gap-2 mb-4">
-                    <span class="text-[10px] font-black bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full uppercase tracking-widest">
+                    <span class="text-[10px] font-black bg-purple-100 text-purple-700 px-3 py-1 rounded-full uppercase tracking-widest">
                         INFO TERKINI
                     </span>
                     <span class="text-[10px] text-gray-400 font-bold uppercase">{{ $selectedArticle->created_at->translatedFormat('d M Y') }}</span>
@@ -123,7 +123,7 @@
                     {{ $selectedArticle->title }}
                 </h1>
 
-                <div class="prose prose-sm prose-emerald max-w-none text-gray-600 leading-relaxed pb-20">
+                <div class="prose prose-sm prose-purple max-w-none text-gray-600 leading-relaxed pb-20">
                     {!! $selectedArticle->content !!}
                 </div>
             </div>
@@ -135,7 +135,7 @@
                                 'Cek berita terbaru dari Koperasi Fanantara',
                                 '{{ route('news.detail', $article->id) }}'
                             )"
-                    class="w-full py-4 bg-emerald-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all">
+                    class="w-full py-4 bg-purple-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
                     </svg>
