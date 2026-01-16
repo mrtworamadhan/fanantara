@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wilayah extends Model
 {
-    protected $table = 'wilayah'; // Sesuai nama tabel di file sql
-    protected $primaryKey = 'kode'; // Primary key-nya string 'kode'
+    protected $table = 'wilayah'; 
+    protected $primaryKey = 'kode';
     protected $keyType = 'string';
     public $incrementing = false;
     public $timestamps = false;

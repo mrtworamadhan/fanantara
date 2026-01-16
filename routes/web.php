@@ -9,17 +9,12 @@ use App\Livewire\Member\Shop\Cart;
 use App\Livewire\Member\Shop\Checkout;
 use App\Livewire\Member\Shop\MyOrders;
 use App\Livewire\Member\Shop\OrderSuccess;
-use App\Mail\WelcomeMemberMail;
-use App\Models\Member;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Route;
 
-// --- Controllers ---
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\SocialiteController;
 
-// --- Livewire Components ---
 use App\Livewire\PosPage;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
@@ -28,7 +23,6 @@ use App\Livewire\Auth\ActivationPayment;
 use App\Livewire\Member\Dashboard;
 use App\Livewire\Member\Profile;
 
-// --- Livewire Public Pages ---
 use App\Livewire\PublicPages\HomePage;
 use App\Livewire\PublicPages\ProductPage;
 use App\Livewire\PublicPages\ArticlePage;
@@ -38,6 +32,33 @@ use App\Livewire\PublicPages\AdArtPage;
 use App\Livewire\PublicPages\PrivacyPolicyPage;
 use App\Livewire\PublicPages\TermsOfServicePage;
 use App\Livewire\PublicPages\ContactPage;
+
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use App\Livewire\Auth\ForgotPassword;
+use App\Livewire\Auth\ResetPassword;
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/dashboard'); 
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Link verifikasi baru telah dikirim!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/forgot-password', ForgotPassword::class)
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::get('/reset-password/{token}', ResetPassword::class)
+    ->middleware('guest')
+    ->name('password.reset');
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +92,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // 3. AUTHENTICATED ROUTES
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- Logout ---
     Route::get('/logout', function () {
@@ -84,9 +105,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/setup', SetupProfile::class)->name('setup');
         Route::get('/activation', ActivationPayment::class)->name('activation');
         Route::get('/profile', Profile::class)->name('profile');
-        Route::get('/member/mutation',Mutation::class)->name('mutation');
-        Route::get('/member/marketplace',Marketplace::class)->name('marketplace');
-        Route::get('/member/news',News::class)->name('news');
+        Route::get('/mutation',Mutation::class)->name('mutation');
+        Route::get('/marketplace',Marketplace::class)->name('marketplace');
+        Route::get('/news',News::class)->name('news');
         Route::get('/shop/cart', Cart::class)->name('shop.cart');
         Route::get('/checkout', Checkout::class)->name('checkout');
         Route::get('/order-success/{orderId}', OrderSuccess::class)->name('order.success');
@@ -95,31 +116,22 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    // --- Dashboard (Strict Access) ---
     Route::get('/dashboard', Dashboard::class)
         ->middleware(['member.check'])
         ->name('dashboard');
 
-    // --- POS System ---
     Route::get('/pos', PosPage::class)->name('pos');
 
-    // --- Printing / PDF Generation ---
     Route::prefix('print')->name('print.')->group(function () {
-
-        // Via PdfController
         Route::controller(PdfController::class)->group(function () {
             Route::get('/invoice/{order}', 'printInvoice')->name('invoice');
             Route::get('/po/{purchase}', 'printPurchaseOrder')->name('po');
             Route::get('/card/{member}', 'printIdCard')->name('card');
         });
-
-        // Via PosController
         Route::get('/receipt/{order}', [PosController::class, 'printReceipt'])->name('receipt');
     });
 
-    //Financial Report
     Route::prefix('reports')->name('reports.')->group(function () {
-
         Route::get('/finance-bundle/{period}', [ReportController::class, 'downloadBundle'])->name('finance-bundle');
     });
 });

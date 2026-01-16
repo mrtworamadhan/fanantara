@@ -15,7 +15,7 @@
 
     <div class="relative z-30 flex-none shadow-sm shadow-black/5">
         
-        <div class="px-6 pt-10 pb-4 flex justify-between items-center">
+        <div class="px-6 pt-5 pb-4 flex justify-between items-center">
             <a href="{{ route('member.profile') }}" >
                 <div class="flex items-center gap-3">
                 
@@ -302,7 +302,18 @@
                 Lengkapi Sekarang
             </a>
         </div>
+
     </div>
+    <div class="pointer-events-none absolute bottom-0 inset-x-0 z-0">
+        <img 
+            :src="tab === 'portofolio' 
+                ? '{{ asset('images/karakter/marketing.png') }}' 
+                : '{{ asset('images/karakter/nelayan.png') }}'"
+            alt="Decorative Illustration"
+            class="w-full max-w-md mx-auto opacity-90 translate-y-6 transition-all duration-700"
+        >
+    </div>
+
 
     <x-mobile.bottom-nav active="home" />
 

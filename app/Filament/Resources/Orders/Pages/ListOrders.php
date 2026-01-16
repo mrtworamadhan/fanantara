@@ -48,7 +48,7 @@ class ListOrders extends ListRecords
                     Order::where('status', 'completed')->count())
                 ->badgeColor('success'),
 
-            'cencelled' => Tab::make('Dibatalkan')
+            'cancelled' => Tab::make('Dibatalkan')
                 ->icon('heroicon-m-x-circle')
                 ->modifyQueryUsing(fn (Builder $query) => 
                     $query->where('status', 'cencelled')

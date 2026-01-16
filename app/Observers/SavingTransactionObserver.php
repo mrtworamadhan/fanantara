@@ -16,12 +16,31 @@ class SavingTransactionObserver
     public function created(SavingTransaction $trx): void
     {
         $account = $trx->account;
+
+        if (!$account || !$account->savingType) return;
+
+        $member = $account->member;
+        $savingTypeName = $account->savingType->name;
         
-        // 1. Update Saldo Akun Simpanan
         if ($trx->type === 'deposit') {
             $account->increment('balance', $trx->amount);
+            $title = 'Uang Masuk';
+            $message = "Setoran {$savingTypeName} sebesar Rp " . number_format($trx->amount, 0, ',', '.') . " telah berhasil dikreditkan ke akun Anda.";
+            $type = 'success';  
         } else {
             $account->decrement('balance', $trx->amount);
+            $title = 'Penarikan Dana';
+            $message = "Penarikan {$savingTypeName} sebesar Rp " . number_format($trx->amount, 0, ',', '.') . " telah berhasil diproses.";
+            $type = 'warning';
+        }
+
+        if ($member->user && $member->user) {
+            $member->user->notify(new \App\Notifications\MemberNotification([
+                'title'   => $title,
+                'message' => $message,
+                'type'    => $type,
+                'url'     => route('member.mutation'),
+            ]));
         }
 
         $this->createJournal($trx);
@@ -52,7 +71,7 @@ class SavingTransactionObserver
         if (!$savingType) return;
 
         $accKas = Account::where('code', '1101')->first()?->id;
-        $codeMap = ['SP' => '3101', 'SW' => '3102', 'SS' => '2102'];
+        $codeMap = ['SP' => '3101', 'SW' => '3102', 'SS' => '2102', 'SJP' => '2201'];
         $targetCode = $codeMap[$savingType->code] ?? '2102';
         $accSimpanan = Account::where('code', $targetCode)->first()?->id;
 

@@ -13,8 +13,31 @@
         name="description"
         content="{{ $appDescription }}"
     />
+    <meta name="keywords" content="Koperasi Fanantara, Fanantara, FORMA, Forum Masyarakat Indonesia Emas, FORMAS ANUGERAH NUSANTARA, Koperasi Multipihak, Aplikasi Koperasi ">
+    <meta name="author" content="Koperasi FANANTARA">
 
-    <!-- Google Fonts -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logoElemen.png') }}">
+
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#6b21a8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SmartFarm">
+    <link rel="apple-touch-icon" href="{{ asset('images/logoElemen.png') }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="{{ $title ?? 'Koperasi FANANTARA' }}">
+    <meta property="og:description" content="{{ $description ?? 'Koperasi sebagai rantai distribusi dan peningkatan Omzet Usaha menuju Indonesia Emas.' }}">
+    <meta property="og:image" content="{{ asset('images/og-image.jpg') }}"> 
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request()->url() }}">
+    <meta property="twitter:title" content="{{ $title ?? 'Koperasi FANANTARA' }}">
+    <meta property="twitter:description" content="{{ $description ?? 'Koperasi sebagai rantai distribusi dan peningkatan Omzet Usaha menuju Indonesia Emas.' }}">
+    <meta property="twitter:image" content="{{ asset('images/og-image.jpg') }}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,19 +45,16 @@
         rel="stylesheet"
     />
 
-    <!-- Bootstrap Icons -->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
 
-    <!-- Alpine.js -->
     <script
         defer
         src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -282,7 +302,6 @@
             z-index: 0;
             pointer-events: none;
         }
-        /* Feature Card */
         .feature-card {
             transition: all 0.3s ease;
         }
@@ -295,7 +314,6 @@
         .feature-icon {
             transition: all 0.3s ease;
         }
-        /* Scroll Animation */
         .scroll-animate {
             opacity: 0;
             transform: translateY(40px);
@@ -323,7 +341,6 @@
         .scroll-animate.animate-scale.animate-visible {
             transform: scale(1);
         }
-        /* Scroll Up Button */
         .scroll-up-btn {
             position: fixed;
             bottom: 2rem;
@@ -364,16 +381,12 @@
     @livewireStyles
 </head>
 <body class="font-sans bg-slate-50 text-gray-800">
-    <!-- Navbar -->
     <x-public.navbar />
 
-    <!-- Main Content -->
     {{ $slot }}
 
-    <!-- Footer -->
     <x-public.footer />
 
-    <!-- Scroll Up Button -->
     <button
         id="scrollUpBtn"
         class="scroll-up-btn"
@@ -384,7 +397,6 @@
     </button>
 
     <script>
-        // Mobile Menu Toggle
         function toggleMobileMenu() {
             const menu = document.getElementById("mobileMenu");
             const icon = document.getElementById("menuIcon");
@@ -396,7 +408,6 @@
             }
         }
 
-        // Navbar Scroll Effect
         window.addEventListener("scroll", function () {
             const navbar = document.getElementById("navbar");
             if (window.scrollY > 50) {
@@ -408,7 +419,6 @@
             }
         });
 
-        // Scroll Animation with Intersection Observer
         const observerOptions = {
             root: null,
             rootMargin: "0px",
@@ -423,12 +433,10 @@
             });
         }, observerOptions);
 
-        // Observe all scroll-animate elements
         document.querySelectorAll(".scroll-animate").forEach((el) => {
             scrollObserver.observe(el);
         });
 
-        // Scroll Up Button Logic
         const scrollUpBtn = document.getElementById("scrollUpBtn");
         let scrollTimeout;
         let isScrolling = false;
@@ -438,10 +446,8 @@
                 scrollUpBtn.classList.add("visible");
                 isScrolling = true;
 
-                // Clear existing timeout
                 clearTimeout(scrollTimeout);
 
-                // Hide after 2 seconds of no scrolling
                 scrollTimeout = setTimeout(() => {
                     scrollUpBtn.classList.remove("visible");
                     isScrolling = false;

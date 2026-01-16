@@ -21,11 +21,14 @@ class MemberObserver
             ]);
         }
         
-        $types = SavingType::whereIn('code', ['SP', 'SW', 'SS'])->get();
+        $codes = ['SP', 'SW', 'SS', 'SJP']; 
+        $types = SavingType::whereIn('code', $codes)->get();
+
         foreach ($types as $type) {
-            SavingAccount::create([
+            SavingAccount::firstOrCreate([
                 'member_id' => $member->id,
                 'saving_type_id' => $type->id,
+            ], [
                 'account_number' => $type->code . '-' . str_pad($member->id, 4, '0', STR_PAD_LEFT) . '-' . date('y'),
                 'balance' => 0,
             ]);
@@ -41,6 +44,13 @@ class MemberObserver
                 'last_updated_at' => now(),
             ]);
         }
+
+        $member->user->notify(new \App\Notifications\MemberNotification([
+            'title'   => 'Akun Aktif!',
+            'message' => 'Selamat ' . $member->name . ', pendaftaran Anda telah disetujui.',
+            'type'    => 'success',
+            'url'     => route('dashboard'),
+        ]));
 
         if ($member->user && $member->user->email) {
             $member->load('savingAccounts.savingType');

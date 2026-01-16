@@ -134,7 +134,9 @@ class SavingAccountResource extends Resource
                     }),
             ])
             ->toolbarActions([
-                // 
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

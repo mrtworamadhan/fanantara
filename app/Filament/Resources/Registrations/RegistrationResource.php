@@ -3,11 +3,14 @@
 namespace App\Filament\Resources\Registrations;
 
 use App\Filament\Resources\Registrations\Pages\ManageRegistrations;
+use App\Models\Account;
+use App\Models\JournalEntry;
 use App\Models\Member;
 use App\Models\Registration;
 use App\Models\SavingAccount;
 use App\Models\SavingTransaction;
 use App\Models\SavingType;
+use App\Notifications\MemberNotification;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Radio;
@@ -18,6 +21,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use UnitEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -85,7 +89,7 @@ class RegistrationResource extends Resource
                     ->searchable(query: function ($query, string $search) {
                         return $query->whereHasMorph(
                             'profileable',
-                            ['App\Models\IndividualProfile', 'App\Models\InstitutionProfile'], // Model target
+                            ['App\Models\IndividualProfile', 'App\Models\InstitutionProfile'], 
                             function ($q, $type) use ($search) {
                                 if ($type === 'App\Models\IndividualProfile') {
                                     $q->where('full_name', 'like', "%{$search}%");
@@ -135,7 +139,6 @@ class RegistrationResource extends Resource
                                     ->disabled(),
                             ]),
 
-                        // 3. Pilihan Keputusan
                         Radio::make('decision')
                             ->label('Keputusan Admin')
                             ->options([
@@ -155,11 +158,10 @@ class RegistrationResource extends Resource
                         $paymentData = $record->activation_payment_data ?? [];
 
                         if ($data['decision'] === 'approve') {
-                            
                             $record->update([
                                 'status' => 'active',
                                 'join_date' => now(),
-                                'member_number' => 'MBR-' . date('Ym') . str_pad($record->id, 4, '0', STR_PAD_LEFT), // Generate No Anggota
+                                'member_number' => 'MBR-' . date('Ym') . str_pad($record->id, 4, '0', STR_PAD_LEFT),
                             ]);
 
                             $paymentData['status'] = 'approved';
@@ -167,33 +169,66 @@ class RegistrationResource extends Resource
                             $paymentData['approved_by'] = auth()->id();
                             $record->update(['activation_payment_data' => $paymentData]);
 
-                            $spType = SavingType::where('code', 'SP')->first();
-                            
-                            if ($spType) {
-                                $account = SavingAccount::firstOrCreate([
-                                    'member_id' => $record->id,
-                                    'saving_type_id' => $spType->id,
-                                ], [
-                                    'account_number' => 'SP-' . $record->member_number,
-                                    'balance' => 0, // Nanti nambah via transaksi
-                                ]);
+                            $fees = $paymentData['fees_breakdown'] ?? [];
 
-                                SavingTransaction::create([
-                                    'saving_account_id' => $account->id,
-                                    'type' => 'deposit',
-                                    'amount' => $paymentData['base_amount'] ?? 0, 
-                                    'transaction_date' => now(),
-                                    'reference_number' => 'REG-' . $record->id,
-                                    'notes' => 'Setoran Awal Simpanan Pokok (Auto Register)',
-                                    'created_by' => auth()->id(),
-                                ]);
+                            $period = \App\Models\AccountingPeriod::where('is_closed', false)->latest()->first();
+
+                            foreach ($fees as $fee) {
+                                $typeCode = match($fee['name']) {
+                                    'Simpanan Pokok' => 'SP',
+                                    'Simpanan Wajib' => 'SW',
+                                    'Modal Koperasi' => 'SJP',
+                                    'Hibah'          => 'HIBAH_MANUAL',
+                                    default          => 'SS',
+                                };
+
+                                if ($typeCode === 'HIBAH_MANUAL') {
+                                    static::createManualHibahJournal($record, $fee['amount'], $period);
+                                } else {
+                                    $savingType = SavingType::where('code', $typeCode)->first();
+                                    if ($savingType) {
+                                        $account = SavingAccount::where('member_id', $record->id)
+                                            ->where('saving_type_id', $savingType->id)
+                                            ->first();
+
+                                        if ($account) {
+                                            SavingTransaction::create([
+                                                'saving_account_id' => $account->id,
+                                                'type'              => 'deposit',
+                                                'amount'            => $fee['amount'],
+                                                'transaction_date'  => now(),
+                                                'reference_number'  => 'REG-' . $record->id . '-' . $typeCode,
+                                                'notes'             => 'Setoran Awal ' . $fee['name'] . ' (Auto Approval)',
+                                                'created_by'        => auth()->id(),
+                                            ]);
+                                        }
+                                    }
+                                }
+                                if ($record->user) {
+                                    $record->user->notify(new MemberNotification([
+                                        'title'   => 'Akun Aktif!',
+                                        'message' => 'Selamat ' . $record->name . ', pendaftaran Anda telah disetujui.',
+                                        'type'    => 'success',
+                                        'url'     => route('dashboard'),
+                                    ]));
+                                }
+
+                                if ($record->user && $record->user->email) {
+                                    $record->load('savingAccounts.savingType');
+                                    
+                                    try {
+                                        \Illuminate\Support\Facades\Mail::to($record->user->email)
+                                            ->send(new \App\Mail\WelcomeMemberMail($record));
+                                    } catch (\Exception $e) {
+                                        \Illuminate\Support\Facades\Log::error("Gagal kirim Welcome Email: " . $e->getMessage());
+                                    }
+                                }
                             }
 
-                            Notification::make()->title('Member Diterima & Aktif')->success()->send();
+                            Notification::make()->title('Member Aktif & Saldo Terdistribusi Otomatis')->success()->send();
 
                         } else {
                             
-                            // 1. Update JSON Data (Masukan alasan ke kolom json)
                             $paymentData['status'] = 'rejected';
                             $paymentData['rejected_at'] = now()->toDateTimeString();
                             $paymentData['rejected_by'] = auth()->id();
@@ -203,11 +238,49 @@ class RegistrationResource extends Resource
                                 'status' => 'rejected', 
                                 'activation_payment_data' => $paymentData
                             ]);
+                            if ($record->user) {
+                                $record->user->notify(new MemberNotification([
+                                    'title'   => 'Pendaftaran Ditolak',
+                                    'message' => 'Maaf, pendaftaran Anda ditolak karena: ' . $data['rejection_note'],
+                                    'type'    => 'error',
+                                    'url'     => route('member.activation'),
+                                ]));
+
+                                try {
+                                    \Illuminate\Support\Facades\Mail::to($record->user->email)
+                                        ->send(new \App\Mail\RegistrationRejectedMail($record, $data['rejection_note']));
+                                } catch (\Exception $e) {
+                                    \Illuminate\Support\Facades\Log::error("Gagal kirim Email Penolakan: " . $e->getMessage());
+                                }
+                            }
 
                             Notification::make()->title('Pendaftaran Ditolak')->warning()->send();
                         }
                     })
             ]);
+    }
+    protected static function createManualHibahJournal($member, $amount, $period)
+    {
+        $accKas = Account::where('code', '1101')->first()?->id;
+        $accHibah = Account::where('code', '3103')->first()?->id;
+
+        if (!$accKas || !$accHibah || !$period) return;
+
+        DB::transaction(function () use ($member, $amount, $period, $accKas, $accHibah) {
+            $journal = JournalEntry::create([
+                'accounting_period_id' => $period->id,
+                'transaction_date'     => now(),
+                'reference_number'     => 'HB-' . $member->member_number,
+                'description'          => 'Penerimaan Dana Hibah - ' . $member->name . ' (' . $member->member_number . ')',
+                'sourceable_id'        => $member->id,
+                'sourceable_type'      => Member::class,
+                'total_amount'         => $amount,
+                'created_by'           => auth()->id() ?? 1,
+            ]);
+
+            $journal->items()->create(['account_id' => $accKas, 'debit' => $amount, 'credit' => 0]);
+            $journal->items()->create(['account_id' => $accHibah, 'debit' => 0, 'credit' => $amount]);
+        });
     }
 
     public static function getPages(): array

@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class NotificationInbox extends Component
 {
+
     public function render()
     {
         $notifications = auth()->user()->notifications()->paginate(10);

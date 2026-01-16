@@ -24,6 +24,12 @@ class OrderObserver
                     );
             }
         }
+        $order->member->user->notify(new \App\Notifications\MemberNotification([
+            'title'   => 'Update Pesanan',
+            'message' => 'Pesanan #' . $order->order_number . ' kini berstatus: ' . strtoupper($order->status),
+            'type'    => 'warning',
+            'url'     => route('member.shop.orders'), 
+        ]));
     }
 
     protected function createJournal(Order $order)

@@ -76,11 +76,12 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Organisasi')
                     ->collapsible(false),    
                 NavigationGroup::make()
-                    ->label('Settings')
+                    ->label('CMS & Website')
                     ->collapsible(false),
                 NavigationGroup::make()
-                    ->label('CMS & Website')
-                    ->collapsible(false)
+                    ->label('Settings')
+                    ->collapsible(false),
+                
             ])
             ->middleware([
                 EncryptCookies::class,

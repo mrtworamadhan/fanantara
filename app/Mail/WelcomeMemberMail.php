@@ -29,10 +29,8 @@ class WelcomeMemberMail extends Mailable
         $pdf = Pdf::loadView('pdf.id-card', ['member' => $this->member]);
 
         return $this->subject('Selamat Bergabung di Koperasi Kami! [PENTING]')
-                    ->view('emails.welcome_member')
-                    ->attachData($pdf->output(), 'KTA_Digital_' . $this->member->member_number . '.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
+                    ->view('emails.welcome_member');
+                    
     }
 
     /**

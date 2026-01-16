@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
+use Illuminate\Auth\Events\Registered;
 
 class Register extends Component
 {
@@ -22,27 +23,20 @@ class Register extends Component
     public $currentStep = 1; 
     public $account_type = 'individual'; 
 
-    // Individu
     public $gender = 'm', $phone_individual, $place_of_birth, $birth_date, $mother_name, $job_type;
     
-    // Institusi
     public $company_name, $legal_number, $npwp;
     public $pic_name, $pic_phone, $pic_position, $establishment_date;
 
-    // Shared Data
     public $name, $email, $password, $password_confirmation, $identity_no;
 
-    // Alamat
     public $province_code, $city_code, $district_code, $village_code, $street_address;
     
-    // Tanda Tangan
     public $digital_signature; 
 
-    // Files
     public $file_ktp, $file_npwp_ind;
     public $file_nib, $file_ahu, $file_npwp_inst;
 
-    // Data Dropdown
     public $provinces = [], $cities = [], $districts = [], $villages = [];
     
     #[Layout('components.layouts.app')] 
@@ -50,6 +44,7 @@ class Register extends Component
     public function mount()
     {
         $this->provinces = Wilayah::provinsi()->pluck('nama', 'kode');
+        
     }
 
     public function updatedProvinceCode($value)
@@ -98,13 +93,11 @@ class Register extends Component
 
         if ($this->currentStep == 2) {
             $rules = [
-                // Identitas Dasar
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:8|same:password_confirmation',
                 'identity_no' => $this->account_type == 'individual' ? 'required|digits:16' : 'required',
                 
-                // Alamat & TTD (Langsung wajib di sini)
                 'province_code' => 'required',
                 'city_code' => 'required',
                 'district_code' => 'required',
@@ -229,7 +222,10 @@ class Register extends Component
 
             DB::commit();
 
+            event(new Registered($user));
+
             Auth::login($user);
+            
             return redirect()->route('member.activation');
 
         } catch (\Exception $e) {

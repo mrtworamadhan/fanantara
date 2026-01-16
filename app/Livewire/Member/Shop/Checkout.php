@@ -3,6 +3,7 @@
 namespace App\Livewire\Member\Shop;
 
 use App\Filament\Resources\Orders\OrderResource;
+use App\Models\BankAccount;
 use App\Models\User;
 use Filament\Actions\Action;
 use Livewire\Component;
@@ -18,20 +19,19 @@ use Filament\Notifications\Notification;
 
 class Checkout extends Component
 {
-    // Data dari URL (Query String)
     public $items = []; 
     
-    // Data Properties
     public $checkoutItems = [];
     public $totalAmount = 0;
     
-    // Form Inputs
     public $shippingAddress;
     public $notes;
-    public $paymentMethod = 'ss'; // Default: Simpanan Sukarela (SS)
+    public $paymentMethod = 'ss'; 
     public $saldoSukarela = 0;
 
-    protected $queryString = ['items']; // Agar parameter items di URL terbaca
+    public $banks = [];
+
+    protected $queryString = ['items']; 
 
     public function mount()
     {
@@ -53,6 +53,8 @@ class Checkout extends Component
         $this->shippingAddress = $member->street_address . ', ' . 
                                  ($member->village->name ?? '') . ', ' . 
                                  ($member->city->name ?? '');
+
+        $this->banks = BankAccount::where('is_active', true)->get();
 
         $accSS = $member->savingAccounts()->whereHas('savingType', fn($q) => $q->where('code', 'SS'))->first();
         $this->saldoSukarela = $accSS ? $accSS->balance : 0;

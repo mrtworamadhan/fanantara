@@ -172,7 +172,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <a href="#" class="text-xs font-semibold text-purple-600 hover:text-purple-700">Lupa Password?</a>
+                    <a href="{{ route('password.request') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lupa Password?</a>
                 </div>
 
                 <div class="space-y-3">

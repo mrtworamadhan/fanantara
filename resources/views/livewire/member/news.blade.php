@@ -144,6 +144,15 @@
             </div>
         @endif
     </div>
+    <!-- Decorative Bottom Image -->
+    <div class="pointer-events-none absolute bottom-0 inset-x-0 z-0">
+        <img 
+            src="{{ asset('images/karakter/online.png') }}"
+            alt="Decorative Illustration"
+            class="w-full max-w-md mx-auto opacity-90 translate-y-6"
+        >
+    </div>
+
 
     <x-mobile.bottom-nav active="news" />
 
