@@ -1,7 +1,7 @@
 {
     "name": "FANANTARA",
     "short_name": "FANANTARA",
-    "start_url": "/member/profile",
+    "start_url": "/login",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#6b21a8",
